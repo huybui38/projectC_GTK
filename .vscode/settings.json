@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "myhead.h": "c",
+        "string.h": "c",
+        "json.h": "c",
+        "stdbool.h": "c",
+        "typeinfo": "c",
+        "get_data.h": "c"
+    }
+}
