@@ -1,0 +1,25 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "name": "Giàysss",
+            "price": 900000,
+            "categoryID": 2,
+            "discount": 10
+        },
+        {
+            "id": 2,
+            "name": "Áo Thun",
+            "price": 900000,
+            "categoryID": 2,
+            "discount": 10
+        },
+        {
+            "id": 3,
+            "name": "Quần Jeans",
+            "price": 3000000,
+            "categoryID": 1,
+            "discount": 30
+        }
+    ]
+}

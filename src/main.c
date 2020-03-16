@@ -1,5 +1,5 @@
 #include <gtk/gtk.h>
-
+#include "get_data.h"
 #include "json.h"
 #include <unistd.h>
 typedef struct
@@ -27,6 +27,54 @@ typedef struct
     GtkWidget *w_wShopping_cbxCategoryShopping;
     GtkWidget *w_wShopping_txtNameShopping;
     GtkWidget *w_wShopping_cbxSortShopping;
+    GtkWidget *w_wShopping_box1Shopping;
+    GtkWidget *w_wShopping_box2Shopping;
+    GtkWidget *w_wShopping_box3Shopping;
+    GtkWidget *w_wShopping_box4Shopping;
+    GtkWidget *w_wShopping_box5Shopping;
+    GtkWidget *w_wShopping_box6Shopping;
+    GtkWidget *w_wShopping_box7Shopping;
+    GtkWidget *w_wShopping_box8Shopping;
+    GtkWidget *w_wShopping_box9Shopping;
+    GtkWidget *w_wShopping_box10Shopping;
+    GtkWidget *w_wShopping_box11Shopping;
+    GtkWidget *w_wShopping_box12Shopping;
+    GtkWidget *w_wShopping_lblSalePrice1Shopping;
+    GtkWidget *w_wShopping_lblSalePrice2Shopping;
+    GtkWidget *w_wShopping_lblSalePrice3Shopping;
+    GtkWidget *w_wShopping_lblSalePrice4Shopping;
+    GtkWidget *w_wShopping_lblSalePrice5Shopping;
+    GtkWidget *w_wShopping_lblSalePrice6Shopping;
+    GtkWidget *w_wShopping_lblSalePrice7Shopping;
+    GtkWidget *w_wShopping_lblSalePrice8Shopping;
+    GtkWidget *w_wShopping_lblSalePrice9Shopping;
+    GtkWidget *w_wShopping_lblSalePrice10Shopping;
+    GtkWidget *w_wShopping_lblSalePrice11Shopping;
+    GtkWidget *w_wShopping_lblSalePrice12Shopping;
+    GtkWidget *w_wShopping_lblOriginalPrice1Shopping;
+    GtkWidget *w_wShopping_lblOriginalPrice2Shopping;
+    GtkWidget *w_wShopping_lblOriginalPrice3Shopping;
+    GtkWidget *w_wShopping_lblOriginalPrice4Shopping;
+    GtkWidget *w_wShopping_lblOriginalPrice5Shopping;
+    GtkWidget *w_wShopping_lblOriginalPrice6Shopping;
+    GtkWidget *w_wShopping_lblOriginalPrice7Shopping;
+    GtkWidget *w_wShopping_lblOriginalPrice8Shopping;
+    GtkWidget *w_wShopping_lblOriginalPrice9Shopping;
+    GtkWidget *w_wShopping_lblOriginalPrice10Shopping;
+    GtkWidget *w_wShopping_lblOriginalPrice11Shopping;
+    GtkWidget *w_wShopping_lblOriginalPrice12Shopping;
+    GtkWidget *w_wShopping_txtItem1Shopping;
+    GtkWidget *w_wShopping_txtItem2Shopping;
+    GtkWidget *w_wShopping_txtItem3Shopping;
+    GtkWidget *w_wShopping_txtItem4Shopping;
+    GtkWidget *w_wShopping_txtItem5Shopping;
+    GtkWidget *w_wShopping_txtItem6Shopping;
+    GtkWidget *w_wShopping_txtItem7Shopping;
+    GtkWidget *w_wShopping_txtItem8Shopping;
+    GtkWidget *w_wShopping_txtItem9Shopping;
+    GtkWidget *w_wShopping_txtItem10Shopping;
+    GtkWidget *w_wShopping_txtItem11Shopping;
+    GtkWidget *w_wShopping_txtItem12Shopping;
 
 } app_widgets;
 
@@ -62,6 +110,55 @@ int main(int argc, char *argv[])
     widgets->w_wShopping_cbxCategoryShopping = GTK_WIDGET(gtk_builder_get_object(builder, "cbxCategoryShopping"));
     widgets->w_wShopping_txtNameShopping = GTK_WIDGET(gtk_builder_get_object(builder, "txtNameShopping"));
     widgets->w_wShopping_cbxSortShopping = GTK_WIDGET(gtk_builder_get_object(builder, "cbxSortShopping"));
+    widgets->w_wShopping_box1Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "box1Shopping"));
+    widgets->w_wShopping_box2Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "box2Shopping"));
+    widgets->w_wShopping_box3Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "box3Shopping"));
+    widgets->w_wShopping_box4Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "box4Shopping"));
+    widgets->w_wShopping_box5Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "box5Shopping"));
+    widgets->w_wShopping_box6Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "box6Shopping"));
+    widgets->w_wShopping_box7Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "box7Shopping"));
+    widgets->w_wShopping_box8Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "box8Shopping"));
+    widgets->w_wShopping_box9Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "box9Shopping"));
+    widgets->w_wShopping_box10Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "box10Shopping"));
+    widgets->w_wShopping_box11Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "box11Shopping"));
+    widgets->w_wShopping_box12Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "box12Shopping"));
+    widgets->w_wShopping_lblSalePrice1Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblSalePrice1Shopping"));
+    widgets->w_wShopping_lblSalePrice2Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblSalePrice2Shopping"));
+    widgets->w_wShopping_lblSalePrice3Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblSalePrice3Shopping"));
+    widgets->w_wShopping_lblSalePrice4Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblSalePrice4Shopping"));
+    widgets->w_wShopping_lblSalePrice5Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblSalePrice5Shopping"));
+    widgets->w_wShopping_lblSalePrice6Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblSalePrice6Shopping"));
+    widgets->w_wShopping_lblSalePrice7Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblSalePrice7Shopping"));
+    widgets->w_wShopping_lblSalePrice8Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblSalePrice8Shopping"));
+    widgets->w_wShopping_lblSalePrice9Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblSalePrice9Shopping"));
+    widgets->w_wShopping_lblSalePrice10Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblSalePrice10Shopping"));
+    widgets->w_wShopping_lblSalePrice11Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblSalePrice11Shopping"));
+    widgets->w_wShopping_lblSalePrice12Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblSalePrice12Shopping"));
+    widgets->w_wShopping_lblSalePrice12Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblSalePrice12Shopping"));
+    widgets->w_wShopping_lblOriginalPrice1Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblOriginalPrice1Shopping"));
+    widgets->w_wShopping_lblOriginalPrice2Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblOriginalPrice2Shopping"));
+    widgets->w_wShopping_lblOriginalPrice3Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblOriginalPrice3Shopping"));
+    widgets->w_wShopping_lblOriginalPrice4Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblOriginalPrice4Shopping"));
+    widgets->w_wShopping_lblOriginalPrice5Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblOriginalPrice5Shopping"));
+    widgets->w_wShopping_lblOriginalPrice6Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblOriginalPrice6Shopping"));
+    widgets->w_wShopping_lblOriginalPrice7Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblOriginalPrice7Shopping"));
+    widgets->w_wShopping_lblOriginalPrice8Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblOriginalPrice8Shopping"));
+    widgets->w_wShopping_lblOriginalPrice9Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblOriginalPrice9Shopping"));
+    widgets->w_wShopping_lblOriginalPrice10Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblOriginalPrice10Shopping"));
+    widgets->w_wShopping_lblOriginalPrice11Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblOriginalPrice11Shopping"));
+    widgets->w_wShopping_lblOriginalPrice12Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblOriginalPrice12Shopping"));
+    widgets->w_wShopping_txtItem1Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "txtItem1Shopping"));
+    widgets->w_wShopping_txtItem2Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "txtItem2Shopping"));
+    widgets->w_wShopping_txtItem3Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "txtItem3Shopping"));
+    widgets->w_wShopping_txtItem4Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "txtItem4Shopping"));
+    widgets->w_wShopping_txtItem5Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "txtItem5Shopping"));
+    widgets->w_wShopping_txtItem6Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "txtItem6Shopping"));
+    widgets->w_wShopping_txtItem7Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "txtItem7Shopping"));
+    widgets->w_wShopping_txtItem8Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "txtItem8Shopping"));
+    widgets->w_wShopping_txtItem9Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "txtItem9Shopping"));
+    widgets->w_wShopping_txtItem10Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "txtItem10Shopping"));
+    widgets->w_wShopping_txtItem11Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "txtItem11Shopping"));
+    widgets->w_wShopping_txtItem12Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "txtItem12Shopping"));
 
     //
     gtk_builder_connect_signals(builder, widgets);
@@ -102,7 +199,16 @@ void on_btn_click_login_clicked(GtkButton *button, app_widgets *app_wdgts)
     gchar *txtPassLogin = 0;
     txtUserLogin = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wLogin_txtUserLogin));
     txtPassLogin = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wLogin_txtPassLogin));
-    g_print("%s", txtUserLogin);
+    int flag = getLogin(txtUserLogin, txtPassLogin);
+    switch (flag)
+    {
+    case -1:
+        show_msg(app_wdgts, "Sai tài khoản hoặc mật khẩu!");
+        break;
+
+    default:
+        break;
+    }
 }
 void btn_register_login_clicked_cb(GtkButton *button, app_widgets *app_wdgts)
 {
@@ -129,8 +235,53 @@ void on_cbxSortShopping_changed(GtkWidget *widget, app_widgets *app_wdgts)
     gchar *selectedSort;
     selectedSort = gtk_combo_box_get_active_id(widget);
 }
+void setBoxShoppingSensitive(int boxID, gboolean visible, app_widgets *app_wdgts)
+{
+    switch (boxID)
+    {
+    case 1:
+        gtk_widget_set_sensitive(app_wdgts->w_wShopping_box1Shopping, visible);
+        break;
+    case 2:
+        gtk_widget_set_sensitive(app_wdgts->w_wShopping_box2Shopping, visible);
+        break;
+    case 3:
+        gtk_widget_set_sensitive(app_wdgts->w_wShopping_box3Shopping, visible);
+        break;
+    case 4:
+        gtk_widget_set_sensitive(app_wdgts->w_wShopping_box4Shopping, visible);
+        break;
+    case 5:
+        gtk_widget_set_sensitive(app_wdgts->w_wShopping_box5Shopping, visible);
+        break;
+    case 6:
+        gtk_widget_set_sensitive(app_wdgts->w_wShopping_box6Shopping, visible);
+        break;
+    case 7:
+        gtk_widget_set_sensitive(app_wdgts->w_wShopping_box7Shopping, visible);
+        break;
+    case 8:
+        gtk_widget_set_sensitive(app_wdgts->w_wShopping_box8Shopping, visible);
+        break;
+    case 9:
+        gtk_widget_set_sensitive(app_wdgts->w_wShopping_box9Shopping, visible);
+        break;
+    case 10:
+        gtk_widget_set_sensitive(app_wdgts->w_wShopping_box10Shopping, visible);
+        break;
+    case 11:
+        gtk_widget_set_sensitive(app_wdgts->w_wShopping_box11Shopping, visible);
+        break;
+    case 12:
+        gtk_widget_set_sensitive(app_wdgts->w_wShopping_box12Shopping, visible);
+        break;
+    default:
+        break;
+    }
+}
 void on_window_shopping_show(GtkWidget *widget, app_widgets *app_wdgts)
 {
+    // load category
     Category *listCate;
     size_t lengthCate = 0;
     char tempStr[4];
@@ -141,6 +292,16 @@ void on_window_shopping_show(GtkWidget *widget, app_widgets *app_wdgts)
         gtk_combo_box_text_insert(app_wdgts->w_wShopping_cbxCategoryShopping, i, tempStr, (listCate + i)->name);
     }
     gtk_combo_box_set_active(app_wdgts->w_wShopping_cbxCategoryShopping, 0);
+
+    //load goods
+    Goods *listGoods;
+    size_t lengthGoods = 0;
+    listGoods = getAllGoods(&lengthGoods);
+    for (size_t i = 1; i < 13; i++)
+    {
+        setBoxShoppingSensitive(i, FALSE, app_wdgts);
+    }
+    setBoxShoppingSensitive(1, TRUE, app_wdgts);
 }
 // #endregion
 // #region Handle event window_register

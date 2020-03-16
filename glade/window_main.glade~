@@ -703,13 +703,14 @@ kết thúc</property>
             <child>
               <object class="GtkButton">
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <child>
                   <object class="GtkLabel">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Đang phát triển</property>
+                    <property name="label" translatable="yes">Chỉnh sửa loại hàng hóa</property>
                     <attributes>
                       <attribute name="font-desc" value="Sans 14"/>
                     </attributes>
@@ -2797,9 +2798,6 @@ kết thúc</property>
                     <property name="can_focus">False</property>
                     <property name="margin_right">10</property>
                     <property name="active">0</property>
-                    <items>
-                      <item translatable="yes">asd</item>
-                    </items>
                     <signal name="changed" handler="on_cbxCategoryShopping_changed" swapped="no"/>
                   </object>
                   <packing>
@@ -3022,7 +3020,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                 <property name="row_homogeneous">True</property>
                 <property name="column_homogeneous">True</property>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkBox" id="box1Shopping">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">25</property>
@@ -3030,7 +3028,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">4</property>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="txtItem1Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
@@ -3071,7 +3069,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                             <property name="can_focus">False</property>
                             <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblSalePrice1Shopping">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="margin_top">2</property>
@@ -3087,7 +3085,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblOriginalPrice1Shopping">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">500.000.000 đ</property>
@@ -3180,7 +3178,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkBox" id="box2Shopping">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">25</property>
@@ -3188,7 +3186,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">4</property>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="txtItem2Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
@@ -3229,7 +3227,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                             <property name="can_focus">False</property>
                             <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblSalePrice2Shopping">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="margin_top">2</property>
@@ -3245,7 +3243,8 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblOriginalPrice2Shopping">
+                                <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">500.000.000 đ</property>
                                 <attributes>
@@ -3337,7 +3336,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkBox" id="box3Shopping">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">25</property>
@@ -3345,7 +3344,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">4</property>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="txtItem3Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
@@ -3386,7 +3385,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                             <property name="can_focus">False</property>
                             <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblSalePrice3Shopping">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="margin_top">2</property>
@@ -3402,7 +3401,8 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblOriginalPrice3Shopping">
+                                <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">500.000.000 đ</property>
                                 <attributes>
@@ -3494,7 +3494,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkBox" id="box4Shopping">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">25</property>
@@ -3502,7 +3502,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">4</property>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="txtItem4Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
@@ -3543,7 +3543,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                             <property name="can_focus">False</property>
                             <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblSalePrice4Shopping">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="margin_top">2</property>
@@ -3559,7 +3559,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblOriginalPrice4Shopping">
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">500.000.000 đ</property>
                                 <attributes>
@@ -3651,7 +3651,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkBox" id="box7Shopping">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">25</property>
@@ -3659,7 +3659,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">4</property>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="txtItem7Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
@@ -3700,7 +3700,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                             <property name="can_focus">False</property>
                             <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblSalePrice7Shopping">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="margin_top">2</property>
@@ -3716,7 +3716,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblOriginalPrice7Shopping">
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">500.000.000 đ</property>
                                 <attributes>
@@ -3808,7 +3808,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkBox" id="box10Shopping">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">25</property>
@@ -3816,7 +3816,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">4</property>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="txtItem10Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
@@ -3857,7 +3857,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                             <property name="can_focus">False</property>
                             <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblSalePrice10Shopping">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="margin_top">2</property>
@@ -3873,7 +3873,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblOriginalPrice10Shopping">
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">500.000.000 đ</property>
                                 <attributes>
@@ -3965,7 +3965,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkBox" id="box5Shopping">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">25</property>
@@ -3973,7 +3973,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">4</property>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="txtItem5Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
@@ -4014,7 +4014,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                             <property name="can_focus">False</property>
                             <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblSalePrice5Shopping">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="margin_top">2</property>
@@ -4030,7 +4030,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblOriginalPrice5Shopping">
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">500.000.000 đ</property>
                                 <attributes>
@@ -4122,7 +4122,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkBox" id="box8Shopping">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">25</property>
@@ -4130,7 +4130,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">4</property>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="txtItem8Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
@@ -4171,7 +4171,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                             <property name="can_focus">False</property>
                             <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblSalePrice8Shopping">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="margin_top">2</property>
@@ -4187,7 +4187,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblOriginalPrice8Shopping">
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">500.000.000 đ</property>
                                 <attributes>
@@ -4279,7 +4279,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkBox" id="box11Shopping">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">25</property>
@@ -4287,7 +4287,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">4</property>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="txtItem11Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
@@ -4328,7 +4328,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                             <property name="can_focus">False</property>
                             <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblSalePrice11Shopping">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="margin_top">2</property>
@@ -4344,7 +4344,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblOriginalPrice11Shopping">
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">500.000.000 đ</property>
                                 <attributes>
@@ -4436,7 +4436,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkBox" id="box9Shopping">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">25</property>
@@ -4444,7 +4444,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">4</property>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="txtItem9Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
@@ -4485,7 +4485,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                             <property name="can_focus">False</property>
                             <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblSalePrice9Shopping">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="margin_top">2</property>
@@ -4501,7 +4501,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblOriginalPrice9Shopping">
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">500.000.000 đ</property>
                                 <attributes>
@@ -4593,14 +4593,15 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkBox" id="box12Shopping">
+                    <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">25</property>
                     <property name="margin_right">25</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">4</property>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="txtItem12Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
@@ -4641,7 +4642,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                             <property name="can_focus">False</property>
                             <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblSalePrice12Shopping">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="margin_top">2</property>
@@ -4657,7 +4658,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblOriginalPrice12Shopping">
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">500.000.000 đ</property>
                                 <attributes>
@@ -4749,7 +4750,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkBox" id="box6Shopping">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">25</property>
@@ -4757,7 +4758,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">4</property>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="txtItem6Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
@@ -4798,7 +4799,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                             <property name="can_focus">False</property>
                             <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblSalePrice6Shopping">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="margin_top">2</property>
@@ -4814,7 +4815,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lblOriginalPrice6Shopping">
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">500.000.000 đ</property>
                                 <attributes>

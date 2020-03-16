@@ -5,6 +5,7 @@
         "json.h": "c",
         "stdbool.h": "c",
         "typeinfo": "c",
-        "get_data.h": "c"
+        "get_data.h": "c",
+        "unistd.h": "c"
     }
 }

@@ -4,21 +4,21 @@
 
 int main(int argc, char **argv)
 {
-    Category cate;
-    cate.name = "hello Worlds";
-    cate.id = 3;
-    // addCategory(cate);
-    Category *listCate;
+    Goods goods;
+    goods.id = 2;
+    goods.name = "Áo Thun";
+    goods.categoryID = 2;
+    goods.discount = 10;
+    goods.price = 900000;
+
+    Goods *listGoods;
     size_t length = 0;
-    listCate = getCategory(&length);
+    listGoods = getAllGoods(&length);
     for (size_t i = 0; i < length; i++)
     {
-        printf("%d =>>> %s \n", (listCate + i)->id, (listCate + i)->name);
+        printf("%d =>>> %s \n", (listGoods + i)->id, (listGoods + i)->name);
     }
-    printf("\n");
-    listCate = deleteCategory("Quan Ao2", &length);
-    for (size_t i = 0; i < length; i++)
-    {
-        printf("%d =>>> %s \n", (listCate + i)->id, (listCate + i)->name);
-    }
+    editGoods(goods, &length);
+    // deleteCategory("hello Worlds", &length);
+    printf("Hello =>> %d\n", length);
 }
