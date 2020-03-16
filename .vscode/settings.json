@@ -6,6 +6,12 @@
         "stdbool.h": "c",
         "typeinfo": "c",
         "get_data.h": "c",
-        "unistd.h": "c"
+        "unistd.h": "c",
+        "debug.h": "c",
+        "bits.h": "c",
+        "linkhash.h": "c",
+        "arraylist.h": "c",
+        "json_util.h": "c",
+        "json_object.h": "c"
     }
 }
