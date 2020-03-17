@@ -1,35 +1,42 @@
-#ifndef include_stdio
-#define include_stdio
 
-// #include <windows.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#define MAX 40
-#endif
 
 #ifndef LOGIN_WINDOW_H
 #define LOGIN_WINDOW_H
-struct userPrpty
-{
-	int id;
-	char userName[MAX];
-	char password[MAX];
-	char name[MAX];
-	char address[MAX];
-	char phoneNum[MAX];
-	int role;
-	unsigned long balance;
-};
-const char *PATH_USER = "data//user.txt";
-void getDataFromFile(struct userPrpty *user);
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "define.h"
+
+void getDataFromFile(User *user);
 void removeExtraSpace(char str[40]);
 void cutString(char str[40], int start);
+int countLineInFile(char filename[MAX]);
+int isNum(char ch);
+int isChar(char ch);
+int isValidUsername(char str[MAX]);
+int isValidName(char str[MAX]);
+int isValidPassword(char str[MAX]);
+int isBlankAddress(char str[MAX]);
 int getLogin(char username[], char password[]);
 int getRegister(char username[], char name[], char pass[], char repass[], char address[], int role);
-int isExistedUsername(char str[MAX], struct userPrpty user[], int *pos, int *length);
+int isExistedUsername(char str[MAX], User user[], int *pos, int *length);
 
-void getDataFromFile(struct userPrpty *user)
+int countLineInFile(char filename[MAX])
+{
+	char c;
+	int lineCount = 0;
+	char tmpStr[140];
+
+	//count line to malloc for struct array
+	FILE *fp;
+	fp = fopen(PATH_USER, "r");
+	while (fgets(tmpStr, 140, fp) != '\0') // Increment count if this character is newline
+		lineCount++;
+	fclose(fp);
+	return lineCount++; //i can't understand why i have to increase lineCount by 1
+}
+void getDataFromFile(User *user)
 {
 	char delim[] = "-";
 	char tmpStr[140];
@@ -67,7 +74,7 @@ void getDataFromFile(struct userPrpty *user)
 	fclose(fiUser);
 }
 
-int isExistedUsername(char str[], struct userPrpty *user, int *pos, int *length)
+int isExistedUsername(char str[], User *user, int *pos, int *length)
 {
 	int check = 0;
 	int i;
@@ -87,20 +94,20 @@ int getLogin(char username[], char password[])
 {
 	int check = 0;
 	int pos, length;
-	struct userPrpty *ptrUser;
+	User *ptrUser;
 	char c;
 	int lineCount = 0;
 
 	//open file to get number of line in file -> allocate memory
 	FILE *fp;
-	fp = fopen("data//user.txt", "r");
+	fp = fopen(PATH_USER, "r");
 	for (c = getc(fp); c != EOF; c = getc(fp))
 		if (c == '\n') // Increment count if this character is newline
 			lineCount = lineCount + 1;
 	fclose(fp);
 	lineCount++;
 	//i can't understand why i have to increase lineCount by 1
-	ptrUser = malloc((lineCount) * sizeof(struct userPrpty));
+	ptrUser = malloc((lineCount) * sizeof(User));
 
 	getDataFromFile(ptrUser);
 
@@ -256,18 +263,18 @@ int getRegister(char username[], char name[], char pass[], char repass[], char a
 	int length;
 	char c;
 	int lineCount = 0;
-	struct userPrpty *user;
+	User *user;
 
 	//open file to get number of line in file -> allocate memory
 	FILE *fp;
-	fp = fopen("user.txt", "r");
+	fp = fopen(PATH_USER, "r");
 	for (c = getc(fp); c != EOF; c = getc(fp))
 		if (c == '\n') // Increment count if this character is newline
 			lineCount = lineCount + 1;
 	fclose(fp);
 	lineCount++;
 	//i can't understand why i have to increase lineCount by 1
-	user = malloc((lineCount) * sizeof(struct userPrpty));
+	user = malloc((lineCount) * sizeof(User));
 
 	getDataFromFile(user);
 

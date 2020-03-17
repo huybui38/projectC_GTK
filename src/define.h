@@ -5,6 +5,7 @@ typedef struct category
     int id;
     char *name;
 } Category;
+#define MAX 40
 typedef struct goods
 {
     int id;
@@ -13,4 +14,16 @@ typedef struct goods
     int price;
     int discount;
 } Goods;
+typedef struct user
+{
+    int id;
+    char userName[MAX];
+    char password[MAX];
+    char name[MAX];
+    char address[MAX];
+    char phoneNum[MAX];
+    int role;
+    unsigned long balance;
+} User;
+const char *PATH_USER = "data//user.txt";
 #endif

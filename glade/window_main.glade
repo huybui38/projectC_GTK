@@ -11,6 +11,7 @@
     <property name="resizable">False</property>
     <property name="window_position">center</property>
     <property name="destroy_with_parent">True</property>
+    <signal name="delete-event" handler="on_window_delete_event" swapped="no"/>
     <signal name="destroy" handler="on_window_destroy" swapped="no"/>
     <child>
       <placeholder/>
@@ -401,6 +402,7 @@
   <object class="GtkApplicationWindow" id="window_report">
     <property name="can_focus">False</property>
     <property name="window_position">center</property>
+    <signal name="delete-event" handler="on_window_delete_event" swapped="no"/>
     <signal name="destroy" handler="on_window_destroy" swapped="no"/>
     <child>
       <placeholder/>
@@ -586,8 +588,9 @@ kết thúc</property>
   </object>
   <object class="GtkApplicationWindow" id="window_admin">
     <property name="can_focus">False</property>
-    <property name="title" translatable="yes">Khu vực dành cho người bán</property>
+    <property name="title" translatable="yes">Khu vực dành cho quản trị viên</property>
     <property name="window_position">center</property>
+    <signal name="delete-event" handler="on_window_delete_event" swapped="no"/>
     <child>
       <placeholder/>
     </child>
@@ -801,6 +804,7 @@ kết thúc</property>
   <object class="GtkApplicationWindow" id="window_ads">
     <property name="can_focus">False</property>
     <property name="window_position">center</property>
+    <signal name="delete-event" handler="on_window_delete_event" swapped="no"/>
     <signal name="destroy" handler="on_window_destroy" swapped="no"/>
     <child>
       <placeholder/>
@@ -1135,13 +1139,530 @@ kết thúc</property>
       </object>
     </child>
   </object>
+  <object class="GtkApplicationWindow" id="window_changeInfo">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Đổi mật khẩu</property>
+    <property name="resizable">False</property>
+    <property name="modal">True</property>
+    <property name="window_position">center-always</property>
+    <property name="destroy_with_parent">True</property>
+    <signal name="delete-event" handler="on_window_changeInfo_delete_event" swapped="no"/>
+    <signal name="show" handler="on_window_changeInfo_show" swapped="no"/>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="margin_left">15</property>
+        <property name="margin_right">15</property>
+        <property name="margin_top">15</property>
+        <property name="margin_bottom">15</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">10</property>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_right">25</property>
+                <property name="label" translatable="yes">Địa chỉ:</property>
+                <attributes>
+                  <attribute name="font-desc" value="Sans 14"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="txtAddressChangeInfo">
+                <property name="width_request">300</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">•</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Họ và tên:</property>
+                <attributes>
+                  <attribute name="font-desc" value="Sans 14"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="txtFullNameChangeInfo">
+                <property name="width_request">300</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">•</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="btnClickUpdateChangeInfo">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="clicked" handler="on_btnClickUpdateChangeInfo_clicked" swapped="no"/>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Cập nhập</property>
+                <attributes>
+                  <attribute name="font-desc" value="Sans 14"/>
+                </attributes>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">3</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkApplicationWindow" id="window_changePassword">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Đổi mật khẩu</property>
+    <property name="resizable">False</property>
+    <property name="modal">True</property>
+    <property name="window_position">center</property>
+    <property name="destroy_with_parent">True</property>
+    <signal name="delete-event" handler="on_window_changePassword_delete_event" swapped="no"/>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="margin_left">15</property>
+        <property name="margin_right">15</property>
+        <property name="margin_top">15</property>
+        <property name="margin_bottom">15</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">10</property>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Nhập mật khẩu hiện tại:</property>
+                <attributes>
+                  <attribute name="font-desc" value="Sans 14"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="txtCurrentPasswordChange">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="visibility">False</property>
+                <property name="invisible_char">•</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Nhập mật khẩu mới:</property>
+                <attributes>
+                  <attribute name="font-desc" value="Sans 14"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="txtNewPasswordChange">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="margin_left">35</property>
+                <property name="visibility">False</property>
+                <property name="invisible_char">•</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Nhập lại mật khẩu mới:</property>
+                <attributes>
+                  <attribute name="font-desc" value="Sans 14"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="txtReNewPasswordChange">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="margin_left">8</property>
+                <property name="visibility">False</property>
+                <property name="invisible_char">•</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="btnClickChangePassword">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="clicked" handler="on_btnClickChangePassword_clicked" swapped="no"/>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Xác nhận</property>
+                <attributes>
+                  <attribute name="font-desc" value="Sans 14"/>
+                </attributes>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">3</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkApplicationWindow" id="window_customer">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Khu vực dành cho khách hàng</property>
+    <property name="resizable">False</property>
+    <property name="window_position">center</property>
+    <signal name="delete-event" handler="on_window_delete_event" swapped="no"/>
+    <signal name="show" handler="on_window_customer_show" swapped="no"/>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_top">15</property>
+            <child>
+              <object class="GtkLabel" id="lbtNameCustomer">
+                <property name="height_request">50</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_left">15</property>
+                <property name="label" translatable="yes">Xin chào Huy!</property>
+                <attributes>
+                  <attribute name="font-desc" value="Sans 14"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="btnTurnBackCustomer">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="margin_right">15</property>
+                <signal name="clicked" handler="on_btnTurnBackCustomer_clicked" swapped="no"/>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Quay trở lại</property>
+                    <attributes>
+                      <attribute name="font-desc" value="Sans 14"/>
+                    </attributes>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="pack_type">end</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkGrid">
+            <property name="width_request">300</property>
+            <property name="height_request">150</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_left">15</property>
+            <property name="margin_right">15</property>
+            <property name="margin_top">30</property>
+            <property name="margin_bottom">30</property>
+            <property name="row_spacing">2</property>
+            <property name="column_spacing">2</property>
+            <property name="row_homogeneous">True</property>
+            <property name="column_homogeneous">True</property>
+            <child>
+              <object class="GtkButton">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Xem lịch sử mua hàng</property>
+                    <attributes>
+                      <attribute name="font-desc" value="Sans 14"/>
+                    </attributes>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="btnChangePassWordCustomer">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_btnChangePassWordCustomer_clicked" swapped="no"/>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Đổi mật khẩu</property>
+                    <attributes>
+                      <attribute name="font-desc" value="Sans 14"/>
+                    </attributes>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="btnChangeInfoCustomer">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_btnChangeInfoCustomer_clicked" swapped="no"/>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Đổi thông tin tài khoản</property>
+                    <attributes>
+                      <attribute name="font-desc" value="Sans 14"/>
+                    </attributes>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">2</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="btnLogoutCustomer">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="btnLogoutCustomer_clicked_cb" swapped="no"/>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Đăng xuất</property>
+                    <attributes>
+                      <attribute name="font-desc" value="Sans 14"/>
+                    </attributes>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">2</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton">
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Đang phát triển</property>
+                    <attributes>
+                      <attribute name="font-desc" value="Sans 14"/>
+                    </attributes>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="btnShoppingCustomer">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_btnShoppingCustomer_clicked" swapped="no"/>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Mua sắm</property>
+                    <attributes>
+                      <attribute name="font-desc" value="Sans 14"/>
+                    </attributes>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
   <object class="GtkApplicationWindow" id="window_login">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Đăng nhập</property>
     <property name="resizable">False</property>
     <property name="window_position">center</property>
     <property name="destroy_with_parent">True</property>
-    <signal name="delete-event" handler="on_window_login_delete_event" swapped="no"/>
+    <signal name="delete-event" handler="on_window_delete_event" swapped="no"/>
     <signal name="destroy" handler="on_window_destroy" swapped="no"/>
     <child>
       <placeholder/>
@@ -1422,7 +1943,7 @@ kết thúc</property>
               <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Vào khu vực của người bán hoặc quản trị viên</property>
+                <property name="label" translatable="yes">Khu vực dành cho thành viên</property>
                 <attributes>
                   <attribute name="font-desc" value="Sans 14"/>
                 </attributes>
@@ -1442,6 +1963,7 @@ kết thúc</property>
   <object class="GtkApplicationWindow" id="window_manageGoods">
     <property name="can_focus">False</property>
     <property name="window_position">center</property>
+    <signal name="delete-event" handler="on_window_delete_event" swapped="no"/>
     <signal name="destroy" handler="on_window_destroy" swapped="no"/>
     <child>
       <placeholder/>
@@ -2163,6 +2685,7 @@ kết thúc</property>
     <property name="title" translatable="yes">Đăng ký thành viên Shopee</property>
     <property name="resizable">False</property>
     <property name="window_position">center</property>
+    <signal name="delete-event" handler="on_window_delete_event" swapped="no"/>
     <signal name="destroy" handler="on_window_destroy" swapped="no"/>
     <child>
       <placeholder/>
@@ -2424,7 +2947,7 @@ kết thúc</property>
                 <property name="active">0</property>
                 <items>
                   <item id="1" translatable="yes">Khách hàng</item>
-                  <item translatable="yes">Cửa hàng</item>
+                  <item id="2" translatable="yes">Cửa hàng</item>
                 </items>
               </object>
               <packing>
@@ -2473,14 +2996,14 @@ kết thúc</property>
               </packing>
             </child>
             <child>
-              <object class="GtkButton">
+              <object class="GtkButton" id="btnTurnBackRegister">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="margin_right">15</property>
                 <property name="margin_top">30</property>
                 <property name="margin_bottom">30</property>
-                <signal name="clicked" handler="on_window_register_delete_event" swapped="no"/>
+                <signal name="clicked" handler="on_btnTurnBackRegister_clicked" swapped="no"/>
                 <child>
                   <object class="GtkLabel" id="btnExit">
                     <property name="visible">True</property>
@@ -2512,6 +3035,7 @@ kết thúc</property>
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Khu vực dành cho người bán</property>
     <property name="window_position">center</property>
+    <signal name="delete-event" handler="on_window_delete_event" swapped="no"/>
     <signal name="destroy" handler="on_window_destroy" swapped="no"/>
     <child>
       <placeholder/>
@@ -2731,8 +3255,10 @@ kết thúc</property>
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Shopping</property>
     <property name="resizable">False</property>
+    <property name="modal">True</property>
     <property name="window_position">center</property>
     <property name="destroy_with_parent">True</property>
+    <signal name="delete-event" handler="on_window_delete_event" swapped="no"/>
     <signal name="destroy" handler="on_window_destroy" swapped="no"/>
     <signal name="show" handler="on_window_shopping_show" swapped="no"/>
     <child>
@@ -2874,7 +3400,7 @@ kết thúc</property>
               </packing>
             </child>
             <child>
-              <object class="GtkButton">
+              <object class="GtkButton" id="btnRegisterShopping">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -2882,6 +3408,7 @@ kết thúc</property>
                 <property name="margin_right">10</property>
                 <property name="image_position">bottom</property>
                 <property name="always_show_image">True</property>
+                <signal name="clicked" handler="on_btnRegisterShopping_clicked" swapped="no"/>
                 <child>
                   <object class="GtkLabel">
                     <property name="visible">True</property>
@@ -2906,13 +3433,13 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                 <property name="can_focus">False</property>
                 <property name="homogeneous">True</property>
                 <child>
-                  <object class="GtkButton">
+                  <object class="GtkButton" id="btnTurnBackShopping">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="margin_right">25</property>
                     <property name="always_show_image">True</property>
-                    <signal name="clicked" handler="on_window_shopping_delete_event" swapped="no"/>
+                    <signal name="clicked" handler="on_btnTurnBackShopping_clicked" swapped="no"/>
                     <child>
                       <object class="GtkLabel">
                         <property name="visible">True</property>
@@ -3086,7 +3613,6 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                             </child>
                             <child>
                               <object class="GtkLabel" id="lblOriginalPrice1Shopping">
-                                <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">500.000.000 đ</property>
                                 <attributes>

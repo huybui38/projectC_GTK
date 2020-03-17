@@ -12,6 +12,9 @@
         "linkhash.h": "c",
         "arraylist.h": "c",
         "json_util.h": "c",
-        "json_object.h": "c"
+        "json_object.h": "c",
+        "define.h": "c",
+        "authenticator.h": "c",
+        "stdlib.h": "c"
     }
 }
