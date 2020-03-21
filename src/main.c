@@ -1,6 +1,7 @@
 #include <gtk/gtk.h>
 #include "authenticator.h"
 #include "edit_user.h"
+#include "edit_goods.h"
 #include "json.h"
 #include <unistd.h>
 typedef struct
@@ -16,6 +17,15 @@ typedef struct
     GtkWidget *w_wAdmin;
     GtkWidget *w_wChangePassword;
     GtkWidget *w_wChangeInfo;
+    GtkWidget *w_wPurchaseHistory;
+    GtkWidget *w_wManageGoods;
+    GtkWidget *w_wAddMoney;
+    GtkWidget *w_wCategory;
+    GtkWidget *w_wAds;
+
+    //element for w_category
+    GtkWidget *w_wCategory_txtNameCategory;
+    GtkWidget *w_wCategory_cbxCategory;
 
     //element for w_login
     GtkWidget *w_wLogin_txtUserLogin;
@@ -28,6 +38,7 @@ typedef struct
     GtkWidget *w_wRegister_txtRepasswordRegister;
     GtkWidget *w_wRegister_txtAddressRegister;
     GtkWidget *w_wRegister_cbxTypeRegister;
+    GtkWidget *w_wRegister_txtPhoneNumberRegister;
 
     //element for w_changePassword
     GtkWidget *w_wChangePassword_txtCurrentPasswordChange;
@@ -37,9 +48,38 @@ typedef struct
     //element for w_customer
     GtkWidget *w_wCustomer_lbtNameCustomer;
 
+    //element for w_mangaGoods
+    GtkWidget *w_wManageGoods_lblNameManageGoods;
+    GtkWidget *w_wManageGoods_btnTurnBackManageGoods;
+    GtkWidget *w_wManageGoods_txtNameCreateMangaGoods;
+    GtkWidget *w_wManageGoods_txtPriceCreateMangaGoods;
+    GtkWidget *w_wManageGoods_cbxCategoryAddManageGoods;
+    GtkWidget *w_wManageGoods_txtIdEditMangaGoods;
+    GtkWidget *w_wManageGoods_txtNameEditMangaGoods;
+    GtkWidget *w_wManageGoods_txtPriceEditMangaGoods;
+    GtkWidget *w_wManageGoods_cbxCategoryEditManageGoods;
+    GtkWidget *w_wManageGoods_txtIdDeleteMangaGoods;
+    GtkWidget *w_wManageGoods_txtIdUpdateMangaGoods;
+    GtkWidget *w_wManageGoods_txtDiscountUpdateMangaGoods;
+    GtkTextBuffer *w_wManageGoods_txtListManageGoods;
+
+    //element for w_seller
+    GtkWidget *w_wCustomer_lbtNameSeller;
+
+    //element for w_admin
+    GtkWidget *w_wAdmin_lblNameAdmin;
+
+    //element for w_addMoney
+    GtkWidget *w_wAddMoney_txtUserNameAddMoney;
+    GtkWidget *w_wAddMoney_txtCashAddMoney;
+
+    //element for w_purchaseHistory
+    GtkTextBuffer *w_wPurchaseHistory_txtPurchaseHistory;
+
     //element for w_changeInfo
     GtkWidget *w_wChangeInfo_txtAddressChangeInfo;
     GtkWidget *w_wChangeInfo_txtFullNameChangeInfo;
+    GtkWidget *w_wChangeInfo_txtPhoneNumberChangeInfo;
 
     //elemnt for w_shopping
     GtkWidget *w_wShopping_cbxCategoryShopping;
@@ -122,13 +162,23 @@ int main(int argc, char *argv[])
     widgets->w_wCustomer = GTK_WIDGET(gtk_builder_get_object(builder, "window_customer"));
     widgets->w_wChangePassword = GTK_WIDGET(gtk_builder_get_object(builder, "window_changePassword"));
     widgets->w_wChangeInfo = GTK_WIDGET(gtk_builder_get_object(builder, "window_changeInfo"));
+    widgets->w_wPurchaseHistory = GTK_WIDGET(gtk_builder_get_object(builder, "window_purchaseHistory"));
+    widgets->w_wAddMoney = GTK_WIDGET(gtk_builder_get_object(builder, "window_addMoney"));
+    widgets->w_wCategory = GTK_WIDGET(gtk_builder_get_object(builder, "window_category"));
+    widgets->w_wManageGoods = GTK_WIDGET(gtk_builder_get_object(builder, "window_manageGoods"));
 
     // Get element pointer for w_login
     widgets->w_wLogin_txtUserLogin = GTK_WIDGET(gtk_builder_get_object(builder, "txtUserLogin"));
     widgets->w_wLogin_txtPassLogin = GTK_WIDGET(gtk_builder_get_object(builder, "txtPassLogin"));
 
+    // Get element pointer for w_PurchaseHistory
+    widgets->w_wPurchaseHistory_txtPurchaseHistory = GTK_TEXT_BUFFER(gtk_builder_get_object(builder, "txtPurchaseHistory"));
+
     // Get element pointer for w_customer
     widgets->w_wCustomer_lbtNameCustomer = GTK_WIDGET(gtk_builder_get_object(builder, "lbtNameCustomer"));
+
+    // Get element pointer for w_seller
+    widgets->w_wCustomer_lbtNameSeller = GTK_WIDGET(gtk_builder_get_object(builder, "lbtNameSeller"));
 
     // Get element pointer for w_register
     widgets->w_wRegister_txtUserRegister = GTK_WIDGET(gtk_builder_get_object(builder, "txtUserRegister"));
@@ -137,15 +187,40 @@ int main(int argc, char *argv[])
     widgets->w_wRegister_txtRepasswordRegister = GTK_WIDGET(gtk_builder_get_object(builder, "txtRepasswordRegister"));
     widgets->w_wRegister_txtAddressRegister = GTK_WIDGET(gtk_builder_get_object(builder, "txtAddressRegister"));
     widgets->w_wRegister_cbxTypeRegister = GTK_WIDGET(gtk_builder_get_object(builder, "cbxTypeRegister"));
+    widgets->w_wRegister_txtPhoneNumberRegister = GTK_WIDGET(gtk_builder_get_object(builder, "txtPhoneNumberRegister"));
 
     // Get element pointer for w_changePassword
     widgets->w_wChangePassword_txtCurrentPasswordChange = GTK_WIDGET(gtk_builder_get_object(builder, "txtCurrentPasswordChange"));
     widgets->w_wChangePassword_txtNewPasswordChange = GTK_WIDGET(gtk_builder_get_object(builder, "txtNewPasswordChange"));
     widgets->w_wChangePassword_txtReNewPasswordChange = GTK_WIDGET(gtk_builder_get_object(builder, "txtReNewPasswordChange"));
 
+    //get element pointer for w_addMoney
+    widgets->w_wAddMoney_txtCashAddMoney = GTK_WIDGET(gtk_builder_get_object(builder, "txtCashAddMoney"));
+    widgets->w_wAddMoney_txtUserNameAddMoney = GTK_WIDGET(gtk_builder_get_object(builder, "txtUserNameAddMoney"));
+
+    //get element pointer for w_category
+    widgets->w_wCategory_txtNameCategory = GTK_WIDGET(gtk_builder_get_object(builder, "txtNameCategory"));
+    widgets->w_wCategory_cbxCategory = GTK_WIDGET(gtk_builder_get_object(builder, "cbxCategory"));
+
     //get element pointer for w_changeInfo
     widgets->w_wChangeInfo_txtAddressChangeInfo = GTK_WIDGET(gtk_builder_get_object(builder, "txtAddressChangeInfo"));
     widgets->w_wChangeInfo_txtFullNameChangeInfo = GTK_WIDGET(gtk_builder_get_object(builder, "txtFullNameChangeInfo"));
+    widgets->w_wChangeInfo_txtPhoneNumberChangeInfo = GTK_WIDGET(gtk_builder_get_object(builder, "txtPhoneNumberChangeInfo"));
+
+    //get element pointer for w_manageGoods
+    widgets->w_wManageGoods_lblNameManageGoods = GTK_WIDGET(gtk_builder_get_object(builder, "lblNameManageGoods"));
+    widgets->w_wManageGoods_btnTurnBackManageGoods = GTK_WIDGET(gtk_builder_get_object(builder, "btnTurnBackManageGoods"));
+    widgets->w_wManageGoods_txtNameCreateMangaGoods = GTK_WIDGET(gtk_builder_get_object(builder, "txtNameCreateMangaGoods"));
+    widgets->w_wManageGoods_txtPriceCreateMangaGoods = GTK_WIDGET(gtk_builder_get_object(builder, "txtPriceCreateMangaGoods"));
+    widgets->w_wManageGoods_cbxCategoryAddManageGoods = GTK_WIDGET(gtk_builder_get_object(builder, "cbxCategoryAddManageGoods"));
+    widgets->w_wManageGoods_txtIdEditMangaGoods = GTK_WIDGET(gtk_builder_get_object(builder, "txtIdEditMangaGoods"));
+    widgets->w_wManageGoods_txtNameEditMangaGoods = GTK_WIDGET(gtk_builder_get_object(builder, "txtNameEditMangaGoods"));
+    widgets->w_wManageGoods_txtPriceEditMangaGoods = GTK_WIDGET(gtk_builder_get_object(builder, "txtPriceEditMangaGoods"));
+    widgets->w_wManageGoods_cbxCategoryEditManageGoods = GTK_WIDGET(gtk_builder_get_object(builder, "cbxCategoryEditManageGoods"));
+    widgets->w_wManageGoods_txtIdDeleteMangaGoods = GTK_WIDGET(gtk_builder_get_object(builder, "txtIdDeleteMangaGoods"));
+    widgets->w_wManageGoods_txtIdUpdateMangaGoods = GTK_WIDGET(gtk_builder_get_object(builder, "txtIdUpdateMangaGoods"));
+    widgets->w_wManageGoods_txtDiscountUpdateMangaGoods = GTK_WIDGET(gtk_builder_get_object(builder, "txtDiscountUpdateMangaGoods"));
+    widgets->w_wManageGoods_txtListManageGoods = GTK_TEXT_BUFFER(gtk_builder_get_object(builder, "txtListManageGoods"));
 
     // Get element pointer for w_shopping
     widgets->w_wShopping_cbxCategoryShopping = GTK_WIDGET(gtk_builder_get_object(builder, "cbxCategoryShopping"));
@@ -203,6 +278,9 @@ int main(int argc, char *argv[])
     widgets->w_wShopping_txtItem12Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "txtItem12Shopping"));
 
     //
+    GtkCssProvider *cssProvider = gtk_css_provider_new();
+    gtk_css_provider_load_from_path(cssProvider, "src/test.css", NULL);
+    gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), GTK_STYLE_PROVIDER(cssProvider), GTK_STYLE_PROVIDER_PRIORITY_USER);
     gtk_builder_connect_signals(builder, widgets);
 
     g_object_unref(builder);
@@ -508,7 +586,11 @@ void on_window_shopping_show(GtkWidget *widget, app_widgets *app_wdgts)
 }
 // #endregion
 // #region Handle event window_register
-
+void on_btn_signup_register_key_press_event(GtkWidget *widget, GdkEvent *event, app_widgets *app_wdgts)
+{
+    on_btn_signup_register_clicked(widget, app_wdgts);
+    g_print("key press");
+}
 void on_btn_signup_register_clicked(GtkButton *button, app_widgets *app_wdgts)
 {
     gchar *txtUserRegister = 0;
@@ -517,6 +599,7 @@ void on_btn_signup_register_clicked(GtkButton *button, app_widgets *app_wdgts)
     gchar *txtRepasswordRegister = 0;
     gchar *txtAddressRegister = 0;
     gchar *cbxTypeRegister = 0;
+    gchar *txtPhoneNumberRegister = 0;
     int type = 0;
     txtUserRegister = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wRegister_txtUserRegister));
     txtFullNameRegister = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wRegister_txtFullNameRegister));
@@ -524,11 +607,58 @@ void on_btn_signup_register_clicked(GtkButton *button, app_widgets *app_wdgts)
     txtRepasswordRegister = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wRegister_txtRepasswordRegister));
     txtAddressRegister = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wRegister_txtAddressRegister));
     cbxTypeRegister = gtk_combo_box_get_active_id(app_wdgts->w_wRegister_cbxTypeRegister);
+    txtPhoneNumberRegister = gtk_combo_box_get_active_id(app_wdgts->w_wRegister_txtPhoneNumberRegister);
     type = atoi(cbxTypeRegister);
-    int flag = getRegister(txtUserRegister, txtFullNameRegister, txtPasswordRegister, txtRepasswordRegister, txtAddressRegister, type);
-    g_print("\n%d", type);
-    // g_print("%d", type);
-    show_msg(app_wdgts, cbxTypeRegister);
+    int flag = getRegister(txtUserRegister, txtFullNameRegister, txtPasswordRegister, txtRepasswordRegister, txtAddressRegister, txtPhoneNumberRegister, type);
+    switch (flag)
+    {
+    case 1:
+        switch (type)
+        {
+        case 1:
+            currentUser = getUser(txtUserRegister);
+            // g_print("%s", user.password);
+            setTurnBackWindow(1);
+            gtk_widget_hide(app_wdgts->w_wRegister);
+            gtk_widget_show(app_wdgts->w_wCustomer);
+            break;
+        case 2:
+            currentUser = getUser(txtUserRegister);
+            setTurnBackWindow(1);
+            gtk_widget_hide(app_wdgts->w_wRegister);
+            gtk_widget_show(app_wdgts->w_wSeller);
+            break;
+        default:
+            break;
+        }
+        break;
+    case 2:
+        show_msg(app_wdgts, "Loại tài khoản không hợp lệ");
+        break;
+    case 3:
+        show_msg(app_wdgts, "Địa chỉ không hợp lệ");
+        break;
+    case 4:
+        show_msg(app_wdgts, "Mật khảu nhập lại không đúng");
+        break;
+    case 5:
+        show_msg(app_wdgts, "Mật khẩu không hợp lệ");
+        break;
+    case 6:
+        show_msg(app_wdgts, "Họ và tên không hợp lệ");
+        break;
+    case 7:
+        show_msg(app_wdgts, "Tài khoản không hợp lệ (chỉ chứa các kí tự từ A->Z,a->z,0->9)");
+        break;
+    case 8:
+        show_msg(app_wdgts, "Tài khoản đã tồn tại");
+        break;
+    case 9:
+        show_msg(app_wdgts, "Số điện thoại không hợp lệ");
+        break;
+    default:
+        break;
+    }
 }
 void on_btnTurnBackRegister_clicked(GtkButton *button, app_widgets *app_wdgts)
 {
@@ -536,6 +666,11 @@ void on_btnTurnBackRegister_clicked(GtkButton *button, app_widgets *app_wdgts)
 }
 // #endregion
 // #region Handle event window_customer
+void on_btnViewPurchaseHistoryCustomer_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    gtk_widget_show(app_wdgts->w_wPurchaseHistory);
+}
+
 void on_btnTurnBackCustomer_clicked(GtkButton *button, app_widgets *app_wdgts)
 {
     on_window_delete_event(app_wdgts->w_wCustomer, NULL, app_wdgts);
@@ -608,15 +743,28 @@ void on_btnClickChangePassword_clicked(GtkButton *button, app_widgets *app_wdgts
     else
     {
         //do change pass
-        changePassword(currentUser.id, txtNewPassword);
-        currentUser = getUser(currentUser.userName);
-        show_msg(app_wdgts, "Đổi mật khẩu thành công!");
-        gtk_widget_hide(app_wdgts->w_wChangePassword);
+        int flag = changePassword(currentUser.id, txtNewPassword);
+        switch (flag)
+        {
+        case 2:
+            //id khong ton tai
+            show_msg(app_wdgts, "Lỗi hệ thống!");
+            break;
+        case 1:
+            currentUser = getUser(currentUser.userName);
+            show_msg(app_wdgts, "Đổi mật khẩu thành công!");
+            gtk_widget_hide(app_wdgts->w_wChangePassword);
+            break;
+        case 3:
+            show_msg(app_wdgts, "Mật khẩu mới phải từ 3->15 kí tự!");
+        default:
+            break;
+        }
     }
 }
 // #endregion
-// #regionHandle event window_changeInfo
-void on_window_changeInfo_delete_event(GtkWidget *widget, GdkEvent *event, app_widgets *app_wdgts)
+// #region Handle event window_changeInfo
+gboolean on_window_changeInfo_delete_event(GtkWidget *widget, GdkEvent *event, app_widgets *app_wdgts)
 {
     gtk_entry_set_text(app_wdgts->w_wChangeInfo_txtAddressChangeInfo, "");
     gtk_entry_set_text(app_wdgts->w_wChangeInfo_txtFullNameChangeInfo, "");
@@ -629,28 +777,372 @@ void on_window_changeInfo_show(GtkWidget *widget, app_widgets *app_wdgts)
 {
     gtk_entry_set_text(app_wdgts->w_wChangeInfo_txtAddressChangeInfo, currentUser.address);
     gtk_entry_set_text(app_wdgts->w_wChangeInfo_txtFullNameChangeInfo, currentUser.name);
+    gtk_entry_set_text(app_wdgts->w_wChangeInfo_txtPhoneNumberChangeInfo, currentUser.phoneNum);
 }
 void on_btnClickUpdateChangeInfo_clicked(GtkWidget *widget, app_widgets *app_wdgts)
 {
     gchar *txtAddress = 0;
     gchar *txtFullName = 0;
+    gchar *txtPhoneNumber = 0;
     txtAddress = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wChangeInfo_txtAddressChangeInfo));
     txtFullName = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wChangeInfo_txtFullNameChangeInfo));
+    txtPhoneNumber = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wChangeInfo_txtPhoneNumberChangeInfo));
     if (txtFullName[0] == '\0' || txtAddress == '\0')
     {
         show_msg(app_wdgts, "Vui lòng nhập đầy đủ thông tin!");
     }
     else
     {
-        changeInformation(currentUser.id, txtFullName, txtAddress);
-        currentUser = getUser(currentUser.userName);
-        show_msg(app_wdgts, "Cập nhập thành công!");
-        gtk_widget_hide(app_wdgts->w_wChangeInfo);
+        int flag = changeInformation(currentUser.id, txtFullName, txtAddress, txtPhoneNumber);
+        switch (flag)
+        {
+        case 1:
+            currentUser = getUser(currentUser.userName);
+            show_msg(app_wdgts, "Cập nhập thành công!");
+            gtk_widget_hide(app_wdgts->w_wChangeInfo);
+            break;
+        case 2:
+            //id khong ton tai
+            show_msg(app_wdgts, "Lỗi hệ thống!");
+            break;
+        case 3:
+            show_msg(app_wdgts, "Tên mới không hợp lệ!");
+            break;
+        case 4:
+            show_msg(app_wdgts, "Địa chỉ không hợp lệ!");
+            break;
+        case 5:
+            show_msg(app_wdgts, "Số điện thoại không hợp lệ!");
+            break;
+        default:
+            break;
+        }
     }
 }
 // #endregion
-//Handle event window_ManageGoods
-//Handle event window_seller
+// #region Handle event window_seller
+void on_btnTurnBackSeller_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    on_window_delete_event(app_wdgts->w_wSeller, NULL, app_wdgts);
+}
+void on_btnManageGoodsSeller_clicked(GtkWidget *widget, app_widgets *app_wdgts)
+{
+    gtk_widget_show(app_wdgts->w_wManageGoods);
+}
+void on_window_seller_show(GtkWidget *widget, app_widgets *app_wdgts)
+{
+    gchar joinedStr[100];
+    strcat(joinedStr, "Xin chào ");
+    strcat(joinedStr, currentUser.name);
+    strcat(joinedStr, " !      Số dư: ");
+    strcat(joinedStr, "300.000");
+    gtk_label_set_text(app_wdgts->w_wCustomer_lbtNameSeller, joinedStr);
+}
+void on_btnLogoutSeller_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    logoutUser();
+    gtk_widget_hide(app_wdgts->w_wSeller);
+    gtk_widget_show(app_wdgts->w_wMain);
+    reset();
+}
+
+// #endregion
+// #region Handle event window_purchaseHistory
+gboolean on_window_purchaseHistory_delete_event(GtkWidget *widget, GdkEvent *event, app_widgets *app_wdgts)
+{
+    // gtk_entry_set_text(app_wdgts->w_wChangePassword_txtCurrentPasswordChange, "");
+    gtk_widget_hide(app_wdgts->w_wPurchaseHistory);
+    return TRUE;
+}
+void on_window_purchaseHistory_activate_default(GtkWindow *window, app_widgets *app_wdgts)
+{
+    g_print("in");
+}
+void on_window_purchaseHistory_show(GtkWidget *widget, app_widgets *app_wdgts)
+{
+
+    PurchaseHistory *listPurchase;
+    GtkTextIter iter;
+    int length = 0;
+    listPurchase = getPurchaseHistory("huybui38", &length);
+    gchar temp[9999];
+    for (int i = 0; i < length; i++)
+    {
+        // g_print("%s", listPurchase[i].name);
+        strcpy(temp, "---------");
+        strcat(temp, listPurchase[i].name);
+        strcat(temp, "------");
+        strcat(temp, listPurchase[i].phone);
+        strcat(temp, "------");
+        strcat(temp, listPurchase[i].address);
+        strcat(temp, "------");
+        strcat(temp, listPurchase[i].purchaseType);
+        strcat(temp, "-----");
+        gchar timeStr[20];
+        sprintf(timeStr, "%ld", listPurchase[i].time);
+        strcat(temp, timeStr);
+        strcat(temp, "-----");
+        strcat(temp, "\n");
+        for (size_t j = 0; j < listPurchase[i].sizeListGoods; j++)
+        {
+            strcat(temp, "\t*");
+            strcat(temp, listPurchase[i].listGoods[j]);
+            strcat(temp, "\n");
+        }
+        strcat(temp, "Tổng số tiền: ");
+        strcat(temp, "99.999.999 đ");
+        strcat(temp, "\n");
+        gtk_text_buffer_get_start_iter(app_wdgts->w_wPurchaseHistory_txtPurchaseHistory, &iter);
+        gtk_text_buffer_insert(app_wdgts->w_wPurchaseHistory_txtPurchaseHistory, &iter, temp, -1);
+    }
+
+    // gtk_text_buffer_get_start_iter(app_wdgts->w_wPurchaseHistory_txtPurchaseHistory, &iter);
+    // gtk_text_buffer_insert(app_wdgts->w_wPurchaseHistory_txtPurchaseHistory, &iter, temp, -1);
+    // gtk_text_iter_free(&iter);
+}
+// #endregion
+// #region Handle event window_ManageGoods
+gboolean on_window_manageGoods_delete_event(GtkWidget *widget, GdkEvent *event, app_widgets *app_wdgts)
+{
+    gtk_entry_set_text(app_wdgts->w_wManageGoods_txtDiscountUpdateMangaGoods, "");
+    gtk_entry_set_text(app_wdgts->w_wManageGoods_txtIdDeleteMangaGoods, "");
+    gtk_entry_set_text(app_wdgts->w_wManageGoods_txtIdEditMangaGoods, "");
+    gtk_entry_set_text(app_wdgts->w_wManageGoods_txtIdUpdateMangaGoods, "");
+    gtk_entry_set_text(app_wdgts->w_wManageGoods_txtListManageGoods, "");
+    gtk_entry_set_text(app_wdgts->w_wManageGoods_txtNameCreateMangaGoods, "");
+    gtk_entry_set_text(app_wdgts->w_wManageGoods_txtNameEditMangaGoods, "");
+    gtk_entry_set_text(app_wdgts->w_wManageGoods_txtPriceCreateMangaGoods, "");
+    gtk_entry_set_text(app_wdgts->w_wManageGoods_txtPriceEditMangaGoods, "");
+    gtk_widget_hide(app_wdgts->w_wManageGoods);
+    return TRUE;
+}
+
+void on_btnTurnBackManageGoods_clicked(GtkWidget *widget, app_widgets *app_wdgts)
+{
+    gtk_entry_set_text(app_wdgts->w_wManageGoods_txtDiscountUpdateMangaGoods, "");
+    gtk_entry_set_text(app_wdgts->w_wManageGoods_txtIdDeleteMangaGoods, "");
+    gtk_entry_set_text(app_wdgts->w_wManageGoods_txtIdEditMangaGoods, "");
+    gtk_entry_set_text(app_wdgts->w_wManageGoods_txtIdUpdateMangaGoods, "");
+    gtk_entry_set_text(app_wdgts->w_wManageGoods_txtListManageGoods, "");
+    gtk_entry_set_text(app_wdgts->w_wManageGoods_txtNameCreateMangaGoods, "");
+    gtk_entry_set_text(app_wdgts->w_wManageGoods_txtNameEditMangaGoods, "");
+    gtk_entry_set_text(app_wdgts->w_wManageGoods_txtPriceCreateMangaGoods, "");
+    gtk_entry_set_text(app_wdgts->w_wManageGoods_txtPriceEditMangaGoods, "");
+    gtk_widget_hide(app_wdgts->w_wManageGoods);
+}
+void on_btnAddManageGoods_clicked(GtkWidget *widget, app_widgets *app_wdgts)
+{
+    gchar *txtNameCreate;
+    gchar *txtPriceCreate;
+    gchar *txtCategoryID;
+    long price;
+    int categoryID;
+
+    txtCategoryID = gtk_combo_box_get_active_id(app_wdgts->w_wManageGoods_cbxCategoryAddManageGoods);
+    txtNameCreate = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wManageGoods_txtNameCreateMangaGoods));
+    txtPriceCreate = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wManageGoods_txtPriceCreateMangaGoods));
+    price = atoi(txtPriceCreate);
+    categoryID = atoi(txtCategoryID);
+    if (price == 0)
+    {
+        show_msg(app_wdgts, "Vui lòng nhập giá tiền hợp lệ!!");
+        return;
+    }
+    g_print("Name:%s\n", txtNameCreate);
+    int flag = addGoodsToFile(txtNameCreate, price, categoryID);
+    switch (flag)
+    {
+    case 1:
+        show_msg(app_wdgts, "Thêm thành công!");
+        break;
+    case 2:
+        show_msg(app_wdgts, "Tên món hàng không hợp lệ");
+        break;
+    case 3:
+        show_msg(app_wdgts, "Giá không hợp lệ");
+        break;
+    case 4:
+        show_msg(app_wdgts, "Category không tồn tại");
+        break;
+    default:
+        break;
+    }
+}
+void on_btnEditManageGoods_clicked(GtkWidget *widget, app_widgets *app_wdgts)
+{
+}
+void on_btnUpdateManageGoods_clicked(GtkWidget *widget, app_widgets *app_wdgts)
+{
+    gchar *txtIDGoods;
+    gchar *txtDiscount;
+    int idGoods;
+    int discount;
+    txtIDGoods = gtk_entry_get_text(GTK_ENTRY((app_wdgts->w_wManageGoods_txtIdUpdateMangaGoods)));
+    txtDiscount = gtk_entry_get_text(GTK_ENTRY((app_wdgts->w_wManageGoods_txtDiscountUpdateMangaGoods)));
+    idGoods = atoi(txtIDGoods);
+    discount = atoi(txtDiscount);
+    if (idGoods == 0)
+    {
+        return;
+    }
+    int flag = changeDiscount(idGoods, discount);
+    switch (flag)
+    {
+    case 1:
+        show_msg(app_wdgts, "Cập nhập thành công");
+        gtk_entry_set_text(GTK_ENTRY((app_wdgts->w_wManageGoods_txtIdUpdateMangaGoods)), "");
+        gtk_entry_set_text(GTK_ENTRY((app_wdgts->w_wManageGoods_txtDiscountUpdateMangaGoods)), "");
+        break;
+    case 2:
+        show_msg(app_wdgts, "ID vật phẩm không tồn tại");
+        break;
+    case 3:
+        show_msg(app_wdgts, "%% giảm giá không hợp lệ");
+        break;
+
+    default:
+        break;
+    }
+}
+void on_btnDeleteManageGoods_clicked(GtkWidget *widget, app_widgets *app_wdgts)
+{
+}
+void on_window_manageGoods_show(GtkWidget *widget, app_widgets *app_wdgts)
+{
+    Category *listCate;
+    size_t lengthCate = 0;
+    char tempStr[4];
+    listCate = getCategory(&lengthCate);
+    for (size_t i = 0; i < lengthCate; i++)
+    {
+        sprintf(tempStr, "%d", (listCate + i)->id);
+        gtk_combo_box_text_insert(app_wdgts->w_wManageGoods_cbxCategoryAddManageGoods, i, tempStr, (listCate + i)->name);
+        gtk_combo_box_text_insert(app_wdgts->w_wManageGoods_cbxCategoryEditManageGoods, i, tempStr, (listCate + i)->name);
+    }
+    gtk_combo_box_set_active(app_wdgts->w_wManageGoods_cbxCategoryAddManageGoods, 0);
+    gtk_combo_box_set_active(app_wdgts->w_wManageGoods_cbxCategoryEditManageGoods, 0);
+}
+// #endregion
+// #region Handle event window_admin
+void on_btnAddMoneyAdmin_clicked(GtkWidget *widget, app_widgets *app_wdgts)
+{
+    gtk_widget_show(app_wdgts->w_wAddMoney);
+}
+void on_btnTurnBackAdmin_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    on_window_delete_event(app_wdgts->w_wAdmin, NULL, app_wdgts);
+}
+void on_btnEditCategoryAdmin_clicked(GtkWidget *widget, app_widgets *app_wdgts)
+{
+    gtk_widget_show(app_wdgts->w_wCategory);
+}
+void on_btnLogOutAdmin_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    logoutUser();
+    gtk_widget_hide(app_wdgts->w_wAdmin);
+    gtk_widget_show(app_wdgts->w_wMain);
+    reset();
+}
+// #endregion
+// #region Handle event window_addMoney
+gboolean on_window_addMoney_delete_event(GtkWidget *widget, GdkEvent *event, app_widgets *app_wdgts)
+{
+    // gtk_entry_set_text(app_wdgts->w_wManageGoods_txtDiscountUpdateMangaGoods, "");
+    // gtk_entry_set_text(app_wdgts->w_wManageGoods_txtIdDeleteMangaGoods, "");
+    // gtk_entry_set_text(app_wdgts->w_wManageGoods_txtIdEditMangaGoods, "");
+    // gtk_entry_set_text(app_wdgts->w_wManageGoods_txtIdUpdateMangaGoods, "");
+    // gtk_entry_set_text(app_wdgts->w_wManageGoods_txtListManageGoods, "");
+    // gtk_entry_set_text(app_wdgts->w_wManageGoods_txtNameCreateMangaGoods, "");
+    // gtk_entry_set_text(app_wdgts->w_wManageGoods_txtNameEditMangaGoods, "");
+    // gtk_entry_set_text(app_wdgts->w_wManageGoods_txtPriceCreateMangaGoods, "");
+    // gtk_entry_set_text(app_wdgts->w_wManageGoods_txtPriceEditMangaGoods, "");
+    gtk_widget_hide(app_wdgts->w_wAddMoney);
+    return TRUE;
+}
+void on_btnUpdateAddMoney_clicked(GtkWidget *widget, app_widgets *app_wdgts)
+{
+    gchar *txtCash = 0;
+    gchar *txtUserName = 0;
+    txtCash = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wAddMoney_txtCashAddMoney));
+    txtUserName = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wAddMoney_txtUserNameAddMoney));
+    int flag = addMoney(txtUserName, txtCash);
+    switch (flag)
+    {
+    case 1:
+        gtk_entry_set_text(GTK_ENTRY(app_wdgts->w_wAddMoney_txtCashAddMoney), "");
+        gtk_entry_set_text(GTK_ENTRY(app_wdgts->w_wAddMoney_txtUserNameAddMoney), "");
+        show_msg(app_wdgts, "Cập nhập thành công");
+        break;
+    case 2:
+        show_msg(app_wdgts, "Tên tài khoản không hợp lệ");
+        break;
+    case 3:
+        show_msg(app_wdgts, "Số tiền không hợp lệ");
+        break;
+    case 4:
+        show_msg(app_wdgts, "Tên tài khoản không tồn tại");
+        break;
+
+    default:
+        break;
+    }
+}
+// #endregion
+// #region Handle event window_category
+
+void on_btnAddCategory_clicked(GtkWidget *widget, app_widgets *app_wdgts)
+{
+    gchar *txtNameCategory = 0;
+    txtNameCategory = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wCategory_txtNameCategory));
+    if (txtNameCategory[0] != '\0')
+    {
+        show_msg(app_wdgts, "Vui lòng nhập đầy đủ");
+    }
+    else
+    {
+        //todo add to file
+        // addCategory()
+    }
+}
+gboolean on_window_category_delete_event(GtkWidget *widget, GdkEvent *event, app_widgets *app_wdgts)
+{
+    gtk_widget_hide(app_wdgts->w_wCategory);
+}
+void on_btnDeleteCategory_clicked(GtkWidget *widget, app_widgets *app_wdgts)
+{
+    // gtk_widget_show(app_wdgts->w_wAddMoney);
+    gchar *selectedName;
+    selectedName = gtk_combo_box_text_get_active_text(app_wdgts->w_wCategory_cbxCategory);
+    int lengthCate;
+    Category *listCate;
+
+    char tempStr[4];
+    listCate = deleteCategory(selectedName, &lengthCate);
+
+    gtk_combo_box_text_remove_all(app_wdgts->w_wCategory_cbxCategory);
+    for (size_t i = 0; i < lengthCate; i++)
+    {
+        sprintf(tempStr, "%d", (listCate + i)->id);
+        gtk_combo_box_text_insert(app_wdgts->w_wCategory_cbxCategory, i, tempStr, (listCate + i)->name);
+    }
+    gtk_combo_box_set_active(app_wdgts->w_wCategory_cbxCategory, 0);
+}
+void on_window_category_show(GtkWidget *widget, app_widgets *app_wdgts)
+{
+    gtk_combo_box_text_remove_all(app_wdgts->w_wCategory_cbxCategory);
+    Category *listCate;
+    size_t lengthCate = 0;
+    char tempStr[4];
+    listCate = getCategory(&lengthCate);
+    for (size_t i = 0; i < lengthCate; i++)
+    {
+        sprintf(tempStr, "%d", (listCate + i)->id);
+        gtk_combo_box_text_insert(app_wdgts->w_wCategory_cbxCategory, i, tempStr, (listCate + i)->name);
+    }
+    gtk_combo_box_set_active(app_wdgts->w_wCategory_cbxCategory, 0);
+}
+// #endregion
+
 //Handle event window_ads
 //Handle event window_report
 //Handle event window_cart

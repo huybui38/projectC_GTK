@@ -1804,16 +1804,16 @@ kết thúc</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkComboBoxText">
+                      <object class="GtkComboBoxText" id="txtP">
                         <property name="width_request">50</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="margin_left">35</property>
                         <property name="active">0</property>
                         <items>
-                          <item translatable="yes">1</item>
-                          <item translatable="yes">2</item>
-                          <item translatable="yes">3</item>
+                          <item id="1" translatable="yes">1</item>
+                          <item id="2" translatable="yes">2</item>
+                          <item id="3" translatable="yes">3</item>
                         </items>
                       </object>
                       <packing>
@@ -1893,7 +1893,7 @@ kết thúc</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry">
+                      <object class="GtkEntry" id="txtMoneyAds">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>

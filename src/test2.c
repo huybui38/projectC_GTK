@@ -1,22 +1,17 @@
-/* fgetwc example */
 #include <stdio.h>
-#include <wchar.h>
-#include <stdlib.h>
-#include <locale.h>
+#include <stdint.h>
+#include "json.h"
 int main()
 {
-    setlocale(LC_ALL, "en_US.UTF-8");
-    FILE *fin;
-    FILE *fout;
-    wint_t wc;
-    fin = fopen("in.txt", "r");
-    fout = fopen("out.txt", "w+");
-    while ((wc = fgetwc(fin)) != WEOF)
-    {
-        fputwc(wc, fout);
-    }
-    fclose(fin);
-    fclose(fout);
-    printf("File has been created...\n");
+    //printf("Hello World %d", isValidID("123123"));
+    int length = 0;
+    Goods *list;
+    list = getAllGoods(&length);
+    printf("%d", length);
+    // for (size_t i = 0; i < length; i++)
+    // {
+    //     printf("%d \n", list[i].id);
+    // }
+
     return 0;
 }

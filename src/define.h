@@ -14,6 +14,17 @@ typedef struct goods
     int price;
     int discount;
 } Goods;
+typedef struct purchaseHistory
+{
+    char listGoods[99][99];
+    int sizeListGoods;
+    char *name;
+    char *address;
+    char *phone;
+    int64_t totalPrice;
+    int64_t time;
+    char *purchaseType;
+} PurchaseHistory;
 typedef struct user
 {
     int id;
@@ -26,4 +37,8 @@ typedef struct user
     unsigned long balance;
 } User;
 const char *PATH_USER = "data//user.txt";
+const char *PATH_CATEGORY = "data//category.json";
+const char *PATH_GOODS = "data//goods.json";
+const char *PATH_PURCHASE_HISTORY = "data//purchase_history//";
+const int MAX_BUFFER = 1024 * 1024;
 #endif

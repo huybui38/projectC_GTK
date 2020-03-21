@@ -2,17 +2,14 @@
 
 #ifndef json_h
 #define json_h
-
+#include <time.h>
 #include <json-c/json.h>
-
-const char *PATH_CATEGORY = "data//category.json";
-const char *PATH_GOODS = "data//goods.json";
 
 // #region addCategory
 int addCategory(Category cate)
 {
     FILE *fp;
-    char buffer[1024];
+    char buffer[MAX_BUFFER];
     struct json_object *parsed_json;
     struct json_object *id;
     struct json_object *name;
@@ -21,8 +18,8 @@ int addCategory(Category cate)
     size_t length;
     fp = fopen(PATH_CATEGORY, "r");
     if (fp == NULL)
-        return -1;
-    fread(buffer, 1024, 1, fp);
+        return;
+    fread(buffer, MAX_BUFFER, 1, fp);
     fclose(fp);
     parsed_json = json_tokener_parse(buffer);
 
@@ -44,7 +41,7 @@ Category *getCategory(size_t *sizeCate)
 {
 
     FILE *fp;
-    char buffer[1024];
+    char buffer[MAX_BUFFER];
 
     struct json_object *parsed_json;
     struct json_object *id;
@@ -56,9 +53,9 @@ Category *getCategory(size_t *sizeCate)
     fp = fopen(PATH_CATEGORY, "r");
 
     if (fp == NULL)
-        return -1;
+        return;
 
-    fread(buffer, 1024, 1, fp);
+    fread(buffer, MAX_BUFFER, 1, fp);
     fclose(fp);
     parsed_json = json_tokener_parse(buffer);
 
@@ -82,7 +79,7 @@ Category *getCategory(size_t *sizeCate)
 Category *deleteCategory(char *nameCate, size_t *sizeArray)
 {
     FILE *fp;
-    char buffer[1024];
+    char buffer[MAX_BUFFER];
     struct json_object *parsed_json;
     struct json_object *id;
     struct json_object *name;
@@ -92,8 +89,8 @@ Category *deleteCategory(char *nameCate, size_t *sizeArray)
     size_t length;
     fp = fopen(PATH_CATEGORY, "r");
     if (fp == NULL)
-        return -1;
-    fread(buffer, 1024, 1, fp);
+        return;
+    fread(buffer, MAX_BUFFER, 1, fp);
     fclose(fp);
     parsed_json = json_tokener_parse(buffer);
     //reset category file
@@ -130,7 +127,7 @@ Category *deleteCategory(char *nameCate, size_t *sizeArray)
 Goods *getAllGoods(size_t *sizeGoods)
 {
     FILE *fp;
-    char buffer[1024];
+    char buffer[MAX_BUFFER];
 
     struct json_object *parsed_json;
     struct json_object *data;
@@ -148,12 +145,12 @@ Goods *getAllGoods(size_t *sizeGoods)
     fp = fopen(PATH_GOODS, "r");
     if (fp == NULL)
         return -1;
-    fread(buffer, 1024, 1, fp);
+    fread(buffer, MAX_BUFFER, 1, fp);
     fclose(fp);
     parsed_json = json_tokener_parse(buffer);
-
     json_object_object_get_ex(parsed_json, "data", &data);
     length = json_object_array_length(data);
+
     listGoods = (Goods *)calloc(length, sizeof(Goods));
     *sizeGoods = length;
 
@@ -179,7 +176,7 @@ Goods *getAllGoods(size_t *sizeGoods)
 int addGoods(Goods goods)
 {
     FILE *fp;
-    char buffer[1024];
+    char buffer[MAX_BUFFER];
     struct json_object *parsed_json;
     struct json_object *data;
     struct json_object *objGoods = json_object_new_object();
@@ -193,7 +190,7 @@ int addGoods(Goods goods)
     fp = fopen(PATH_GOODS, "r");
     if (fp == NULL)
         return -1;
-    fread(buffer, 1024, 1, fp);
+    fread(buffer, MAX_BUFFER, 1, fp);
     fclose(fp);
     parsed_json = json_tokener_parse(buffer);
 
@@ -220,7 +217,7 @@ int addGoods(Goods goods)
 Goods *deleteGoods(int goodsID, size_t *sizeArray)
 {
     FILE *fp;
-    char buffer[1024];
+    char buffer[MAX_BUFFER];
     struct json_object *parsed_json;
 
     struct json_object *id;
@@ -235,8 +232,8 @@ Goods *deleteGoods(int goodsID, size_t *sizeArray)
     size_t length;
     fp = fopen(PATH_GOODS, "r");
     if (fp == NULL)
-        return -1;
-    fread(buffer, 1024, 1, fp);
+        return;
+    fread(buffer, MAX_BUFFER, 1, fp);
     fclose(fp);
     parsed_json = json_tokener_parse(buffer);
     //reset file
@@ -278,7 +275,7 @@ Goods *deleteGoods(int goodsID, size_t *sizeArray)
 Goods *editGoods(Goods goods, size_t *sizeArray)
 {
     FILE *fp;
-    char buffer[1024];
+    char buffer[MAX_BUFFER];
     struct json_object *parsed_json;
 
     struct json_object *id;
@@ -294,7 +291,7 @@ Goods *editGoods(Goods goods, size_t *sizeArray)
     fp = fopen(PATH_GOODS, "r");
     if (fp == NULL)
         return -1;
-    fread(buffer, 1024, 1, fp);
+    fread(buffer, MAX_BUFFER, 1, fp);
     fclose(fp);
     parsed_json = json_tokener_parse(buffer);
     json_object_object_get_ex(parsed_json, "data", &data);
@@ -337,6 +334,147 @@ Goods *editGoods(Goods goods, size_t *sizeArray)
     }
     *sizeArray = i;
     return listGoods;
+}
+// #endregion
+
+// #region getPurchaseHistory
+PurchaseHistory *getPurchaseHistory(char userName[100], size_t *sizeArr)
+{
+    FILE *fp;
+    char buffer[MAX_BUFFER];
+
+    struct json_object *parsed_json;
+    struct json_object *data;
+    struct json_object *objGoods = json_object_new_object();
+
+    struct json_object *listGoods;
+    struct json_object *ObjListGoods;
+    struct json_object *name;
+    struct json_object *phone;
+    struct json_object *address;
+    struct json_object *purchaseType;
+    struct json_object *totalPrice;
+    struct json_object *time;
+
+    char path_history[100];
+    strcpy(path_history, PATH_PURCHASE_HISTORY);
+    strcat(path_history, userName);
+    strcat(path_history, ".json");
+    PurchaseHistory *listPurchaseHistory;
+    size_t length;
+
+    fp = fopen(path_history, "r");
+    if (fp == NULL)
+    {
+        printf("s==>>%s<==\n", path_history);
+        *sizeArr = -1;
+        return listPurchaseHistory;
+    }
+    fread(buffer, MAX_BUFFER, 1, fp);
+    fclose(fp);
+    parsed_json = json_tokener_parse(buffer);
+
+    json_object_object_get_ex(parsed_json, "data", &data);
+    length = json_object_array_length(data);
+    *sizeArr = length;
+    listPurchaseHistory = (PurchaseHistory *)calloc(length, sizeof(PurchaseHistory));
+    for (size_t i = 0; i < length; i++)
+    {
+        objGoods = json_object_array_get_idx(data, i);
+        json_object_object_get_ex(objGoods, "name", &name);
+        json_object_object_get_ex(objGoods, "listGoods", &listGoods);
+        json_object_object_get_ex(objGoods, "phone", &phone);
+        json_object_object_get_ex(objGoods, "address", &address);
+        json_object_object_get_ex(objGoods, "purchaseType", &purchaseType);
+        json_object_object_get_ex(objGoods, "totalPrice", &totalPrice);
+        json_object_object_get_ex(objGoods, "time", &time);
+
+        int lengthListGoods = json_object_array_length(listGoods);
+        for (size_t j = 0; j < lengthListGoods; j++)
+        {
+            ObjListGoods = json_object_array_get_idx(listGoods, j);
+            // printf("%s\n", json_object_get_string(ObjListGoods));
+
+            strcpy(((listPurchaseHistory + i)->listGoods) + j, json_object_get_string(ObjListGoods));
+            // scanf(, json_object_get_string(ObjListGoods));
+            //= ;
+        }
+
+        (listPurchaseHistory + i)->name = json_object_get_string(name);
+        (listPurchaseHistory + i)->sizeListGoods = lengthListGoods;
+
+        (listPurchaseHistory + i)->phone = json_object_get_string(phone);
+        (listPurchaseHistory + i)->address = json_object_get_string(address);
+        (listPurchaseHistory + i)->purchaseType = json_object_get_string(purchaseType);
+        (listPurchaseHistory + i)->totalPrice = json_object_get_int64(totalPrice);
+        (listPurchaseHistory + i)->time = json_object_get_int64(time);
+    }
+    return listPurchaseHistory;
+}
+// #endregion
+// #region addPurchaseHistory
+int addPurchaseHistory(char *userName, PurchaseHistory history)
+{
+
+    FILE *fp;
+    char buffer[MAX_BUFFER];
+    struct json_object *parsed_json;
+
+    struct json_object *name;
+    struct json_object *phone;
+    struct json_object *address;
+    struct json_object *purchaseType;
+    struct json_object *totalPrice;
+    struct json_object *time;
+    struct json_object *listGoods = json_object_new_array();
+
+    struct json_object *objGoods;
+    struct json_object *data;
+    struct json_object *objPurchaseHistory = json_object_new_object();
+    size_t length;
+
+    char path_history[100];
+    strcpy(path_history, PATH_PURCHASE_HISTORY);
+    strcat(path_history, userName);
+    strcat(path_history, ".json");
+    fp = fopen(path_history, "r");
+    if (fp == NULL)
+    {
+        // todo create file
+        fp = fopen(path_history, "w+");
+        fprintf(fp, "%s", "{\"data\": []}");
+    }
+
+    fread(buffer, MAX_BUFFER, 1, fp);
+    fclose(fp);
+    parsed_json = json_tokener_parse(buffer);
+
+    json_object_object_get_ex(parsed_json, "data", &data);
+    length = json_object_array_length(data);
+
+    name = json_object_new_string(history.name);
+    phone = json_object_new_string(history.phone);
+    address = json_object_new_string(history.address);
+    purchaseType = json_object_new_string(history.purchaseType);
+    totalPrice = json_object_new_int64(history.totalPrice);
+    time = json_object_new_int64(history.time);
+    for (size_t i = 0; i < history.sizeListGoods; i++)
+    {
+        objGoods = json_object_new_string(history.listGoods[i]);
+        json_object_array_add(listGoods, objGoods);
+    }
+
+    json_object_object_add(objPurchaseHistory, "name", name);
+    json_object_object_add(objPurchaseHistory, "phone", phone);
+    json_object_object_add(objPurchaseHistory, "address", address);
+    json_object_object_add(objPurchaseHistory, "purchaseType", purchaseType);
+    json_object_object_add(objPurchaseHistory, "totalPrice", totalPrice);
+    json_object_object_add(objPurchaseHistory, "time", time);
+    json_object_object_add(objPurchaseHistory, "listGoods", listGoods);
+
+    json_object_array_add(data, objPurchaseHistory);
+    json_object_to_file(path_history, parsed_json);
+    return 1;
 }
 // #endregion
 

@@ -12,13 +12,13 @@ WARN=-Wall
 
 PTHREAD=-pthread
 
-CCFLAGS=$(DEBUG) $(OPT) $(WARN) $(PTHREAD) -pipe
+CCFLAGS=$(DEBUG) $(OPT) $(WARN) $(PTHREAD) 
 
-GTKLIB=`pkg-config --cflags --libs gtk+-3.0`
+GTKLIB=`pkg-config --cflags --libs gtk+-3.0` -pipe
 
 # linker
 LD=gcc
-LDFLAGS=$(PTHREAD) $(GTKLIB) -ljson-c -export-dynamic
+LDFLAGS=$(PTHREAD) $(GTKLIB) `pkg-config --cflags --libs gtksourceview-3.0` -ljson-c -export-dynamic
 
 OBJS=main.o
 all: $(OBJS)

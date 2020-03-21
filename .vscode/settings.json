@@ -15,6 +15,11 @@
         "json_object.h": "c",
         "define.h": "c",
         "authenticator.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "time.h": "c",
+        "nl_types.h": "c",
+        "types.h": "c",
+        "edit_user.h": "c",
+        "edit_goods.h": "c"
     }
 }

@@ -1,0 +1,28 @@
+{
+    "data": [
+        {
+            "name": "Hello world",
+            "phone": "123123123",
+            "address": "Xuan Loc",
+            "purchaseType": "COD",
+            "totalPrice": 999999,
+            "time": 123123123,
+            "listGoods": [
+                "Quan the thao",
+                "Ao the thao"
+            ]
+        },
+        {
+            "name": "Hello world",
+            "phone": "123123123",
+            "address": "Xuan Loc",
+            "purchaseType": "COD",
+            "totalPrice": 999999,
+            "time": 123123123,
+            "listGoods": [
+                "Quan the thao",
+                "Ao the thao"
+            ]
+        }
+    ]
+}
