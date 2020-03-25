@@ -10,7 +10,7 @@
             "address": "Xuân Lộc, Đồng Nai",
             "purchaseType": "COD",
             "totalPrice": 10,
-            "time": 11
+            "time": 1585039567
         },
         {
             "listGoods": [
@@ -22,7 +22,7 @@
             "address": "Xuân Lộc, Đồng Nai",
             "purchaseType": "Thanh toán bằng số dư",
             "totalPrice": 10,
-            "time": 11
+            "time": 1585039567
         }
     ]
 }

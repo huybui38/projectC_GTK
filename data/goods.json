@@ -2,57 +2,161 @@
     "data": [
         {
             "id": 1,
-            "name": "Giayssds",
-            "price": 900000,
-            "categoryID": 1,
-            "discount": 10
+            "name": "Giày chính hãng",
+            "price": 2000,
+            "ownerID": 13,
+            "categoryID": 2,
+            "discount": 0
         },
         {
             "id": 2,
-            "name": "xip dui to",
-            "price": 120000,
-            "categoryID": 1,
+            "name": "Giày Fake F2",
+            "price": 500,
+            "ownerID": 13,
+            "categoryID": 2,
             "discount": 0
         },
         {
             "id": 3,
-            "name": "xip dui to",
-            "price": 120000,
-            "categoryID": 1,
+            "name": "Giày con nít g",
+            "price": 5000,
+            "ownerID": 13,
+            "categoryID": 2,
             "discount": 0
         },
         {
             "id": 4,
-            "name": "xip dui to",
-            "price": 120000,
+            "name": "Áo ba l",
+            "price": 200,
+            "ownerID": 13,
             "categoryID": 1,
-            "discount": 1
+            "discount": 0
         },
         {
             "id": 5,
-            "name": "Giay Fake F1",
-            "price": 0,
-            "categoryID": 2,
+            "name": "Áo ba l",
+            "price": 2000,
+            "ownerID": 13,
+            "categoryID": 1,
             "discount": 0
         },
         {
             "id": 6,
-            "name": "Giay Fake F1",
-            "price": 0,
-            "categoryID": 2,
+            "name": "Áo ba lỗ",
+            "price": 2000,
+            "ownerID": 13,
+            "categoryID": 1,
             "discount": 0
         },
         {
             "id": 7,
-            "name": "Giay Fake F1",
-            "price": 0,
-            "categoryID": 2,
+            "name": "Áo bà b",
+            "price": 2000,
+            "ownerID": 13,
+            "categoryID": 1,
             "discount": 0
         },
         {
             "id": 8,
-            "name": "Ten Mon Hang",
-            "price": 0,
+            "name": "Áo bà ba",
+            "price": 2000,
+            "ownerID": 13,
+            "categoryID": 1,
+            "discount": 0
+        },
+        {
+            "id": 9,
+            "name": "Áo dài VN",
+            "price": 3000,
+            "ownerID": 13,
+            "categoryID": 1,
+            "discount": 0
+        },
+        {
+            "id": 10,
+            "name": "Áo ngực",
+            "price": 300,
+            "ownerID": 13,
+            "categoryID": 1,
+            "discount": 0
+        },
+        {
+            "id": 11,
+            "name": "Giày China",
+            "price": 50,
+            "ownerID": 13,
+            "categoryID": 2,
+            "discount": 0
+        },
+        {
+            "id": 12,
+            "name": "Giày China 2",
+            "price": 35,
+            "ownerID": 13,
+            "categoryID": 2,
+            "discount": 0
+        },
+        {
+            "id": 13,
+            "name": "Giày China 3",
+            "price": 40,
+            "ownerID": 13,
+            "categoryID": 2,
+            "discount": 0
+        },
+        {
+            "id": 14,
+            "name": "Giày USA",
+            "price": 500,
+            "ownerID": 13,
+            "categoryID": 2,
+            "discount": 0
+        },
+        {
+            "id": 15,
+            "name": "Giày USA 2",
+            "price": 600,
+            "ownerID": 13,
+            "categoryID": 2,
+            "discount": 0
+        },
+        {
+            "id": 16,
+            "name": "Giày cute",
+            "price": 356,
+            "ownerID": 13,
+            "categoryID": 2,
+            "discount": 0
+        },
+        {
+            "id": 17,
+            "name": "Dép tổ ong",
+            "price": 356,
+            "ownerID": 13,
+            "categoryID": 2,
+            "discount": 0
+        },
+        {
+            "id": 18,
+            "name": "Dép lào",
+            "price": 3562,
+            "ownerID": 13,
+            "categoryID": 2,
+            "discount": 11
+        },
+        {
+            "id": 19,
+            "name": "Giày dỏm",
+            "price": 1,
+            "ownerID": 13,
+            "categoryID": 2,
+            "discount": 0
+        },
+        {
+            "id": 20,
+            "name": "Giày cùi",
+            "price": 1,
+            "ownerID": 13,
             "categoryID": 2,
             "discount": 0
         }

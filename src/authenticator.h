@@ -2,16 +2,15 @@
 #define GET_DATA_H
 
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
+// #include <conio.h>
 #include <ctype.h>
 #include "define.h"
 #define MAX 40
-// #define PATH_USER "shopee\\data\\user.txt"
-
 void getDataFromFile(User *user);
-// void removeExtraSpace(char *str);
-// void cutString(char str[200], int start);
+void removeExtraSpaces(char *str);
 void writeDataToFile(User *ptrUser, int lineCount);
 void lowerString(char str[130]);
 char *replaceWord(const char *s, const char *oldW,
@@ -373,41 +372,19 @@ int getLogin(char username[], char password[])
 	return check;
 }
 
-// void cutString(char str[200], int start) {
-//   int length = strlen(str);
-// 	int i;
-// 	printf("ok\n");
-// 	for (i = start; i < length; i++) {
-// 		printf("cut: %d\n", i);
-//     // *(str + i) = *(str + i + 1);
-// 		str[i] = str[i + 1];
-// 	}
-// }
-
-// void removeExtraSpace(char *str) {
-// 	int i = 0;
-// 	//check beginning
-// 	if (str[0] == ' ') {
-// 		while (str[i] == ' ') {
-// 			cutString(str, i);
-// 		}
-// 	}
-// 	//check middle
-// 	while (str[i] != '\0') {
-// 		while (str[i] == ' ' && str[i + 1] == ' ') {
-// 			cutString(str, i);
-// 		}
-// 		i++;
-// 	}
-// 	//check end
-// 	while (str[strlen(str) - 1] == ' ') {
-// 	  cutString(str, strlen(str) - 1);
-// 	}
-// }
+void removeExtraSpaces(char *str)
+{
+	int i, x;
+	for (i = x = 0; str[i]; ++i)
+		if (!isspace(str[i]) || (i > 0 && !isspace(str[i - 1])))
+			str[x++] = str[i];
+	str[x] = '\0';
+	if (isspace(str[x - 1]))
+		str[x - 1] = '\0';
+}
 
 int isValidAddress(char str[MAX])
 {
-	// g_print("=>>>%s\n", str[MAX]);
 	int check = 1;
 	int i = 0;
 	while (str[i] != '\0')
@@ -538,28 +515,23 @@ int isValidPhoneNum(char str[MAX])
 int getRegister(char username[], char name[], char pass[], char repass[],
 				char address[], char phoneNum[], int role)
 {
+
 	int check = 1;
 	int pos;
 	int length;
 	char c;
 	int lineCount = 0;
-	char *lowerName, *lowerAddress;
+	char *lowerAddress;
+	char *lowerName;
 	User *user;
+
 	lineCount = countLineInFile(PATH_USER);
 	user = (User *)malloc((lineCount + 1) * sizeof(User));
-	//lineCount + 1 de ty nua ghi them
 
 	getDataFromFile(user);
-	// g_print("Before:%s\n", name);
-	lowerName = filterVietnamese(name);
-	lowerAddress = filterVietnamese(address);
 
-	// g_print("After:%s\n", lowerAddress);
-	// removeExtraSpace(name);
-	// removeExtraSpace(lowerName);
-	// removeExtraSpace(address);
-	// removeExtraSpace(lowerAddress);
-
+	removeExtraSpaces(name);
+	removeExtraSpaces(address);
 	if (!isValidUsername(username))
 	{
 		check = 7;
@@ -568,31 +540,39 @@ int getRegister(char username[], char name[], char pass[], char repass[],
 	{
 		check = 8;
 	}
-	else if (!isValidName(lowerName))
+	else
 	{
-		// g_print("%s", lowerName);
-		check = 6;
+		lowerName = filterVietnamese(name);
+		if (!isValidName(lowerName))
+		{
+			check = 6;
+		}
+		else if (!isValidPassword(pass))
+		{
+			check = 5;
+		}
+		else if (strcmp(pass, repass) != 0)
+		{
+			check = 4;
+		}
+		else
+		{
+			lowerAddress = filterVietnamese(address);
+			if (!isValidAddress(lowerAddress))
+			{
+				check = 3;
+			}
+			else if (role != 1 && role != 2)
+			{
+				check = 2;
+			}
+			else if (!isValidPhoneNum(phoneNum))
+			{
+				check = 9;
+			}
+		}
 	}
-	else if (!isValidPassword(pass))
-	{
-		check = 5;
-	}
-	else if (strcmp(pass, repass) != 0)
-	{
-		check = 4;
-	}
-	else if (!isValidAddress(lowerAddress))
-	{
-		check = 3;
-	}
-	else if (role != 1 && role != 2)
-	{
-		check = 2;
-	}
-	else if (!isValidPhoneNum(phoneNum))
-	{
-		check = 9;
-	}
+
 	//write data to file
 	if (check == 1)
 	{

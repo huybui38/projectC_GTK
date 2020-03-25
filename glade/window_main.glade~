@@ -2,402 +2,6 @@
 <!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.10"/>
-  <object class="GtkTextBuffer" id="txtCart">
-    <property name="text" translatable="yes">asdasdasdasd213asdasd</property>
-  </object>
-  <object class="GtkApplicationWindow" id="window_cart">
-    <property name="can_focus">False</property>
-    <property name="title" translatable="yes">Thanh toán</property>
-    <property name="resizable">False</property>
-    <property name="window_position">center</property>
-    <property name="destroy_with_parent">True</property>
-    <signal name="delete-event" handler="on_window_delete_event" swapped="no"/>
-    <signal name="destroy" handler="on_window_destroy" swapped="no"/>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <object class="GtkGrid">
-        <property name="width_request">500</property>
-        <property name="height_request">550</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <child>
-          <object class="GtkGrid">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="margin_top">25</property>
-            <property name="row_spacing">7</property>
-            <child>
-              <object class="GtkEntry">
-                <property name="width_request">500</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel">
-                <property name="width_request">200</property>
-                <property name="height_request">50</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_left">25</property>
-                <property name="margin_right">15</property>
-                <property name="label" translatable="yes">Tên người nhận:</property>
-                <attributes>
-                  <attribute name="font-desc" value="Sans 14"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel">
-                <property name="width_request">150</property>
-                <property name="height_request">50</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Địa chỉ giao hàng:</property>
-                <attributes>
-                  <attribute name="font-desc" value="Sans 14"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry">
-                <property name="width_request">500</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel">
-                <property name="width_request">200</property>
-                <property name="height_request">50</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_left">15</property>
-                <property name="margin_right">5</property>
-                <property name="label" translatable="yes">Số điện thoại nhận hàng:</property>
-                <attributes>
-                  <attribute name="font-desc" value="Sans 14"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry">
-                <property name="width_request">500</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Phương thức thanh toán:</property>
-                <attributes>
-                  <attribute name="font-desc" value="Sans 14"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">3</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <child>
-                  <object class="GtkRadioButton" id="radiobutton1">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="active">True</property>
-                    <property name="draw_indicator">True</property>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Thanh toán khi nhận hàng</property>
-                        <attributes>
-                          <attribute name="font-desc" value="Sans 14"/>
-                        </attributes>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkRadioButton">
-                    <property name="visible">True</property>
-                    <property name="sensitive">False</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="draw_indicator">True</property>
-                    <property name="group">radiobutton1</property>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Thanh toán bằng số dư</property>
-                        <attributes>
-                          <attribute name="font-desc" value="Sans 14"/>
-                        </attributes>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">3</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <child>
-              <object class="GtkLabel">
-                <property name="width_request">328</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_top">25</property>
-                <property name="label" translatable="yes">Xin chào Huy!</property>
-                <attributes>
-                  <attribute name="font-desc" value="Sans 14"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="height_request">50</property>
-                <property name="visible">True</property>
-                <property name="sensitive">False</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="margin_right">15</property>
-                <property name="margin_top">20</property>
-                <child>
-                  <object class="GtkLabel">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Đăng nhập ngay để lưu thông tin cho lần sau!</property>
-                    <attributes>
-                      <attribute name="font-desc" value="Sans 14"/>
-                    </attributes>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkSeparator">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="margin_top">10</property>
-            <property name="margin_bottom">10</property>
-          </object>
-          <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">2</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <child>
-              <object class="GtkScrolledWindow">
-                <property name="width_request">550</property>
-                <property name="height_request">200</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="margin_left">15</property>
-                <property name="margin_right">15</property>
-                <property name="shadow_type">in</property>
-                <child>
-                  <object class="GtkTextView">
-                    <property name="width_request">200</property>
-                    <property name="height_request">0</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="border_width">5</property>
-                    <property name="pixels_above_lines">2</property>
-                    <property name="pixels_below_lines">2</property>
-                    <property name="editable">False</property>
-                    <property name="cursor_visible">False</property>
-                    <property name="buffer">txtCart</property>
-                    <property name="accepts_tab">False</property>
-                    <property name="monospace">True</property>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox">
-                <property name="width_request">190</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="orientation">vertical</property>
-                <child>
-                  <object class="GtkEntry">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="text" translatable="yes">Nhập ID món hàng cần xóa</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkButton">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="margin_top">15</property>
-                    <property name="margin_bottom">15</property>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Xóa vật phẩm</property>
-                        <attributes>
-                          <attribute name="font-desc" value="Sans 14"/>
-                        </attributes>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkButton">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="margin_top">15</property>
-                    <property name="margin_bottom">15</property>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Hủy đơn hàng</property>
-                        <attributes>
-                          <attribute name="font-desc" value="Sans 14"/>
-                        </attributes>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkButton">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="margin_top">15</property>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Thanh toán</property>
-                        <attributes>
-                          <attribute name="font-desc" value="Sans 14"/>
-                        </attributes>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">3</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">3</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-  </object>
   <object class="GtkTextBuffer" id="txtDoanhThu"/>
   <object class="GtkApplicationWindow" id="window_report">
     <property name="can_focus">False</property>
@@ -581,6 +185,402 @@ kết thúc</property>
             <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="position">2</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkTextBuffer" id="txtListCart">
+    <property name="text" translatable="yes">asdasdasdasd213asdasd</property>
+  </object>
+  <object class="GtkApplicationWindow" id="window_cart">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Thanh toán</property>
+    <property name="resizable">False</property>
+    <property name="modal">True</property>
+    <property name="window_position">center</property>
+    <signal name="delete-event" handler="on_window_cart_delete_event" swapped="no"/>
+    <signal name="destroy" handler="on_window_destroy" swapped="no"/>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <object class="GtkGrid">
+        <property name="width_request">500</property>
+        <property name="height_request">550</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkGrid">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_top">25</property>
+            <property name="row_spacing">7</property>
+            <child>
+              <object class="GtkEntry" id="txtNameCart">
+                <property name="width_request">500</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="width_request">200</property>
+                <property name="height_request">50</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_left">25</property>
+                <property name="margin_right">15</property>
+                <property name="label" translatable="yes">Tên người nhận:</property>
+                <attributes>
+                  <attribute name="font-desc" value="Sans 14"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="width_request">150</property>
+                <property name="height_request">50</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Địa chỉ giao hàng:</property>
+                <attributes>
+                  <attribute name="font-desc" value="Sans 14"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="txtAddressCart">
+                <property name="width_request">500</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="width_request">200</property>
+                <property name="height_request">50</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_left">15</property>
+                <property name="margin_right">5</property>
+                <property name="label" translatable="yes">Số điện thoại nhận hàng:</property>
+                <attributes>
+                  <attribute name="font-desc" value="Sans 14"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="txtPhoneNumberCart">
+                <property name="width_request">500</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Phương thức thanh toán:</property>
+                <attributes>
+                  <attribute name="font-desc" value="Sans 14"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkRadioButton" id="isCOD">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="active">True</property>
+                    <property name="draw_indicator">True</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Thanh toán khi nhận hàng</property>
+                        <attributes>
+                          <attribute name="font-desc" value="Sans 14"/>
+                        </attributes>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkRadioButton" id="isCash">
+                    <property name="visible">True</property>
+                    <property name="sensitive">False</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="draw_indicator">True</property>
+                    <property name="group">isCOD</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Thanh toán bằng số dư</property>
+                        <attributes>
+                          <attribute name="font-desc" value="Sans 14"/>
+                        </attributes>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">3</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="width_request">328</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_top">25</property>
+                <property name="label" translatable="yes">Xin chào Huy!</property>
+                <attributes>
+                  <attribute name="font-desc" value="Sans 14"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="btnLoginCart">
+                <property name="height_request">50</property>
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="margin_right">15</property>
+                <property name="margin_top">20</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Đăng nhập ngay để lưu thông tin cho lần sau!</property>
+                    <attributes>
+                      <attribute name="font-desc" value="Sans 14"/>
+                    </attributes>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSeparator">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_top">10</property>
+            <property name="margin_bottom">10</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkScrolledWindow">
+                <property name="width_request">550</property>
+                <property name="height_request">200</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="margin_left">15</property>
+                <property name="margin_right">15</property>
+                <property name="shadow_type">in</property>
+                <child>
+                  <object class="GtkTextView">
+                    <property name="width_request">200</property>
+                    <property name="height_request">0</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="border_width">5</property>
+                    <property name="pixels_above_lines">2</property>
+                    <property name="pixels_below_lines">2</property>
+                    <property name="editable">False</property>
+                    <property name="cursor_visible">False</property>
+                    <property name="buffer">txtListCart</property>
+                    <property name="accepts_tab">False</property>
+                    <property name="monospace">True</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="width_request">190</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkEntry" id="txtDeleteIDCart">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="text" translatable="yes">Nhập ID món hàng cần xóa</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="btnDeleteItemCart">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="margin_top">15</property>
+                    <property name="margin_bottom">15</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Xóa vật phẩm</property>
+                        <attributes>
+                          <attribute name="font-desc" value="Sans 14"/>
+                        </attributes>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="btnCancelCart">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="margin_top">15</property>
+                    <property name="margin_bottom">15</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Hủy đơn hàng</property>
+                        <attributes>
+                          <attribute name="font-desc" value="Sans 14"/>
+                        </attributes>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="btnPayCard">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="margin_top">15</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Thanh toán</property>
+                        <attributes>
+                          <attribute name="font-desc" value="Sans 14"/>
+                        </attributes>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">3</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">3</property>
           </packing>
         </child>
       </object>
@@ -1804,16 +1804,16 @@ kết thúc</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkComboBoxText">
+                      <object class="GtkComboBoxText" id="txtP">
                         <property name="width_request">50</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="margin_left">35</property>
                         <property name="active">0</property>
                         <items>
-                          <item translatable="yes">1</item>
-                          <item translatable="yes">2</item>
-                          <item translatable="yes">3</item>
+                          <item id="1" translatable="yes">1</item>
+                          <item id="2" translatable="yes">2</item>
+                          <item id="3" translatable="yes">3</item>
                         </items>
                       </object>
                       <packing>
@@ -1893,7 +1893,7 @@ kết thúc</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry">
+                      <object class="GtkEntry" id="txtMoneyAds">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -3731,15 +3731,17 @@ cần xóa</property>
           <object class="GtkGrid">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_left">15</property>
             <property name="row_spacing">5</property>
             <property name="row_homogeneous">True</property>
             <child>
-              <object class="GtkButton">
+              <object class="GtkButton" id="btnSearchShopping">
                 <property name="width_request">400</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="margin_right">25</property>
+                <signal name="clicked" handler="on_btnSearchShopping_clicked" swapped="no"/>
                 <child>
                   <object class="GtkLabel">
                     <property name="visible">True</property>
@@ -3948,10 +3950,9 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                     <property name="margin_right">25</property>
                     <property name="active">0</property>
                     <items>
-                      <item id="1" translatable="yes">Giá cao nhất</item>
-                      <item id="2" translatable="yes">Giá thấp nhất</item>
-                      <item id="3" translatable="yes">Hàng hot</item>
-                      <item id="4" translatable="yes">Tên (A-&gt;Z)</item>
+                      <item id="2" translatable="yes">Giá cao nhất</item>
+                      <item id="3" translatable="yes">Giá thấp nhất</item>
+                      <item id="1" translatable="yes">Tên (A-&gt;Z)</item>
                     </items>
                     <signal name="changed" handler="on_cbxSortShopping_changed" swapped="no"/>
                   </object>
@@ -4016,6 +4017,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkLabel" id="txtItem1Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
                         <attributes>
                           <attribute name="font-desc" value="Sans 14"/>
@@ -4031,6 +4033,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_left">20</property>
                         <child>
                           <object class="GtkLabel">
                             <property name="width_request">60</property>
@@ -4071,6 +4074,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                             </child>
                             <child>
                               <object class="GtkLabel" id="lblOriginalPrice1Shopping">
+                                <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">500.000.000 đ</property>
                                 <attributes>
@@ -4101,13 +4105,15 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="homogeneous">True</property>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnPayNow1Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="margin_left">15</property>
+                            <signal name="clicked" handler="on_btnPayNow1Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -4126,11 +4132,12 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnSelect1Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="margin_right">15</property>
+                            <signal name="clicked" handler="on_btnSelect1Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -4152,6 +4159,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
+                        <property name="pack_type">end</property>
                         <property name="position">2</property>
                       </packing>
                     </child>
@@ -4173,6 +4181,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkLabel" id="txtItem2Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
                         <attributes>
                           <attribute name="font-desc" value="Sans 14"/>
@@ -4188,6 +4197,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_left">20</property>
                         <child>
                           <object class="GtkLabel">
                             <property name="width_request">60</property>
@@ -4212,7 +4222,6 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                             <property name="orientation">vertical</property>
                             <child>
                               <object class="GtkLabel" id="lblSalePrice2Shopping">
-                                <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="margin_top">2</property>
                                 <property name="label" translatable="yes">900.000.000 đ</property>
@@ -4259,13 +4268,15 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="homogeneous">True</property>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnPayNow2Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="margin_left">15</property>
+                            <signal name="clicked" handler="on_btnPayNow2Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -4284,11 +4295,12 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnSelect2Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="margin_right">15</property>
+                            <signal name="clicked" handler="on_btnSelect2Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -4310,6 +4322,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
+                        <property name="pack_type">end</property>
                         <property name="position">2</property>
                       </packing>
                     </child>
@@ -4331,6 +4344,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkLabel" id="txtItem3Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
                         <attributes>
                           <attribute name="font-desc" value="Sans 14"/>
@@ -4346,6 +4360,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_left">20</property>
                         <child>
                           <object class="GtkLabel">
                             <property name="width_request">60</property>
@@ -4417,13 +4432,15 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="homogeneous">True</property>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnPayNow3Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="margin_left">15</property>
+                            <signal name="clicked" handler="on_btnPayNow3Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -4442,11 +4459,12 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnSelect3Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="margin_right">15</property>
+                            <signal name="clicked" handler="on_btnSelect3Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -4468,6 +4486,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
+                        <property name="pack_type">end</property>
                         <property name="position">2</property>
                       </packing>
                     </child>
@@ -4489,6 +4508,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkLabel" id="txtItem4Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
                         <attributes>
                           <attribute name="font-desc" value="Sans 14"/>
@@ -4504,6 +4524,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_left">20</property>
                         <child>
                           <object class="GtkLabel">
                             <property name="width_request">60</property>
@@ -4574,13 +4595,15 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="homogeneous">True</property>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnPayNow4Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="margin_left">15</property>
+                            <signal name="clicked" handler="on_btnPayNow4Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -4599,11 +4622,12 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnSelect4Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="margin_right">15</property>
+                            <signal name="clicked" handler="on_btnSelect4Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -4625,6 +4649,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
+                        <property name="pack_type">end</property>
                         <property name="position">2</property>
                       </packing>
                     </child>
@@ -4646,6 +4671,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkLabel" id="txtItem7Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
                         <attributes>
                           <attribute name="font-desc" value="Sans 14"/>
@@ -4661,6 +4687,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_left">20</property>
                         <child>
                           <object class="GtkLabel">
                             <property name="width_request">60</property>
@@ -4731,12 +4758,15 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="homogeneous">True</property>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnPayNow7Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <property name="margin_left">15</property>
+                            <signal name="clicked" handler="on_btnPayNow7Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -4756,11 +4786,12 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnSelect7Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="margin_right">15</property>
+                            <signal name="clicked" handler="on_btnSelect7Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -4782,6 +4813,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
+                        <property name="pack_type">end</property>
                         <property name="position">2</property>
                       </packing>
                     </child>
@@ -4803,6 +4835,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkLabel" id="txtItem10Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
                         <attributes>
                           <attribute name="font-desc" value="Sans 14"/>
@@ -4818,6 +4851,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_left">20</property>
                         <child>
                           <object class="GtkLabel">
                             <property name="width_request">60</property>
@@ -4888,13 +4922,15 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="homogeneous">True</property>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnPayNow10Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="margin_left">15</property>
+                            <signal name="clicked" handler="on_btnPayNow10Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -4913,11 +4949,12 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnSelect10Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="margin_right">15</property>
+                            <signal name="clicked" handler="on_btnSelect10Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -4939,6 +4976,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
+                        <property name="pack_type">end</property>
                         <property name="position">2</property>
                       </packing>
                     </child>
@@ -4960,6 +4998,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkLabel" id="txtItem5Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
                         <attributes>
                           <attribute name="font-desc" value="Sans 14"/>
@@ -4975,6 +5014,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_left">20</property>
                         <child>
                           <object class="GtkLabel">
                             <property name="width_request">60</property>
@@ -5045,13 +5085,15 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="homogeneous">True</property>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnPayNow5Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="margin_left">15</property>
+                            <signal name="clicked" handler="on_btnPayNow5Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -5070,11 +5112,12 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnSelect5Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="margin_right">15</property>
+                            <signal name="clicked" handler="on_btnSelect5Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -5096,6 +5139,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
+                        <property name="pack_type">end</property>
                         <property name="position">2</property>
                       </packing>
                     </child>
@@ -5117,6 +5161,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkLabel" id="txtItem8Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
                         <attributes>
                           <attribute name="font-desc" value="Sans 14"/>
@@ -5132,6 +5177,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_left">20</property>
                         <child>
                           <object class="GtkLabel">
                             <property name="width_request">60</property>
@@ -5202,13 +5248,15 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="homogeneous">True</property>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnPayNow8Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="margin_left">15</property>
+                            <signal name="clicked" handler="on_btnPayNow8Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -5227,11 +5275,12 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnSelect8Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="margin_right">15</property>
+                            <signal name="clicked" handler="on_btnSelect8Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -5253,6 +5302,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
+                        <property name="pack_type">end</property>
                         <property name="position">2</property>
                       </packing>
                     </child>
@@ -5274,6 +5324,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkLabel" id="txtItem11Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
                         <attributes>
                           <attribute name="font-desc" value="Sans 14"/>
@@ -5289,6 +5340,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_left">20</property>
                         <child>
                           <object class="GtkLabel">
                             <property name="width_request">60</property>
@@ -5359,13 +5411,15 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="homogeneous">True</property>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnPayNow11Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="margin_left">15</property>
+                            <signal name="clicked" handler="on_btnPayNow11Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -5384,11 +5438,12 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnSelect11Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="margin_right">15</property>
+                            <signal name="clicked" handler="on_btnSelect11Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -5410,6 +5465,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
+                        <property name="pack_type">end</property>
                         <property name="position">2</property>
                       </packing>
                     </child>
@@ -5431,6 +5487,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkLabel" id="txtItem9Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
                         <attributes>
                           <attribute name="font-desc" value="Sans 14"/>
@@ -5446,6 +5503,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_left">20</property>
                         <child>
                           <object class="GtkLabel">
                             <property name="width_request">60</property>
@@ -5516,13 +5574,15 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="homogeneous">True</property>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnPayNow9Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="margin_left">15</property>
+                            <signal name="clicked" handler="on_btnPayNow9Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -5541,11 +5601,12 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnSelect9Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="margin_right">15</property>
+                            <signal name="clicked" handler="on_btnSelect9Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -5567,6 +5628,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
+                        <property name="pack_type">end</property>
                         <property name="position">2</property>
                       </packing>
                     </child>
@@ -5588,6 +5650,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkLabel" id="txtItem12Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
                         <attributes>
                           <attribute name="font-desc" value="Sans 14"/>
@@ -5603,6 +5666,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_left">20</property>
                         <child>
                           <object class="GtkLabel">
                             <property name="width_request">60</property>
@@ -5673,13 +5737,15 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="homogeneous">True</property>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnPayNow12Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="margin_left">15</property>
+                            <signal name="clicked" handler="on_btnPayNow12Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -5698,11 +5764,12 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnSelect12Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="margin_right">15</property>
+                            <signal name="clicked" handler="on_btnSelect12Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -5724,6 +5791,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
+                        <property name="pack_type">end</property>
                         <property name="position">2</property>
                       </packing>
                     </child>
@@ -5745,6 +5813,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkLabel" id="txtItem6Shopping">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
                         <attributes>
                           <attribute name="font-desc" value="Sans 14"/>
@@ -5760,6 +5829,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_left">20</property>
                         <child>
                           <object class="GtkLabel">
                             <property name="width_request">60</property>
@@ -5830,13 +5900,15 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">10</property>
                         <property name="homogeneous">True</property>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnPayNow6Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="margin_left">15</property>
+                            <signal name="clicked" handler="on_btnPayNow6Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -5855,11 +5927,12 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkButton">
+                          <object class="GtkButton" id="btnSelect6Shopping">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="margin_right">15</property>
+                            <signal name="clicked" handler="on_btnSelect6Shopping_clicked" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -5881,6 +5954,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
+                        <property name="pack_type">end</property>
                         <property name="position">2</property>
                       </packing>
                     </child>
@@ -5910,7 +5984,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
             <property name="spacing">15</property>
             <property name="homogeneous">True</property>
             <child>
-              <object class="GtkButton" id="btnB">
+              <object class="GtkButton" id="btnBackShopping">
                 <property name="label" translatable="yes">&lt;&lt;&lt;&lt;&lt;&lt;</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
@@ -5919,6 +5993,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                 <property name="margin_left">25</property>
                 <property name="margin_top">10</property>
                 <property name="margin_bottom">10</property>
+                <signal name="clicked" handler="on_btnBackShopping_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -5928,7 +6003,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="btnNext">
+              <object class="GtkButton" id="btnNextShopping">
                 <property name="label" translatable="yes">&gt;&gt;&gt;&gt;&gt;&gt;</property>
                 <property name="width_request">50</property>
                 <property name="height_request">50</property>
@@ -5939,6 +6014,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                 <property name="margin_right">25</property>
                 <property name="margin_top">10</property>
                 <property name="margin_bottom">10</property>
+                <signal name="clicked" handler="on_btnNextShopping_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -5948,15 +6024,16 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
               </packing>
             </child>
             <child>
-              <object class="GtkButton">
+              <object class="GtkButton" id="btnPayShopping">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="margin_right">25</property>
+                <property name="margin_right">35</property>
                 <property name="margin_top">10</property>
                 <property name="margin_bottom">10</property>
+                <signal name="clicked" handler="on_btnPayShopping_clicked" swapped="no"/>
                 <child>
-                  <object class="GtkLabel">
+                  <object class="GtkLabel" id="lblPaymentShopping">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Thanh toán (0)</property>

@@ -20,6 +20,7 @@
         "nl_types.h": "c",
         "types.h": "c",
         "edit_user.h": "c",
-        "edit_goods.h": "c"
+        "edit_goods.h": "c",
+        "stdio.h": "c"
     }
 }

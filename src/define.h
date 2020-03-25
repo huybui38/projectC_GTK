@@ -1,5 +1,6 @@
 #ifndef define_struct
 #define define_struct
+#include <time.h>
 typedef struct category
 {
     int id;
@@ -13,6 +14,7 @@ typedef struct goods
     int categoryID;
     int price;
     int discount;
+    int ownerID;
 } Goods;
 typedef struct purchaseHistory
 {
@@ -22,9 +24,17 @@ typedef struct purchaseHistory
     char *address;
     char *phone;
     int64_t totalPrice;
-    int64_t time;
+    time_t time;
     char *purchaseType;
 } PurchaseHistory;
+typedef struct salesHistory
+{
+    char *name;
+    int64_t goodsId;
+    int64_t categoryID;
+    int64_t price;
+    time_t time;
+} SalesHistory;
 typedef struct user
 {
     int id;
@@ -40,5 +50,6 @@ const char *PATH_USER = "data//user.txt";
 const char *PATH_CATEGORY = "data//category.json";
 const char *PATH_GOODS = "data//goods.json";
 const char *PATH_PURCHASE_HISTORY = "data//purchase_history//";
+const char *PATH_SALES_HISTORY = "..//data//sales_history//";
 const int MAX_BUFFER = 1024 * 1024;
 #endif

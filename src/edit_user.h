@@ -1,10 +1,6 @@
 #ifndef EDIT_USER_H
 #define EDIT_USER_H
 
-// #include <windows.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include "authenticator.h"
 
 User getUser(char username[MAX]);
@@ -132,36 +128,42 @@ int isExistedId(int id, User *user, int *pos, int *length)
 	return check;
 }
 
-int changeInformation(int id, char name[MAX], char address[MAX], char phoneNum[MAX])
+int changeInformation(int id, char name[], char address[], char phoneNum[MAX])
 {
 	User *ptrUser;
 	int check = 1;
 	int tmp, pos;
 	char *lowerName, *lowerAddress;
 
+	removeExtraSpaces(name);
+	removeExtraSpaces(address);
 	int lineCount = countLineInFile(PATH_USER);
 	ptrUser = (User *)malloc(lineCount * sizeof(User));
 	getDataFromFile(ptrUser);
-	lowerName = filterVietnamese(name);
-	lowerAddress = filterVietnamese(address);
-	// removeExtraSpace(name);
-	// removeExtraSpace(address);
 
 	if (!isExistedId(id, ptrUser, &pos, &lineCount))
 	{
 		check = 2;
 	}
-	else if (!isValidName(lowerName))
+	else
 	{
-		check = 3;
-	}
-	else if (!isValidAddress(lowerAddress))
-	{
-		check = 4;
-	}
-	else if (!isValidPhoneNum(phoneNum))
-	{
-		check = 5;
+		lowerName = filterVietnamese(name);
+		if (!isValidName(lowerName))
+		{
+			check = 3;
+		}
+		else
+		{
+			lowerAddress = filterVietnamese(address);
+			if (!isValidAddress(lowerAddress))
+			{
+				check = 4;
+			}
+			else if (!isValidPhoneNum(phoneNum))
+			{
+				check = 5;
+			}
+		}
 	}
 
 	if (check == 1)

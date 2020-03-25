@@ -1,0 +1,25 @@
+{
+    "data": [
+        {
+            "name": "quan 2019",
+            "goodsId": 650815873,
+            "categoryID": 2000,
+            "price": 0,
+            "time": 1585042096
+        },
+        {
+            "name": "quan 2019",
+            "goodsId": 650815873,
+            "categoryID": 2000,
+            "price": 2,
+            "time": 1585042156
+        },
+        {
+            "name": "quan 2019",
+            "goodsId": 650815873,
+            "categoryID": 2000,
+            "price": 2,
+            "time": 1585042704
+        }
+    ]
+}

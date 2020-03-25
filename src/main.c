@@ -3,6 +3,7 @@
 #include "edit_user.h"
 #include "edit_goods.h"
 #include "json.h"
+#include <time.h>
 #include <unistd.h>
 typedef struct
 {
@@ -22,6 +23,7 @@ typedef struct
     GtkWidget *w_wAddMoney;
     GtkWidget *w_wCategory;
     GtkWidget *w_wAds;
+    GtkWidget *w_wCart;
 
     //element for w_category
     GtkWidget *w_wCategory_txtNameCategory;
@@ -85,7 +87,10 @@ typedef struct
     GtkWidget *w_wShopping_cbxCategoryShopping;
     GtkWidget *w_wShopping_btnRegisterShopping;
     GtkWidget *w_wShopping_txtNameShopping;
+    GtkWidget *w_wShopping_btnNextShopping;
+    GtkWidget *w_wShopping_btnBackShopping;
     GtkWidget *w_wShopping_cbxSortShopping;
+    GtkWidget *w_wShopping_lblPaymentShopping;
     GtkWidget *w_wShopping_box1Shopping;
     GtkWidget *w_wShopping_box2Shopping;
     GtkWidget *w_wShopping_box3Shopping;
@@ -139,6 +144,10 @@ typedef struct
 int turnBack = -1;
 int turnBack_2 = -1;
 int isClickedMsg = 0;
+int currentPageShopping = 1;
+int lengthListCart = 1;
+Goods *listCart;
+gboolean isSearchByWords = FALSE;
 User currentUser;
 
 // #region main
@@ -166,6 +175,7 @@ int main(int argc, char *argv[])
     widgets->w_wAddMoney = GTK_WIDGET(gtk_builder_get_object(builder, "window_addMoney"));
     widgets->w_wCategory = GTK_WIDGET(gtk_builder_get_object(builder, "window_category"));
     widgets->w_wManageGoods = GTK_WIDGET(gtk_builder_get_object(builder, "window_manageGoods"));
+    widgets->w_wCart = GTK_WIDGET(gtk_builder_get_object(builder, "window_cart"));
 
     // Get element pointer for w_login
     widgets->w_wLogin_txtUserLogin = GTK_WIDGET(gtk_builder_get_object(builder, "txtUserLogin"));
@@ -226,7 +236,10 @@ int main(int argc, char *argv[])
     widgets->w_wShopping_cbxCategoryShopping = GTK_WIDGET(gtk_builder_get_object(builder, "cbxCategoryShopping"));
     widgets->w_wShopping_btnRegisterShopping = GTK_WIDGET(gtk_builder_get_object(builder, "btnRegisterShopping"));
     widgets->w_wShopping_txtNameShopping = GTK_WIDGET(gtk_builder_get_object(builder, "txtNameShopping"));
+    widgets->w_wShopping_btnNextShopping = GTK_WIDGET(gtk_builder_get_object(builder, "btnNextShopping"));
+    widgets->w_wShopping_btnBackShopping = GTK_WIDGET(gtk_builder_get_object(builder, "btnBackShopping"));
     widgets->w_wShopping_cbxSortShopping = GTK_WIDGET(gtk_builder_get_object(builder, "cbxSortShopping"));
+    widgets->w_wShopping_lblPaymentShopping = GTK_WIDGET(gtk_builder_get_object(builder, "lblPaymentShopping"));
     widgets->w_wShopping_box1Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "box1Shopping"));
     widgets->w_wShopping_box2Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "box2Shopping"));
     widgets->w_wShopping_box3Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "box3Shopping"));
@@ -278,6 +291,8 @@ int main(int argc, char *argv[])
     widgets->w_wShopping_txtItem12Shopping = GTK_WIDGET(gtk_builder_get_object(builder, "txtItem12Shopping"));
 
     //
+    listCart = (Goods *)malloc(lengthListCart * sizeof(Goods));
+    //
     GtkCssProvider *cssProvider = gtk_css_provider_new();
     gtk_css_provider_load_from_path(cssProvider, "src/test.css", NULL);
     gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), GTK_STYLE_PROVIDER(cssProvider), GTK_STYLE_PROVIDER_PRIORITY_USER);
@@ -293,11 +308,54 @@ int main(int argc, char *argv[])
 }
 // #endregion
 // #region utils
-
+Goods getSelectedGoods(int position, app_widgets *app_wdgts)
+{
+    Goods *listGoods;
+    size_t lengthGoods = 0;
+    int canNext = 0;
+    gchar *selectedCate;
+    gchar *selectedSort;
+    selectedCate = gtk_combo_box_get_active_id(app_wdgts->w_wShopping_cbxCategoryShopping);
+    selectedSort = gtk_combo_box_get_active_id(app_wdgts->w_wShopping_cbxSortShopping);
+    if (isSearchByWords)
+    {
+        gchar *txtName;
+        txtName = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wShopping_txtNameShopping));
+        listGoods = getGoodsByName(txtName, atoi(selectedCate), 12, currentPageShopping, &canNext, &lengthGoods, atoi(selectedSort));
+    }
+    else
+    {
+        listGoods = getGoods(atoi(selectedCate), 12, currentPageShopping, &canNext, &lengthGoods, atoi(selectedSort));
+    }
+    if (position <= lengthGoods)
+        return listGoods[position - 1];
+    else
+    {
+        g_print("error getSelectedGoods\n");
+        return;
+    }
+}
+void addCart(int position, app_widgets *app_wdgts)
+{
+    Goods currentGoods = getSelectedGoods(position, app_wdgts);
+    listCart[lengthListCart - 1] = currentGoods;
+    lengthListCart++;
+    listCart = (Goods *)realloc(listCart, lengthListCart * sizeof(Goods));
+    gchar sizeCart[20];
+    sprintf(sizeCart, "%d", lengthListCart - 1);
+    gchar temp[40];
+    strcpy(temp, "Thanh Toán (");
+    strcat(temp, sizeCart);
+    strcat(temp, ")");
+    gtk_label_set_text(app_wdgts->w_wShopping_lblPaymentShopping, temp);
+}
 void resetShopping(app_widgets *app_wdgts)
 {
     gtk_combo_box_text_remove_all(app_wdgts->w_wShopping_cbxCategoryShopping);
+    gtk_entry_set_text(GTK_ENTRY(app_wdgts->w_wShopping_txtNameShopping), "");
+    isSearchByWords = FALSE;
     gtk_widget_set_sensitive(app_wdgts->w_wShopping_btnRegisterShopping, TRUE);
+    currentPageShopping = 1;
 }
 void logoutUser()
 {
@@ -461,23 +519,167 @@ void on_btnRegisterShopping_clicked(GtkButton *button, app_widgets *app_wdgts)
     gtk_widget_hide(app_wdgts->w_wShopping);
     gtk_widget_show(app_wdgts->w_wRegister);
 }
+void on_btnPayShopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    gtk_widget_show(app_wdgts->w_wCart);
+}
 void on_btnTurnBackShopping_clicked(GtkButton *button, app_widgets *app_wdgts)
 {
     on_window_delete_event(app_wdgts->w_wShopping, NULL, app_wdgts);
 }
+void on_btnSelect1Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(1, app_wdgts);
+}
+void on_btnSelect2Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(2, app_wdgts);
+}
+void on_btnSelect3Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(3, app_wdgts);
+}
+void on_btnSelect4Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(4, app_wdgts);
+}
+void on_btnSelect5Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(5, app_wdgts);
+}
+void on_btnSelect6Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(6, app_wdgts);
+}
+void on_btnSelect7Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(7, app_wdgts);
+}
+void on_btnSelect8Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(8, app_wdgts);
+}
+void on_btnSelect9Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(9, app_wdgts);
+}
+void on_btnSelect10Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(10, app_wdgts);
+}
+void on_btnSelect11Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(11, app_wdgts);
+}
+void on_btnSelect12Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(12, app_wdgts);
+}
+void on_btnPayNow1Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(1, app_wdgts);
+    gtk_widget_show(app_wdgts->w_wCart);
+}
+void on_btnPayNow2Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(2, app_wdgts);
+    gtk_widget_show(app_wdgts->w_wCart);
+}
+void on_btnPayNow3Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(3, app_wdgts);
+    gtk_widget_show(app_wdgts->w_wCart);
+}
+void on_btnPayNow4Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(4, app_wdgts);
+    gtk_widget_show(app_wdgts->w_wCart);
+}
+void on_btnPayNow5Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(5, app_wdgts);
+    gtk_widget_show(app_wdgts->w_wCart);
+}
+void on_btnPayNow6Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(6, app_wdgts);
+    gtk_widget_show(app_wdgts->w_wCart);
+}
+void on_btnPayNow7Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(7, app_wdgts);
+    gtk_widget_show(app_wdgts->w_wCart);
+}
+void on_btnPayNow8Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(8, app_wdgts);
+    gtk_widget_show(app_wdgts->w_wCart);
+}
+void on_btnPayNow9Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(9, app_wdgts);
+    gtk_widget_show(app_wdgts->w_wCart);
+}
+void on_btnPayNow10Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(10, app_wdgts);
+    gtk_widget_show(app_wdgts->w_wCart);
+}
+void on_btnPayNow11Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(11, app_wdgts);
+    gtk_widget_show(app_wdgts->w_wCart);
+}
+void on_btnPayNow12Shopping_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    addCart(12, app_wdgts);
+    gtk_widget_show(app_wdgts->w_wCart);
+}
+
 void on_cbxCategoryShopping_changed(GtkWidget *widget, app_widgets *app_wdgts)
 {
+    //check type Search
+    gchar *txtName;
+    txtName = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wShopping_txtNameShopping));
+    if (txtName == NULL || txtName[0] == '\0')
+    {
+        isSearchByWords = FALSE;
+    }
+    else
+    {
+        isSearchByWords = TRUE;
+    }
+    //
     gchar *selectedCate;
     selectedCate = gtk_combo_box_get_active_id(widget);
     if (selectedCate != NULL)
     {
-        g_print("\n%s", selectedCate);
+        // g_print("%s\n", selectedCate);
+        currentPageShopping = 1;
+        showPageDataShopping(1, app_wdgts);
     }
 }
 void on_cbxSortShopping_changed(GtkWidget *widget, app_widgets *app_wdgts)
 {
+    //check type Search
+    gchar *txtName;
+    txtName = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wShopping_txtNameShopping));
+    if (txtName == NULL || txtName[0] == '\0')
+    {
+        isSearchByWords = FALSE;
+    }
+    else
+    {
+        isSearchByWords = TRUE;
+    }
+    //
     gchar *selectedSort;
     selectedSort = gtk_combo_box_get_active_id(widget);
+    if (selectedSort != NULL)
+    {
+        currentPageShopping = 1;
+        showPageDataShopping(1, app_wdgts);
+    }
 }
 void setBoxShoppingSensitive(int boxID, gboolean visible, app_widgets *app_wdgts)
 {
@@ -529,30 +731,515 @@ void showBoxGoods(int boxID, Goods goods, app_widgets *app_wdgts)
     setBoxShoppingSensitive(boxID, TRUE, app_wdgts);
     gchar *goodsName;
     gchar goodsPrice[20];
+    //
+    //style for original
+    PangoAttribute *strike = pango_attr_strikethrough_new(TRUE);
+    PangoAttrList *listAttrOriginal = pango_attr_list_new();
+    pango_attr_list_insert(listAttrOriginal, strike);
+
+    //style for sale
+    PangoAttribute *foreGround = pango_attr_foreground_new(65535, 0, 0);
+    PangoFontDescription *pangoFont = pango_font_description_new();
+    pango_font_description_set_absolute_size(pangoFont, 25 * PANGO_SCALE);
+    PangoAttribute *fontDesc = pango_attr_font_desc_new(pangoFont);
+    PangoAttrList *listAttrSale = pango_attr_list_new();
+    pango_attr_list_ref(listAttrSale);
+    pango_attr_list_insert(listAttrSale, foreGround);
+    pango_attr_list_insert(listAttrSale, fontDesc);
+    //reset style
+    PangoAttribute *foreGroundReset = pango_attr_foreground_new(0, 0, 0);
+    PangoFontDescription *pangoFontReset = pango_font_description_new();
+    pango_font_description_set_absolute_size(pangoFontReset, 18 * PANGO_SCALE);
+    PangoAttribute *fontDescReset = pango_attr_font_desc_new(pangoFontReset);
+    PangoAttrList *listAttrReset = pango_attr_list_new();
+    pango_attr_list_ref(listAttrReset);
+    pango_attr_list_insert(listAttrReset, foreGroundReset);
+    pango_attr_list_insert(listAttrReset, fontDescReset);
     switch (boxID)
     {
     case 1:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice1Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice1Shopping, listAttrReset);
+
         if (goods.discount != 0)
         {
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice1Shopping, listAttrOriginal);
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice1Shopping, listAttrSale);
             goodsName = goods.name;
-            sprintf(goodsPrice, "%d", goods.price);
+            strcpy(goodsPrice, formatNumber(goods.price));
             gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice1Shopping, TRUE);
             gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice1Shopping, TRUE);
             gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice1Shopping, goodsPrice);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblSalePrice1Shopping, formatNumber(goods.price * (100 - goods.discount) / 100));
         }
         else
         {
             goodsName = goods.name;
-            sprintf(goodsPrice, "%d", goods.price);
+            strcpy(goodsPrice, formatNumber(goods.price));
             gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice1Shopping, FALSE);
             gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice1Shopping, TRUE);
             gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice1Shopping, goodsPrice);
         }
         gtk_label_set_text(app_wdgts->w_wShopping_txtItem1Shopping, goodsName);
         break;
+    case 2:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice2Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice2Shopping, listAttrReset);
+        if (goods.discount != 0)
+        {
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice2Shopping, listAttrOriginal);
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice2Shopping, listAttrSale);
+            goodsName = goods.name;
+            strcpy(goodsPrice, formatNumber(goods.price));
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice2Shopping, TRUE);
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice2Shopping, TRUE);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice2Shopping, goodsPrice);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblSalePrice2Shopping, formatNumber(goods.price * (100 - goods.discount) / 100));
+        }
+        else
+        {
+            goodsName = goods.name;
+            strcpy(goodsPrice, formatNumber(goods.price));
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice2Shopping, FALSE);
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice2Shopping, TRUE);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice2Shopping, goodsPrice);
+        }
+        gtk_label_set_text(app_wdgts->w_wShopping_txtItem2Shopping, goodsName);
+        break;
+    case 3:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice3Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice3Shopping, listAttrReset);
+        if (goods.discount != 0)
+        {
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice3Shopping, listAttrOriginal);
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice3Shopping, listAttrSale);
+            goodsName = goods.name;
+            strcpy(goodsPrice, formatNumber(goods.price));
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice3Shopping, TRUE);
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice3Shopping, TRUE);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice3Shopping, goodsPrice);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblSalePrice3Shopping, formatNumber(goods.price * (100 - goods.discount) / 100));
+        }
+        else
+        {
+            goodsName = goods.name;
+            strcpy(goodsPrice, formatNumber(goods.price));
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice3Shopping, FALSE);
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice3Shopping, TRUE);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice3Shopping, goodsPrice);
+        }
+        gtk_label_set_text(app_wdgts->w_wShopping_txtItem3Shopping, goodsName);
+        break;
+    case 4:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice4Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice4Shopping, listAttrReset);
+        if (goods.discount != 0)
+        {
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice4Shopping, listAttrOriginal);
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice4Shopping, listAttrSale);
+            goodsName = goods.name;
+            strcpy(goodsPrice, formatNumber(goods.price));
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice4Shopping, TRUE);
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice4Shopping, TRUE);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice4Shopping, goodsPrice);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblSalePrice4Shopping, formatNumber(goods.price * (100 - goods.discount) / 100));
+        }
+        else
+        {
+            goodsName = goods.name;
+            strcpy(goodsPrice, formatNumber(goods.price));
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice4Shopping, FALSE);
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice4Shopping, TRUE);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice4Shopping, goodsPrice);
+        }
+        gtk_label_set_text(app_wdgts->w_wShopping_txtItem4Shopping, goodsName);
+        break;
+    case 5:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice5Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice5Shopping, listAttrReset);
+        if (goods.discount != 0)
+        {
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice5Shopping, listAttrOriginal);
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice5Shopping, listAttrSale);
+            goodsName = goods.name;
+            strcpy(goodsPrice, formatNumber(goods.price));
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice5Shopping, TRUE);
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice5Shopping, TRUE);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice5Shopping, goodsPrice);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblSalePrice5Shopping, formatNumber(goods.price * (100 - goods.discount) / 100));
+        }
+        else
+        {
+            goodsName = goods.name;
+            strcpy(goodsPrice, formatNumber(goods.price));
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice5Shopping, FALSE);
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice5Shopping, TRUE);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice5Shopping, goodsPrice);
+        }
+        gtk_label_set_text(app_wdgts->w_wShopping_txtItem5Shopping, goodsName);
+        break;
+    case 6:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice6Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice6Shopping, listAttrReset);
+        if (goods.discount != 0)
+        {
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice6Shopping, listAttrOriginal);
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice6Shopping, listAttrSale);
+            goodsName = goods.name;
+            strcpy(goodsPrice, formatNumber(goods.price));
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice6Shopping, TRUE);
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice6Shopping, TRUE);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice6Shopping, goodsPrice);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblSalePrice6Shopping, formatNumber(goods.price * (100 - goods.discount) / 100));
+        }
+        else
+        {
+            goodsName = goods.name;
+            strcpy(goodsPrice, formatNumber(goods.price));
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice6Shopping, FALSE);
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice6Shopping, TRUE);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice6Shopping, goodsPrice);
+        }
+        gtk_label_set_text(app_wdgts->w_wShopping_txtItem6Shopping, goodsName);
+        break;
+    case 7:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice7Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice7Shopping, listAttrReset);
+        if (goods.discount != 0)
+        {
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice7Shopping, listAttrOriginal);
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice7Shopping, listAttrSale);
+            goodsName = goods.name;
+            strcpy(goodsPrice, formatNumber(goods.price));
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice7Shopping, TRUE);
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice7Shopping, TRUE);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice7Shopping, goodsPrice);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblSalePrice7Shopping, formatNumber(goods.price * (100 - goods.discount) / 100));
+        }
+        else
+        {
+            goodsName = goods.name;
+            strcpy(goodsPrice, formatNumber(goods.price));
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice7Shopping, FALSE);
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice7Shopping, TRUE);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice7Shopping, goodsPrice);
+        }
+        gtk_label_set_text(app_wdgts->w_wShopping_txtItem7Shopping, goodsName);
+        break;
+    case 8:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice8Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice8Shopping, listAttrReset);
+        if (goods.discount != 0)
+        {
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice8Shopping, listAttrOriginal);
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice8Shopping, listAttrSale);
+            goodsName = goods.name;
+            strcpy(goodsPrice, formatNumber(goods.price));
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice8Shopping, TRUE);
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice8Shopping, TRUE);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice8Shopping, goodsPrice);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblSalePrice8Shopping, formatNumber(goods.price * (100 - goods.discount) / 100));
+        }
+        else
+        {
+            goodsName = goods.name;
+            strcpy(goodsPrice, formatNumber(goods.price));
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice8Shopping, FALSE);
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice8Shopping, TRUE);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice8Shopping, goodsPrice);
+        }
+        gtk_label_set_text(app_wdgts->w_wShopping_txtItem8Shopping, goodsName);
+        break;
+    case 9:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice9Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice9Shopping, listAttrReset);
+        if (goods.discount != 0)
+        {
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice9Shopping, listAttrOriginal);
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice9Shopping, listAttrSale);
+            goodsName = goods.name;
+            strcpy(goodsPrice, formatNumber(goods.price));
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice9Shopping, TRUE);
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice9Shopping, TRUE);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice9Shopping, goodsPrice);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblSalePrice9Shopping, formatNumber(goods.price * (100 - goods.discount) / 100));
+        }
+        else
+        {
+            goodsName = goods.name;
+            strcpy(goodsPrice, formatNumber(goods.price));
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice9Shopping, FALSE);
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice9Shopping, TRUE);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice9Shopping, goodsPrice);
+        }
+        gtk_label_set_text(app_wdgts->w_wShopping_txtItem9Shopping, goodsName);
+        break;
+    case 10:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice10Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice10Shopping, listAttrReset);
+        if (goods.discount != 0)
+        {
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice10Shopping, listAttrOriginal);
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice10Shopping, listAttrSale);
+            goodsName = goods.name;
+            strcpy(goodsPrice, formatNumber(goods.price));
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice10Shopping, TRUE);
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice10Shopping, TRUE);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice10Shopping, goodsPrice);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblSalePrice10Shopping, formatNumber(goods.price * (100 - goods.discount) / 100));
+        }
+        else
+        {
+            goodsName = goods.name;
+            strcpy(goodsPrice, formatNumber(goods.price));
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice10Shopping, FALSE);
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice10Shopping, TRUE);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice10Shopping, goodsPrice);
+        }
+        gtk_label_set_text(app_wdgts->w_wShopping_txtItem10Shopping, goodsName);
+        break;
+    case 11:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice11Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice11Shopping, listAttrReset);
+        if (goods.discount != 0)
+        {
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice11Shopping, listAttrOriginal);
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice11Shopping, listAttrSale);
+            goodsName = goods.name;
+            strcpy(goodsPrice, formatNumber(goods.price));
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice11Shopping, TRUE);
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice11Shopping, TRUE);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice11Shopping, goodsPrice);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblSalePrice11Shopping, formatNumber(goods.price * (100 - goods.discount) / 100));
+        }
+        else
+        {
+            goodsName = goods.name;
+            strcpy(goodsPrice, formatNumber(goods.price));
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice11Shopping, FALSE);
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice11Shopping, TRUE);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice11Shopping, goodsPrice);
+        }
+        gtk_label_set_text(app_wdgts->w_wShopping_txtItem11Shopping, goodsName);
+        break;
+    case 12:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice12Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice12Shopping, listAttrReset);
+        if (goods.discount != 0)
+        {
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice12Shopping, listAttrOriginal);
+            gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice12Shopping, listAttrSale);
+            goodsName = goods.name;
+            strcpy(goodsPrice, formatNumber(goods.price));
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice12Shopping, TRUE);
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice12Shopping, TRUE);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice12Shopping, goodsPrice);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblSalePrice12Shopping, formatNumber(goods.price * (100 - goods.discount) / 100));
+        }
+        else
+        {
+            goodsName = goods.name;
+            strcpy(goodsPrice, formatNumber(goods.price));
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice12Shopping, FALSE);
+            gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice12Shopping, TRUE);
+            gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice12Shopping, goodsPrice);
+        }
+        gtk_label_set_text(app_wdgts->w_wShopping_txtItem12Shopping, goodsName);
+        break;
     default:
         break;
     }
+}
+
+void showPageDataShopping(int page, app_widgets *app_wdgts)
+{
+    for (size_t i = 1; i < 13; i++)
+    {
+        resetFormatBoxShopping(i, app_wdgts);
+        setBoxShoppingSensitive(i, FALSE, app_wdgts);
+    }
+    Goods *listGoods;
+    size_t lengthGoods = 0;
+    int canNext = 0;
+    gchar *selectedCate;
+    gchar *selectedSort;
+    selectedCate = gtk_combo_box_get_active_id(app_wdgts->w_wShopping_cbxCategoryShopping);
+    selectedSort = gtk_combo_box_get_active_id(app_wdgts->w_wShopping_cbxSortShopping);
+    if (isSearchByWords)
+    {
+        gchar *txtName;
+        txtName = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wShopping_txtNameShopping));
+        listGoods = getGoodsByName(txtName, atoi(selectedCate), 12, page, &canNext, &lengthGoods, atoi(selectedSort));
+    }
+    else
+    {
+        listGoods = getGoods(atoi(selectedCate), 12, page, &canNext, &lengthGoods, atoi(selectedSort));
+    }
+
+    if (canNext == 1)
+    {
+        gtk_widget_set_sensitive(app_wdgts->w_wShopping_btnNextShopping, TRUE);
+    }
+    else
+    {
+        gtk_widget_set_sensitive(app_wdgts->w_wShopping_btnNextShopping, FALSE);
+    }
+    if (page != 1)
+        gtk_widget_set_sensitive(app_wdgts->w_wShopping_btnBackShopping, TRUE);
+    else
+        gtk_widget_set_sensitive(app_wdgts->w_wShopping_btnBackShopping, FALSE);
+    //limit length per page
+    if (lengthGoods > 12)
+        lengthGoods = 12;
+    for (size_t i = 0; i < lengthGoods; i++)
+    {
+        g_print("ID:%d => Ten san pham: %s => Gia: %d => category: %d \n", listGoods[i].id, listGoods[i].name, listGoods[i].price, listGoods[i].categoryID);
+    }
+    for (size_t i = 0; i < lengthGoods; i++)
+    {
+        showBoxGoods(i + 1, listGoods[i], app_wdgts);
+    }
+}
+void on_btnNextShopping_clicked(GtkWidget *widget, app_widgets *app_wdgts)
+{
+    currentPageShopping = currentPageShopping + 1;
+    showPageDataShopping(currentPageShopping, app_wdgts);
+}
+
+void on_btnBackShopping_clicked(GtkWidget *widget, app_widgets *app_wdgts)
+{
+    currentPageShopping = currentPageShopping - 1;
+    showPageDataShopping(currentPageShopping, app_wdgts);
+}
+
+void resetFormatBoxShopping(int position, app_widgets *app_wdgts)
+{
+    //reset style
+    PangoAttribute *foreGroundReset = pango_attr_foreground_new(0, 0, 0);
+    PangoFontDescription *pangoFontReset = pango_font_description_new();
+    pango_font_description_set_absolute_size(pangoFontReset, 18 * PANGO_SCALE);
+    PangoAttribute *fontDescReset = pango_attr_font_desc_new(pangoFontReset);
+    PangoAttrList *listAttrReset = pango_attr_list_new();
+    pango_attr_list_ref(listAttrReset);
+    pango_attr_list_insert(listAttrReset, foreGroundReset);
+    pango_attr_list_insert(listAttrReset, fontDescReset);
+    switch (position)
+    {
+    case 1:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice1Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice1Shopping, listAttrReset);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice1Shopping, FALSE);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice1Shopping, TRUE);
+        gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice1Shopping, "");
+        gtk_label_set_text(app_wdgts->w_wShopping_txtItem1Shopping, "");
+        break;
+    case 2:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice2Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice2Shopping, listAttrReset);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice2Shopping, FALSE);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice2Shopping, TRUE);
+        gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice2Shopping, "");
+        gtk_label_set_text(app_wdgts->w_wShopping_txtItem2Shopping, "");
+        break;
+    case 3:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice3Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice3Shopping, listAttrReset);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice3Shopping, FALSE);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice3Shopping, TRUE);
+        gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice3Shopping, "");
+        gtk_label_set_text(app_wdgts->w_wShopping_txtItem3Shopping, "");
+        break;
+    case 4:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice4Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice4Shopping, listAttrReset);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice4Shopping, FALSE);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice4Shopping, TRUE);
+        gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice4Shopping, "");
+        gtk_label_set_text(app_wdgts->w_wShopping_txtItem4Shopping, "");
+        break;
+    case 5:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice5Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice5Shopping, listAttrReset);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice5Shopping, FALSE);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice5Shopping, TRUE);
+        gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice5Shopping, "");
+        gtk_label_set_text(app_wdgts->w_wShopping_txtItem5Shopping, "");
+        break;
+    case 6:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice6Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice6Shopping, listAttrReset);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice6Shopping, FALSE);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice6Shopping, TRUE);
+        gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice6Shopping, "");
+        gtk_label_set_text(app_wdgts->w_wShopping_txtItem6Shopping, "");
+        break;
+    case 7:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice7Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice7Shopping, listAttrReset);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice7Shopping, FALSE);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice7Shopping, TRUE);
+        gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice7Shopping, "");
+        gtk_label_set_text(app_wdgts->w_wShopping_txtItem7Shopping, "");
+        break;
+    case 8:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice8Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice8Shopping, listAttrReset);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice8Shopping, FALSE);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice8Shopping, TRUE);
+        gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice8Shopping, "");
+        gtk_label_set_text(app_wdgts->w_wShopping_txtItem8Shopping, "");
+        break;
+    case 9:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice9Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice9Shopping, listAttrReset);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice9Shopping, FALSE);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice9Shopping, TRUE);
+        gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice9Shopping, "");
+        gtk_label_set_text(app_wdgts->w_wShopping_txtItem9Shopping, "");
+        break;
+    case 10:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice10Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice10Shopping, listAttrReset);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice10Shopping, FALSE);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice10Shopping, TRUE);
+        gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice10Shopping, "");
+        gtk_label_set_text(app_wdgts->w_wShopping_txtItem10Shopping, "");
+        break;
+    case 11:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice11Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice11Shopping, listAttrReset);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice11Shopping, FALSE);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice11Shopping, TRUE);
+        gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice11Shopping, "");
+        gtk_label_set_text(app_wdgts->w_wShopping_txtItem11Shopping, "");
+        break;
+    case 12:
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice12Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice12Shopping, listAttrReset);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice12Shopping, FALSE);
+        gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice12Shopping, TRUE);
+        gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice12Shopping, "");
+        gtk_label_set_text(app_wdgts->w_wShopping_txtItem12Shopping, "");
+        break;
+
+    default:
+        break;
+    }
+}
+void on_btnSearchShopping_clicked(GtkWidget *widget, app_widgets *app_wdgts)
+{
+    //check type Search
+    gchar *txtName;
+    txtName = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wShopping_txtNameShopping));
+    if (txtName == NULL || txtName[0] == '\0')
+    {
+        isSearchByWords = FALSE;
+    }
+    else
+    {
+        isSearchByWords = TRUE;
+    }
+    showPageDataShopping(1, app_wdgts);
 }
 void on_window_shopping_show(GtkWidget *widget, app_widgets *app_wdgts)
 {
@@ -566,23 +1253,29 @@ void on_window_shopping_show(GtkWidget *widget, app_widgets *app_wdgts)
     size_t lengthCate = 0;
     char tempStr[4];
     listCate = getCategory(&lengthCate);
+    gtk_combo_box_text_insert(app_wdgts->w_wShopping_cbxCategoryShopping, 0, "0", "Tất cả");
     for (size_t i = 0; i < lengthCate; i++)
     {
         sprintf(tempStr, "%d", (listCate + i)->id);
-        gtk_combo_box_text_insert(app_wdgts->w_wShopping_cbxCategoryShopping, i, tempStr, (listCate + i)->name);
+        gtk_combo_box_text_insert(app_wdgts->w_wShopping_cbxCategoryShopping, i + 1, tempStr, (listCate + i)->name);
     }
     gtk_combo_box_set_active(app_wdgts->w_wShopping_cbxCategoryShopping, 0);
+
+    // listGoods = getAllGoods(&lengthGoods);
 
     //load goods
     Goods *listGoods;
     size_t lengthGoods = 0;
-    listGoods = getAllGoods(&lengthGoods);
-    for (size_t i = 1; i < 13; i++)
-    {
-        setBoxShoppingSensitive(i, FALSE, app_wdgts);
-    }
-    setBoxShoppingSensitive(1, TRUE, app_wdgts);
-    showBoxGoods(1, listGoods[0], app_wdgts);
+    int canNext = 0;
+
+    listGoods = getGoods(listCate[0].id, 12, 1, &canNext, &lengthGoods, 1);
+    g_print("can Next: %d\n", canNext);
+    // for (size_t i = 0; i < lengthGoods; i++)
+    // {
+    //     g_print("ID:%d => Ten san pham: %s => Gia: %d => category: %d \n", listGoods[i].id, listGoods[i].name, listGoods[i].price, listGoods[i].categoryID);
+    // }
+    //
+    showPageDataShopping(1, app_wdgts);
 }
 // #endregion
 // #region Handle event window_register
@@ -607,8 +1300,13 @@ void on_btn_signup_register_clicked(GtkButton *button, app_widgets *app_wdgts)
     txtRepasswordRegister = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wRegister_txtRepasswordRegister));
     txtAddressRegister = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wRegister_txtAddressRegister));
     cbxTypeRegister = gtk_combo_box_get_active_id(app_wdgts->w_wRegister_cbxTypeRegister);
-    txtPhoneNumberRegister = gtk_combo_box_get_active_id(app_wdgts->w_wRegister_txtPhoneNumberRegister);
+    txtPhoneNumberRegister = gtk_entry_get_text(app_wdgts->w_wRegister_txtPhoneNumberRegister);
     type = atoi(cbxTypeRegister);
+    if (txtUserRegister[0] == '\0' || txtFullNameRegister[0] == '\0' || txtPasswordRegister[0] == '\0' || txtRepasswordRegister[0] == '\0' || txtAddressRegister[0] == '\0' || txtPhoneNumberRegister[0] == '\0')
+    {
+        show_msg(app_wdgts, "Vui lòng nhập đầy đủ!");
+        return;
+    }
     int flag = getRegister(txtUserRegister, txtFullNameRegister, txtPasswordRegister, txtRepasswordRegister, txtAddressRegister, txtPhoneNumberRegister, type);
     switch (flag)
     {
@@ -793,6 +1491,7 @@ void on_btnClickUpdateChangeInfo_clicked(GtkWidget *widget, app_widgets *app_wdg
     }
     else
     {
+        // g_print("%s=%s=%s", txtFullName, txtAddress, txtPhoneNumber);
         int flag = changeInformation(currentUser.id, txtFullName, txtAddress, txtPhoneNumber);
         switch (flag)
         {
@@ -866,9 +1565,9 @@ void on_window_purchaseHistory_show(GtkWidget *widget, app_widgets *app_wdgts)
     int length = 0;
     listPurchase = getPurchaseHistory("huybui38", &length);
     gchar temp[9999];
+    struct tm lt;
     for (int i = 0; i < length; i++)
     {
-        // g_print("%s", listPurchase[i].name);
         strcpy(temp, "---------");
         strcat(temp, listPurchase[i].name);
         strcat(temp, "------");
@@ -878,8 +1577,9 @@ void on_window_purchaseHistory_show(GtkWidget *widget, app_widgets *app_wdgts)
         strcat(temp, "------");
         strcat(temp, listPurchase[i].purchaseType);
         strcat(temp, "-----");
-        gchar timeStr[20];
-        sprintf(timeStr, "%ld", listPurchase[i].time);
+        gchar timeStr[80];
+        lt = *localtime(&listPurchase[i].time);
+        strftime(timeStr, sizeof(timeStr), "%a %Y-%m-%d %H:%M:%S", &lt);
         strcat(temp, timeStr);
         strcat(temp, "-----");
         strcat(temp, "\n");
@@ -949,7 +1649,7 @@ void on_btnAddManageGoods_clicked(GtkWidget *widget, app_widgets *app_wdgts)
         return;
     }
     g_print("Name:%s\n", txtNameCreate);
-    int flag = addGoodsToFile(txtNameCreate, price, categoryID);
+    int flag = addGoodsToFile(txtNameCreate, price, categoryID, currentUser.id);
     switch (flag)
     {
     case 1:
@@ -1021,6 +1721,42 @@ void on_window_manageGoods_show(GtkWidget *widget, app_widgets *app_wdgts)
     }
     gtk_combo_box_set_active(app_wdgts->w_wManageGoods_cbxCategoryAddManageGoods, 0);
     gtk_combo_box_set_active(app_wdgts->w_wManageGoods_cbxCategoryEditManageGoods, 0);
+    ////
+    PurchaseHistory *listPurchase;
+    GtkTextIter iter;
+    int length = 0;
+    listPurchase = getPurchaseHistory("huybui38", &length);
+    gchar temp[9999];
+    struct tm lt;
+    for (int i = 0; i < length; i++)
+    {
+        strcpy(temp, "---------");
+        strcat(temp, listPurchase[i].name);
+        strcat(temp, "------");
+        strcat(temp, listPurchase[i].phone);
+        strcat(temp, "------");
+        strcat(temp, listPurchase[i].address);
+        strcat(temp, "------");
+        strcat(temp, listPurchase[i].purchaseType);
+        strcat(temp, "-----");
+        gchar timeStr[80];
+        lt = *localtime(&listPurchase[i].time);
+        strftime(timeStr, sizeof(timeStr), "%a %Y-%m-%d %H:%M:%S", &lt);
+        strcat(temp, timeStr);
+        strcat(temp, "-----");
+        strcat(temp, "\n");
+        for (size_t j = 0; j < listPurchase[i].sizeListGoods; j++)
+        {
+            strcat(temp, "\t*");
+            strcat(temp, listPurchase[i].listGoods[j]);
+            strcat(temp, "\n");
+        }
+        strcat(temp, "Tổng số tiền: ");
+        strcat(temp, "99.999.999 đ");
+        strcat(temp, "\n");
+        gtk_text_buffer_get_start_iter(app_wdgts->w_wManageGoods_txtListManageGoods, &iter);
+        gtk_text_buffer_insert(app_wdgts->w_wManageGoods_txtListManageGoods, &iter, temp, -1);
+    }
 }
 // #endregion
 // #region Handle event window_admin
@@ -1142,10 +1878,14 @@ void on_window_category_show(GtkWidget *widget, app_widgets *app_wdgts)
     gtk_combo_box_set_active(app_wdgts->w_wCategory_cbxCategory, 0);
 }
 // #endregion
-
+// #region Handle event window_cart
+gboolean on_window_cart_delete_event(GtkWidget *widget, GdkEvent *event, app_widgets *app_wdgts)
+{
+    gtk_widget_hide(app_wdgts->w_wCart);
+}
+// #endregion
 //Handle event window_ads
 //Handle event window_report
-//Handle event window_cart
 
 // called when window is closed
 void on_window_destroy()
