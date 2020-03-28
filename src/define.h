@@ -44,12 +44,20 @@ typedef struct user
     char address[MAX];
     char phoneNum[MAX];
     int role;
-    unsigned long balance;
+    long balance;
 } User;
+typedef struct coupon
+{
+    int ownerID;
+    int discount;
+    char *couponName;
+} Coupon;
+
 const char *PATH_USER = "data//user.txt";
 const char *PATH_CATEGORY = "data//category.json";
 const char *PATH_GOODS = "data//goods.json";
 const char *PATH_PURCHASE_HISTORY = "data//purchase_history//";
-const char *PATH_SALES_HISTORY = "..//data//sales_history//";
+const char *PATH_SALES_HISTORY = "data//sales_history//";
+const char *PATH_COUPON = "data//coupon.txt";
 const int MAX_BUFFER = 1024 * 1024;
 #endif

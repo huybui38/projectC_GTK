@@ -21,6 +21,7 @@
         "types.h": "c",
         "edit_user.h": "c",
         "edit_goods.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "shopping_cart.h": "c"
     }
 }

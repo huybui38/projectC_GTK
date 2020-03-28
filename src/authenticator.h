@@ -5,10 +5,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
-// #include <conio.h>
-#include <ctype.h>
 #include "define.h"
 #define MAX 40
+
 void getDataFromFile(User *user);
 void removeExtraSpaces(char *str);
 void writeDataToFile(User *ptrUser, int lineCount);
@@ -24,35 +23,10 @@ int isValidName(char str[MAX]);
 int isValidPassword(char str[MAX]);
 int isValidAddress(char str[MAX]);
 int isValidPhoneNum(char str[MAX]);
-int isValidRole(char str[MAX]);
+int isExistedUsername(char str[MAX], User user[], int *pos, int *length);
 int getLogin(char username[], char password[]);
 int getRegister(char username[], char name[], char pass[], char repass[],
 				char address[], char phone[], int role);
-int isExistedUsername(char str[MAX], User user[], int *pos, int *length);
-
-int isValidRole(char str[MAX])
-{
-	int check = 1;
-	int i = 0;
-	while (str[i] != '\0')
-	{
-		if (!isNum(str[i]))
-		{
-			check = 0;
-			break;
-		}
-		i++;
-	}
-	if (check == 1)
-	{
-		int tmp = atoi(str);
-		if (tmp != 1 && tmp != 2)
-		{
-			check = 0;
-		}
-	}
-	return check;
-}
 
 char *replaceWord(const char *s, const char *oldW,
 				  const char *newW)
@@ -277,7 +251,7 @@ void writeDataToFile(User *ptrUser, int lineCount)
 void getDataFromFile(User *user)
 {
 	char delim[] = "-";
-	char tmpStr[100];
+	char tmpStr[200];
 
 	FILE *fiUser;
 	fiUser = fopen(PATH_USER, "r");
@@ -288,7 +262,7 @@ void getDataFromFile(User *user)
 	else
 	{
 		int i = 0;
-		while (fgets(tmpStr, 140, fiUser) != NULL)
+		while (fgets(tmpStr, 200, fiUser) != NULL)
 		{
 			char *ptr = strtok(tmpStr, delim);
 			(user + i)->id = atoi(ptr);
@@ -336,11 +310,11 @@ int countLineInFile(char filename[MAX])
 
 	//count line to malloc for struct array
 	FILE *fp;
-	fp = fopen(PATH_USER, "r");
+	fp = fopen(filename, "r");
 	while (fgets(tmpStr, 140, fp) != '\0') // Increment count if this character is newline
 		lineCount++;
 	fclose(fp);
-	return lineCount++; //i can't understand why i have to increase lineCount by 1
+	return lineCount;
 }
 
 int getLogin(char username[], char password[])
@@ -374,13 +348,19 @@ int getLogin(char username[], char password[])
 
 void removeExtraSpaces(char *str)
 {
+	char *tmp;
+	*tmp = (char *)calloc(120, sizeof(char));
+	strcpy(tmp, str);
 	int i, x;
-	for (i = x = 0; str[i]; ++i)
-		if (!isspace(str[i]) || (i > 0 && !isspace(str[i - 1])))
-			str[x++] = str[i];
-	str[x] = '\0';
-	if (isspace(str[x - 1]))
-		str[x - 1] = '\0';
+	printf("deohieu\n");
+	for (i = x = 0; tmp[i]; ++i)
+		if (!isspace(tmp[i]) || (i > 0 && !isspace(tmp[i - 1])))
+			tmp[x++] = tmp[i];
+	tmp[x] = '\0';
+	if (isspace(tmp[x - 1]))
+		tmp[x - 1] = '\0'; // check last pos
+	strcpy(str, tmp);
+	free(tmp);
 }
 
 int isValidAddress(char str[MAX])

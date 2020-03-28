@@ -319,7 +319,6 @@ Goods *editGoods(Goods goods, size_t *sizeArray)
         json_object_object_get_ex(objGoods, "id", &id);
         if (json_object_get_int(id) != goods.id)
         {
-
             json_object_object_get_ex(objGoods, "name", &name);
             json_object_object_get_ex(objGoods, "categoryID", &categoryID);
             json_object_object_get_ex(objGoods, "price", &price);
@@ -455,8 +454,9 @@ int addPurchaseHistory(char *userName, PurchaseHistory history)
         // todo create file
         fp = fopen(path_history, "w+");
         fprintf(fp, "%s", "{\"data\": []}");
+        fclose(fp);
     }
-
+    fp = fopen(path_history, "r");
     fread(buffer, MAX_BUFFER, 1, fp);
     fclose(fp);
     parsed_json = json_tokener_parse(buffer);
@@ -475,7 +475,6 @@ int addPurchaseHistory(char *userName, PurchaseHistory history)
         objGoods = json_object_new_string(history.listGoods[i]);
         json_object_array_add(listGoods, objGoods);
     }
-
     json_object_object_add(objPurchaseHistory, "name", name);
     json_object_object_add(objPurchaseHistory, "phone", phone);
     json_object_object_add(objPurchaseHistory, "address", address);
@@ -485,6 +484,7 @@ int addPurchaseHistory(char *userName, PurchaseHistory history)
     json_object_object_add(objPurchaseHistory, "listGoods", listGoods);
 
     json_object_array_add(data, objPurchaseHistory);
+
     json_object_to_file(path_history, parsed_json);
     return 1;
 }
@@ -509,27 +509,24 @@ int addSalesHistory(Goods goods, char *userName)
     struct json_object *data;
     struct json_object *objSales = json_object_new_object();
     size_t length;
-
     char path_history[100];
     strcpy(path_history, PATH_SALES_HISTORY);
     strcat(path_history, userName);
     strcat(path_history, ".json");
     fp = fopen(path_history, "r");
-
     if (fp == NULL)
     {
         // todo create file
         fp = fopen(path_history, "w+");
         fprintf(fp, "%s", "{\"data\": []}");
+        fclose(fp);
     }
-
+    fp = fopen(path_history, "r");
     fread(buffer, MAX_BUFFER, 1, fp);
     fclose(fp);
     parsed_json = json_tokener_parse(buffer);
-
     json_object_object_get_ex(parsed_json, "data", &data);
     length = json_object_array_length(data);
-
     name = json_object_new_string(goods.name);
     goodsId = json_object_new_int(goods.id);
     categoryID = json_object_new_int(goods.categoryID);

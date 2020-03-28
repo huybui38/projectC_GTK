@@ -42,6 +42,60 @@ User getUser(char username[MAX])
 	return matchedUser;
 }
 
+void editUserToFile(User user)
+{
+	User *ptrUser;
+	int length = countLineInFile(PATH_USER);
+	ptrUser = (User *)calloc(length, sizeof(User));
+	ptrUser = getAllUser();
+
+	for (int i = 0; i < length; i++)
+	{
+		if (user.id == (ptrUser + i)->id)
+		{
+			strcpy((ptrUser + i)->userName, user.userName);
+			strcpy((ptrUser + i)->password, user.password);
+			strcpy((ptrUser + i)->name, user.name);
+			strcpy((ptrUser + i)->address, user.address);
+			strcpy((ptrUser + i)->phoneNum, user.phoneNum);
+			(ptrUser + i)->balance = user.balance;
+			break;
+		}
+	}
+	writeDataToFile(ptrUser, length);
+	free(ptrUser);
+}
+
+User getUserByID(int ID)
+{
+	User *ptrUser;
+	User matchedUser;
+
+	int lineCount = countLineInFile(PATH_USER);
+
+	ptrUser = (User *)malloc(lineCount * sizeof(User));
+	getDataFromFile(ptrUser);
+
+	for (int i = 0; i < lineCount; i++)
+	{
+		if ((ptrUser + i)->id == ID)
+		{
+			matchedUser.id = (ptrUser + i)->id;
+			strcpy(matchedUser.userName, (ptrUser + i)->userName);
+			strcpy(matchedUser.password, (ptrUser + i)->password);
+			strcpy(matchedUser.name, (ptrUser + i)->name);
+			strcpy(matchedUser.address, (ptrUser + i)->address);
+			strcpy(matchedUser.phoneNum, (ptrUser + i)->phoneNum);
+			matchedUser.role = (ptrUser + i)->role;
+			matchedUser.balance = (ptrUser + i)->balance;
+			break;
+		}
+	}
+	free(ptrUser);
+
+	return matchedUser;
+}
+
 int isValidAmount(char str[20])
 {
 	int check = 1;
@@ -211,7 +265,7 @@ User *getAllUser()
 	User *ptrUser;
 
 	int lineCount = countLineInFile(PATH_USER);
-	ptrUser = (User *)malloc(lineCount * sizeof(User));
+	ptrUser = (User *)calloc(lineCount, sizeof(User));
 	getDataFromFile(ptrUser);
 
 	return ptrUser;

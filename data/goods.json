@@ -17,25 +17,9 @@
             "discount": 0
         },
         {
-            "id": 3,
-            "name": "Giày con nít g",
-            "price": 5000,
-            "ownerID": 13,
-            "categoryID": 2,
-            "discount": 0
-        },
-        {
             "id": 4,
             "name": "Áo ba l",
             "price": 200,
-            "ownerID": 13,
-            "categoryID": 1,
-            "discount": 0
-        },
-        {
-            "id": 5,
-            "name": "Áo ba l",
-            "price": 2000,
             "ownerID": 13,
             "categoryID": 1,
             "discount": 0
@@ -60,14 +44,6 @@
             "id": 8,
             "name": "Áo bà ba",
             "price": 2000,
-            "ownerID": 13,
-            "categoryID": 1,
-            "discount": 0
-        },
-        {
-            "id": 9,
-            "name": "Áo dài VN",
-            "price": 3000,
             "ownerID": 13,
             "categoryID": 1,
             "discount": 0
@@ -135,14 +111,6 @@
             "ownerID": 13,
             "categoryID": 2,
             "discount": 0
-        },
-        {
-            "id": 18,
-            "name": "Dép lào",
-            "price": 3562,
-            "ownerID": 13,
-            "categoryID": 2,
-            "discount": 11
         },
         {
             "id": 19,

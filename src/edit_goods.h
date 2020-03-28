@@ -555,32 +555,38 @@ char *formatNumber(long money)
   int i = 0;
 
   str = (char *)calloc(20, sizeof(char));
-  while (tmp != 0)
+  if (tmp == 0)
   {
-    char tmpCh = intToChar(tmp % 10);
-    str[i] = tmpCh;
-    tmp /= 10;
-    i++;
+    strcpy(str, "0 đ");
   }
-  int length = strlen(str);
-  int count = 1;
-  if (length > 3)
+  else
   {
-    for (int i = 0; i < length; i++)
+    while (tmp != 0)
     {
-      if (count == 3 && i != (length - 1))
-      {
-        addChar(str, '.', i + 1);
-        length++;
-        count = -1;
-      }
-      count++;
+      char tmpCh = intToChar(tmp % 10);
+      str[i] = tmpCh;
+      tmp /= 10;
+      i++;
     }
+    int length = strlen(str);
+    int count = 1;
+    if (length > 3)
+    {
+      for (int i = 0; i < length; i++)
+      {
+        if (count == 3 && i != (length - 1))
+        {
+          addChar(str, '.', i + 1);
+          length++;
+          count = -1;
+        }
+        count++;
+      }
+    }
+    reverseStr(str);
+    char *tmpp = " đ";
+    addStr(str, tmpp, length);
   }
-  reverseStr(str);
-
-  char *tmpp = " đ";
-  addStr(str, tmpp, length);
   return str;
 }
 
@@ -662,6 +668,253 @@ Goods *getGoodsByOwnerID(int ownerID, int *length)
   *length = foundCount;
 
   return foundGoods;
+}
+
+Goods getGoodsByID(int goodID)
+{
+  Goods *ptrGoods;
+  size_t length;
+  int i;
+
+  ptrGoods = getAllGoods(&length);
+  for (i = 0; i < length; i++)
+  {
+    if (goodID == (ptrGoods + i)->id)
+    {
+      return *(ptrGoods + i);
+    }
+  }
+}
+
+char *getNameCategory(int cateID)
+{
+  Category *ptrCate;
+  size_t *length;
+  char *result;
+  result = (char *)calloc(120, sizeof(char));
+
+  ptrCate = getCategory(&length);
+  for (int i = 0; i < length; i++)
+  {
+    if (cateID == (ptrCate + i)->id)
+    {
+      strcpy(result, (ptrCate + i)->name);
+      break;
+    }
+  }
+  return result;
+}
+
+void sortAdsMoneyDecending(AdsItem *ptrAds, int length)
+{
+  AdsItem tmpAds;
+
+  for (int i = 0; i < length; i++)
+  {
+    for (int k = i + 1; k < length; k++)
+    {
+      if ((ptrAds + i)->money < (ptrAds + k)->money)
+      {
+        tmpAds = *(ptrAds + i);
+        *(ptrAds + i) = *(ptrAds + k);
+        *(ptrAds + k) = tmpAds;
+      }
+    }
+  }
+}
+
+AdsItem *getAllAdsItem(int *length)
+{
+  AdsItem *ptrAds;
+  *length = countLineInFile(PATH_ADS);
+
+  ptrAds = (AdsItem *)calloc(*length, sizeof(AdsItem));
+  getAdsFromFile(ptrAds);
+  sortAdsMoneyDecending(ptrAds, *length);
+  return ptrAds;
+}
+
+void deleteAdsItem(int ownerID, int goodsID)
+{
+  AdsItem *ptrAds;
+  int length = countLineInFile(PATH_ADS);
+
+  ptrAds = (AdsItem *)calloc(length, sizeof(AdsItem));
+  getAdsFromFile(ptrAds);
+  for (int i = 0; i < length; i++)
+  {
+    if (goodsID == (ptrAds + i)->goodID && ownerID == (ptrAds + i)->ownerID)
+    {
+      length -= 1;
+      for (int k = i; k < length; k++)
+      {
+        *(ptrAds + k) = *(ptrAds + k + 1);
+      }
+      break;
+    }
+  }
+  writeAdsToFile(ptrAds, length);
+  free(ptrAds);
+}
+
+void getAdsFromFile(AdsItem *adsItem)
+{
+  char delim[] = ";";
+  char tmpStr[100];
+
+  FILE *fi;
+  fi = fopen(PATH_ADS, "r");
+  if (fi == NULL)
+  {
+    exit(1);
+  }
+  else
+  {
+    int i = 0;
+    while (fgets(tmpStr, 100, fi) != NULL)
+    {
+      char *ptr = strtok(tmpStr, delim);
+      (adsItem + i)->goodID = atoi(ptr);
+      ptr = strtok(NULL, delim);
+      (adsItem + i)->ownerID = atoi(ptr);
+      ptr = strtok(NULL, delim);
+      (adsItem + i)->budget = atoi(ptr);
+      ptr = strtok(NULL, delim);
+      (adsItem + i)->money = atoi(ptr);
+      i++;
+    }
+  }
+  fclose(fi);
+}
+
+void writeAdsToFile(AdsItem *adsItem, int length)
+{
+  FILE *fo;
+  fo = fopen(PATH_ADS, "w");
+
+  for (int i = 0; i < length; i++)
+  {
+    fprintf(fo, "%d;%d;%ld;%ld\n", (adsItem + i)->goodID, (adsItem + i)->ownerID, (adsItem + i)->budget, (adsItem + i)->money);
+  }
+  fclose(fo);
+}
+
+void updateAdsItem(int ownerID, int goodsID, long budget)
+{
+  AdsItem *ptrAds;
+  int length = countLineInFile(PATH_ADS);
+
+  ptrAds = (AdsItem *)calloc(length, sizeof(AdsItem));
+  getAdsFromFile(ptrAds);
+  for (int i = 0; i < length; i++)
+  {
+    if (goodsID == (ptrAds + i)->goodID && ownerID == (ptrAds + i)->ownerID)
+    {
+      (ptrAds + i)->budget = budget;
+      break;
+    }
+  }
+  writeAdsToFile(ptrAds, length);
+  free(ptrAds);
+}
+
+int isYourGoods(int goodsID, int ownerID)
+{
+  int check = 0;
+  Goods *ptrGoods;
+  size_t length;
+
+  ptrGoods = getAllGoods(&length);
+  for (int i = 0; i < length; i++)
+  {
+    if (goodsID == (ptrGoods + i)->id)
+    {
+      if (ownerID == (ptrGoods + i)->ownerID)
+      {
+        check = 1;
+        break;
+      }
+      else
+        break;
+    }
+  }
+  return check;
+}
+
+void deleteAdsItemBudget(long number)
+{
+  AdsItem *ptrAds;
+  int length = countLineInFile(PATH_ADS);
+
+  ptrAds = (AdsItem *)calloc(length, sizeof(AdsItem));
+  getAdsFromFile(ptrAds);
+  for (int i = 0; i < length; i++)
+  {
+    if ((ptrAds + i)->budget < number)
+    {
+      length -= 1;
+      for (int k = i; k < length; k++)
+      {
+        *(ptrAds + k) = *(ptrAds + k + 1);
+      }
+      i -= 1;
+    }
+  }
+  writeAdsToFile(ptrAds, length);
+  free(ptrAds);
+}
+
+long getAverageMoney()
+{
+  AdsItem *ptrAds;
+  int length = countLineInFile(PATH_ADS);
+  long result, sum = 0;
+
+  ptrAds = (AdsItem *)calloc(length, sizeof(AdsItem));
+  getAdsFromFile(ptrAds);
+  for (int i = 0; i < length; i++)
+  {
+    sum += (ptrAds + i)->money;
+  }
+  result = sum / length;
+  printf("sum: %ld\nresult: %ld\n", sum, result);
+  free(ptrAds);
+  return result;
+}
+
+int addAds(int ownerID, int goodsID, long budget, long money)
+{
+  int check = 1;
+
+  if (!isYourGoods(goodsID, ownerID))
+  {
+    check = 2;
+  }
+  else if (money <= 0)
+  {
+    check = 3;
+  }
+  else if (budget < money)
+  {
+    check = 4;
+  }
+
+  if (check == 1)
+  {
+    AdsItem *ptrAds;
+    int length = countLineInFile(PATH_ADS);
+
+    ptrAds = (AdsItem *)calloc(length + 1, sizeof(AdsItem));
+    getAdsFromFile(ptrAds);
+    (ptrAds + length)->goodID = goodsID;
+    (ptrAds + length)->ownerID = ownerID;
+    (ptrAds + length)->budget = budget;
+    (ptrAds + length)->money = money;
+    writeAdsToFile(ptrAds, ++length);
+    free(ptrAds);
+  }
+
+  return check;
 }
 
 #endif
