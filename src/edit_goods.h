@@ -14,6 +14,7 @@ int changeDiscount(int goodsID, int discount);
 int isValidGoodsName(char str[MAX_GOODS]);
 int isExistedCateID(int cateID);
 int isValidCateName(char *str);
+int getGoodsSaleCount(int ownerID, int goodsID);
 int isExistedGoodsID(int id, Goods *ptrGood, int *pos);
 void sortNameAscending(Goods *ptrGoods, int length);
 void sortPriceAscending(Goods *ptrGoods, int length);
@@ -24,8 +25,11 @@ void addChar(char *str, char ch, int pos);
 void addStr(char *str, char *ch, int pos);
 char *formatNumber(long money);
 char intToChar(int num);
+char *getNameCategory(int cateID);
 Goods *getGoods(int cateID, int size, int page, int *canNext, int *lengthArr, int typeSort);
 Goods *getGoodsByName(char *str, int cateID, int size, int page, int *canNext, int *foundLength, int typeSort);
+Goods getGoodsByID(int goodsID);
+Goods *getGoodsByOwnerID(int ownerID, int *length);
 
 int isValidGoodsName(char str[MAX_GOODS])
 {
@@ -94,7 +98,7 @@ int addGoodsToFile(char goodsName[MAX_GOODS], int price, int cateID, int ownerID
   Goods *ptrGoods;
   char *lowerGoodsName;
 
-  removeExtraSpaces(goodsName);
+  // removeExtraSpaces(goodsName); //error
   // ptrGoods = (Goods *) calloc (100, sizeof(Goods));
   lowerGoodsName = filterVietnamese(goodsName);
   if (!isValidGoodsName(lowerGoodsName))
@@ -109,7 +113,6 @@ int addGoodsToFile(char goodsName[MAX_GOODS], int price, int cateID, int ownerID
   {
     check = 4;
   }
-
   if (check == 1)
   {
     // ptrGoods = (Goods *) calloc (20, sizeof(Goods));
@@ -143,7 +146,7 @@ int editGoodsToFile(int goodsID, char goodsName[MAX_GOODS], int price, int cateI
   char *lowerGoodsName;
 
   ptrGoods = getAllGoods(&length);
-  removeExtraSpaces(goodsName);
+  // removeExtraSpaces(goodsName);
   lowerGoodsName = filterVietnamese(goodsName);
 
   if (!isExistedGoodsID(goodsID, ptrGoods, &pos))
@@ -703,6 +706,40 @@ char *getNameCategory(int cateID)
     }
   }
   return result;
+}
+
+int getGoodsSaleCount(int ownerID, int goodsID)
+{
+  User *listUser;
+  SalesHistory *listSale;
+  size_t saleCount;
+  char *username;
+  int userCount = countLineInFile(PATH_USER);
+
+  listUser = (User *)calloc(userCount, sizeof(User));
+  getDataFromFile(listUser);
+  username = (char *)calloc(20, sizeof(char));
+  for (int i = 0; i < userCount; i++)
+  {
+    if (ownerID == (listUser + i)->id)
+    {
+      strcpy(username, (listUser + i)->userName);
+      break;
+    }
+  }
+  free(listUser);
+
+  listSale = getSalesHistory(username, &saleCount);
+  int count = 0;
+  for (int i = 0; i < saleCount; i++)
+  {
+    if (goodsID == (listSale + i)->goodsId)
+    {
+      count++;
+    }
+  }
+  free(listSale);
+  return count;
 }
 
 #endif

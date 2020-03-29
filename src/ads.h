@@ -126,7 +126,23 @@ void updateAdsItem(int ownerID, int goodsID, long budget)
   writeAdsToFile(ptrAds, length);
   free(ptrAds);
 }
+int isYourGoods2(int goodsID)
+{
+  int check = 0;
+  Goods *ptrGoods;
+  size_t length;
 
+  ptrGoods = getAllGoods(&length);
+  for (int i = 0; i < length; i++)
+  {
+    if (goodsID == (ptrGoods + i)->id)
+    {
+      check = 1;
+      break;
+    }
+  }
+  return check;
+}
 int isYourGoods(int goodsID, int ownerID)
 {
   int check = 0;

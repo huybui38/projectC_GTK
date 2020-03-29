@@ -784,6 +784,7 @@ kết thúc</property>
                       <object class="GtkEntry" id="txtGoodsIDAds">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <signal name="activate" handler="on_btnAddAds_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -910,6 +911,7 @@ kết thúc</property>
                       <object class="GtkEntry" id="txtMoneyAds">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <signal name="activate" handler="on_btnAddAds_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -948,6 +950,7 @@ kết thúc</property>
                       <object class="GtkEntry" id="txtBudgetAds">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <signal name="activate" handler="on_btnAddAds_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1182,6 +1185,7 @@ kết thúc</property>
                       <object class="GtkEntry" id="txtNameCreateMangaGoods">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <signal name="activate" handler="on_btnAddManageGoods_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1219,6 +1223,7 @@ kết thúc</property>
                       <object class="GtkEntry" id="txtPriceCreateMangaGoods">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <signal name="activate" handler="on_btnAddManageGoods_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1343,6 +1348,7 @@ kết thúc</property>
                       <object class="GtkEntry" id="txtIdEditMangaGoods">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <signal name="activate" handler="on_btnEditManageGoods_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1380,6 +1386,7 @@ kết thúc</property>
                       <object class="GtkEntry" id="txtNameEditMangaGoods">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <signal name="activate" handler="on_btnEditManageGoods_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1417,6 +1424,7 @@ kết thúc</property>
                       <object class="GtkEntry" id="txtPriceEditMangaGoods">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <signal name="activate" handler="on_btnEditManageGoods_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1546,6 +1554,7 @@ kết thúc</property>
                           <object class="GtkEntry" id="txtIdDeleteMangaGoods">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <signal name="activate" handler="on_btnDeleteManageGoods_clicked" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">True</property>
@@ -1631,6 +1640,7 @@ kết thúc</property>
                           <object class="GtkEntry" id="txtIdUpdateMangaGoods">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <signal name="activate" handler="on_btnUpdateManageGoods_clicked" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">True</property>
@@ -1668,6 +1678,7 @@ kết thúc</property>
                           <object class="GtkEntry" id="txtDiscountUpdateMangaGoods">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <signal name="activate" handler="on_btnUpdateManageGoods_clicked" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">True</property>
@@ -1841,6 +1852,7 @@ kết thúc</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="margin_left">60</property>
+                <signal name="activate" handler="on_btnUpdateAddMoney_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -1878,6 +1890,7 @@ kết thúc</property>
               <object class="GtkEntry" id="txtCashAddMoney">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <signal name="activate" handler="on_btnUpdateAddMoney_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -2192,6 +2205,7 @@ cần thêm</property>
                   <object class="GtkEntry" id="txtNameCategory">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <signal name="activate" handler="on_btnAddCategory_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -2375,6 +2389,7 @@ cần xóa</property>
                 <property name="can_focus">True</property>
                 <property name="margin_left">33</property>
                 <property name="invisible_char">•</property>
+                <signal name="activate" handler="on_btnClickUpdateChangeInfo_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -2415,6 +2430,7 @@ cần xóa</property>
                 <property name="can_focus">True</property>
                 <property name="margin_left">33</property>
                 <property name="invisible_char">•</property>
+                <signal name="activate" handler="on_btnClickUpdateChangeInfo_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -2454,6 +2470,7 @@ cần xóa</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="invisible_char">•</property>
+                <signal name="activate" handler="on_btnClickUpdateChangeInfo_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -2540,6 +2557,7 @@ cần xóa</property>
                 <property name="can_focus">True</property>
                 <property name="visibility">False</property>
                 <property name="invisible_char">•</property>
+                <signal name="activate" handler="on_btnClickChangePassword_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -2580,6 +2598,7 @@ cần xóa</property>
                 <property name="margin_left">35</property>
                 <property name="visibility">False</property>
                 <property name="invisible_char">•</property>
+                <signal name="activate" handler="on_btnClickChangePassword_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -2620,6 +2639,7 @@ cần xóa</property>
                 <property name="margin_left">8</property>
                 <property name="visibility">False</property>
                 <property name="invisible_char">•</property>
+                <signal name="activate" handler="on_btnClickChangePassword_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -2935,6 +2955,7 @@ cần xóa</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="margin_right">10</property>
+                        <signal name="activate" handler="on_btn_click_login_clicked" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -3010,6 +3031,7 @@ cần xóa</property>
                         <property name="margin_right">10</property>
                         <property name="visibility">False</property>
                         <property name="invisible_char">*</property>
+                        <signal name="activate" handler="on_btn_click_login_clicked" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -4489,6 +4511,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
                         <attributes>
                           <attribute name="font-desc" value="Sans 14"/>
+                          <attribute name="foreground" value="#2e2e34343636"/>
                         </attributes>
                       </object>
                       <packing>

@@ -3,13 +3,19 @@
 
 #include "edit_goods.h"
 
-void *removeElementCart(Goods *listGoods, int *length, int goodsID);
 Coupon getCoupon(int ownerID);
+SalesHistory *getSalesHistoryByTime(char *userName, int *sizeArr, time_t start, time_t end);
+int isValidCoupon(char *str);
+int isAvailableCoupon(char *couName, int ownerID, int *discount);
+int processCart(char *cusName, char *address, char *phoneNum, int method, Goods *purchaseGoods, int cartLength, int userID, char *coupon);
+void removeElementCart(Goods *listGoods, int *length, int goodsID);
 void getCouponFromFile(Coupon *ptrCoupon);
 void writeCouponToFile(Coupon *ptrCoupon, int length);
 void addCoupon(int ownerID, int discount, char *couponName);
+void deleteCoupon(char *couName, int ownerID);
+void sortCouponDescending(Coupon *listCoupon, int length);
 
-void *removeElementCart(Goods *listGoods, int *length, int goodsID)
+void removeElementCart(Goods *listGoods, int *length, int goodsID)
 {
   for (int i = 0; i < *length; i++)
   {
@@ -39,7 +45,6 @@ void getCouponFromFile(Coupon *ptrCoupon)
   else
   {
     int i = 0;
-    char *gabbage;
     while (fgets(tmpStr, 100, fi) != NULL)
     {
       char *ptr = strtok(tmpStr, delim);
@@ -49,8 +54,6 @@ void getCouponFromFile(Coupon *ptrCoupon)
       strcpy((ptrCoupon + i)->couponName, ptr);
       ptr = strtok(NULL, delim);
       (ptrCoupon + i)->discount = atoi(ptr);
-      // ptr = strtok(NULL, delim);
-      // strcpy(gabbage, ptr);
       i++;
     }
   }
@@ -200,6 +203,7 @@ void deleteCoupon(char *couName, int ownerID)
 {
   Coupon *listCoupon;
   int length = countLineInFile(PATH_COUPON);
+  printf("length: %d\n", length);
 
   listCoupon = (Coupon *)calloc(length, sizeof(Coupon));
   getCouponFromFile(listCoupon);
@@ -248,7 +252,7 @@ int processCart(char *cusName, char *address, char *phoneNum, int method, Goods 
     else
     {
       // removeExtraSpaces(coupon);
-      if (strcmp(coupon, "-1") != 0)
+      if (coupon != "-1")
       { //-1 mean don't have coupon
         if (!isValidCoupon(coupon))
         {
@@ -321,7 +325,6 @@ int processCart(char *cusName, char *address, char *phoneNum, int method, Goods 
       //check payment method.
       if (method == 2)
       {
-        g_print("in mothod nubmer %d\n", user.balance - totalPrice);
         if (user.balance - totalPrice < 0)
         {
           check = 6;
@@ -348,6 +351,7 @@ SalesHistory *getSalesHistoryByTime(char *userName, int *sizeArr, time_t start, 
   SalesHistory *foundPurchased;
   int foundLength = 0;
   size_t allLength;
+
   allPurchased = getSalesHistory(userName, &allLength);
   foundPurchased = (SalesHistory *)calloc(allLength, sizeof(SalesHistory));
   for (int i = 0; i < allLength; i++)
