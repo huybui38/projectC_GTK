@@ -52,7 +52,20 @@ typedef struct coupon
     int discount;
     char *couponName;
 } Coupon;
+typedef struct itemRandom
+{
+    int goodsID;
+    int weight;
+} ItemRandom;
+typedef struct adItem
+{
+    int ownerID;
+    int goodID;
+    long budget;
+    long money;
+} AdsItem;
 
+const char *PATH_ADS = "data//ads.txt";
 const char *PATH_USER = "data//user.txt";
 const char *PATH_CATEGORY = "data//category.json";
 const char *PATH_GOODS = "data//goods.json";

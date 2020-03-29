@@ -4489,6 +4489,7 @@ Hãy đăng ký ngay để mua hàng nhanh hơn!</property>
                         <property name="label" translatable="yes">Vật phẩm A</property>
                         <attributes>
                           <attribute name="font-desc" value="Sans 14"/>
+                          <attribute name="foreground" value="#2e2e34343636"/>
                         </attributes>
                       </object>
                       <packing>

@@ -6,6 +6,7 @@
 #include "json.h"
 #include <time.h>
 #include <unistd.h>
+#include "ads.h"
 typedef struct
 {
     //window
@@ -77,6 +78,8 @@ typedef struct
     GtkWidget *w_wAds_txtGoodsIDAds;
     GtkWidget *w_wAds_cbxPositionAds;
     GtkWidget *w_wAds_txtMoneyAds;
+    GtkWidget *w_wAds_txtBudgetAds;
+    GtkWidget *w_wAds_lblNameAds;
     GtkTextBuffer *w_wAds_txtListGoodsAds;
 
     //element for w_seller
@@ -174,12 +177,13 @@ int turnBack_3 = -1;
 int isClickedMsg = 0;
 int currentPageShopping = 1;
 int lengthListCart = 1;
+int listStatusAds[3][2];
 Goods *listCart;
 gboolean isSearchByWords = FALSE;
 gboolean isTurnBackShopping = FALSE;
 gboolean isTurnBackCart = FALSE;
 User currentUser;
-
+int minMoneyAds = 2000;
 // #region main
 int main(int argc, char *argv[])
 {
@@ -243,7 +247,9 @@ int main(int argc, char *argv[])
     // Get element pointer for w_ads
     widgets->w_wAds_cbxPositionAds = GTK_WIDGET(gtk_builder_get_object(builder, "cbxPositionAds"));
     widgets->w_wAds_txtListGoodsAds = GTK_TEXT_BUFFER(gtk_builder_get_object(builder, "txtListGoodsAds"));
+    widgets->w_wAds_lblNameAds = GTK_TEXT_BUFFER(gtk_builder_get_object(builder, "lblNameAds"));
     widgets->w_wAds_txtMoneyAds = GTK_WIDGET(gtk_builder_get_object(builder, "txtMoneyAds"));
+    widgets->w_wAds_txtBudgetAds = GTK_WIDGET(gtk_builder_get_object(builder, "txtBudgetAds"));
     widgets->w_wAds_txtGoodsIDAds = GTK_WIDGET(gtk_builder_get_object(builder, "txtGoodsIDAds"));
     widgets->w_wAds_lblMoneyAds = GTK_WIDGET(gtk_builder_get_object(builder, "lblMoneyAds"));
 
@@ -365,6 +371,66 @@ int main(int argc, char *argv[])
 }
 // #endregion
 // #region utils
+int randomNumber(int minN, int maxN)
+{
+    return minN + rand() % (maxN + 1 - minN);
+}
+AdsItem getAdsItemByID(int goodsID)
+{
+    int length = -1;
+    AdsItem *list = getAllAdsItem(&length);
+    for (int i = 0; i < length; i++)
+    {
+        if (list[i].goodID == goodsID)
+            return list[i];
+    }
+}
+void descSortArray(int a[], int n)
+{
+    int tg;
+    for (int i = 0; i < n - 1; i++)
+    {
+        for (int j = i + 1; j < n; j++)
+        {
+            if (a[i] < a[j])
+            {
+                tg = a[i];
+                a[i] = a[j];
+                a[j] = tg;
+            }
+        }
+    }
+}
+
+int getRandom(ItemRandom *data, int length)
+{
+    int total = 0;
+    int distribution[length];
+    for (int i = 0; i < length; i++)
+    {
+        total += data[i].weight;
+        distribution[i] = total;
+    }
+    int rand = randomNumber(0, total - 1);
+    for (int i = 0; i < length; i++)
+    {
+        if (rand < distribution[i])
+        {
+            return i;
+            break;
+        }
+    }
+    return -1;
+}
+void randomAds(int count, ItemRandom *arrRandom, int lengthArr, int result[])
+{
+    for (int i = 0; i < count; i++)
+    {
+        if (!lengthArr)
+            break;
+        result[i] = getRandom(arrRandom, lengthArr);
+    }
+}
 Goods getSelectedGoods(int position, app_widgets *app_wdgts)
 {
     Goods *listGoods;
@@ -374,18 +440,28 @@ Goods getSelectedGoods(int position, app_widgets *app_wdgts)
     gchar *selectedSort;
     selectedCate = gtk_combo_box_get_active_id(app_wdgts->w_wShopping_cbxCategoryShopping);
     selectedSort = gtk_combo_box_get_active_id(app_wdgts->w_wShopping_cbxSortShopping);
+    int numberAdsItem = 0;
+    for (int i = 0; i < 3; i++)
+    {
+        if (listStatusAds[i][0])
+            numberAdsItem += 1;
+    }
+    if (position >= 1 && position <= 3 && listStatusAds[position - 1][0])
+    {
+        return getGoodsByID(listStatusAds[position - 1][1]);
+    }
     if (isSearchByWords)
     {
         gchar *txtName;
         txtName = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wShopping_txtNameShopping));
-        listGoods = getGoodsByName(txtName, atoi(selectedCate), 12, currentPageShopping, &canNext, &lengthGoods, atoi(selectedSort));
+        listGoods = getGoodsByName(txtName, atoi(selectedCate), 12 - numberAdsItem, currentPageShopping, &canNext, &lengthGoods, atoi(selectedSort));
     }
     else
     {
-        listGoods = getGoods(atoi(selectedCate), 12, currentPageShopping, &canNext, &lengthGoods, atoi(selectedSort));
+        listGoods = getGoods(atoi(selectedCate), 12 - numberAdsItem, currentPageShopping, &canNext, &lengthGoods, atoi(selectedSort));
     }
     if (position <= lengthGoods)
-        return listGoods[position - 1];
+        return listGoods[position - 1 - numberAdsItem];
     else
     {
         g_print("error getSelectedGoods\n");
@@ -394,7 +470,27 @@ Goods getSelectedGoods(int position, app_widgets *app_wdgts)
 }
 void addCart(int position, app_widgets *app_wdgts)
 {
+
     Goods currentGoods = getSelectedGoods(position, app_wdgts);
+    if (position >= 1 && position <= 3)
+    {
+        if (listStatusAds[position - 1][0])
+        {
+            g_print("processing\n");
+            AdsItem item = getAdsItemByID(currentGoods.id);
+            if (item.budget - item.money <= 0)
+            {
+                g_print("processing ownerID %d goodsID %s\n", currentGoods.ownerID, currentGoods.name);
+                listStatusAds[position - 1][0] = 0;
+                deleteAdsItem(currentGoods.ownerID, currentGoods.id);
+            }
+            else
+            {
+                g_print("processing2\n");
+                updateAdsItem(currentGoods.ownerID, currentGoods.id, item.budget - item.money);
+            }
+        }
+    }
     listCart[lengthListCart - 1] = currentGoods;
     lengthListCart++;
     listCart = (Goods *)realloc(listCart, lengthListCart * sizeof(Goods));
@@ -876,7 +972,7 @@ void setBoxShoppingSensitive(int boxID, gboolean visible, app_widgets *app_wdgts
     }
 }
 
-void showBoxGoods(int boxID, Goods goods, app_widgets *app_wdgts)
+void showBoxGoods(int boxID, Goods goods, app_widgets *app_wdgts, int isAds)
 {
     setBoxShoppingSensitive(boxID, TRUE, app_wdgts);
     gchar *goodsName;
@@ -896,8 +992,18 @@ void showBoxGoods(int boxID, Goods goods, app_widgets *app_wdgts)
     pango_attr_list_ref(listAttrSale);
     pango_attr_list_insert(listAttrSale, foreGround);
     pango_attr_list_insert(listAttrSale, fontDesc);
-    //reset style
-    PangoAttribute *foreGroundReset = pango_attr_foreground_new(0, 0, 0);
+    //style for ads
+    PangoAttribute *foreGroundAds = pango_attr_foreground_new(65535, 0, 0);
+    PangoFontDescription *pangoFontAds = pango_font_description_new();
+    pango_font_description_set_absolute_size(pangoFontAds, 18 * PANGO_SCALE);
+    PangoAttribute *fontDescAds = pango_attr_font_desc_new(pangoFontAds);
+    PangoAttrList *listAttrAds = pango_attr_list_new();
+    pango_attr_list_ref(listAttrAds);
+    pango_attr_list_insert(listAttrAds, foreGroundAds);
+    pango_attr_list_insert(listAttrAds, fontDescAds);
+
+    //reset
+    PangoAttribute *foreGroundReset = pango_attr_foreground_new(77 * 256, 80 * 256, 89 * 256);
     PangoFontDescription *pangoFontReset = pango_font_description_new();
     pango_font_description_set_absolute_size(pangoFontReset, 18 * PANGO_SCALE);
     PangoAttribute *fontDescReset = pango_attr_font_desc_new(pangoFontReset);
@@ -908,9 +1014,10 @@ void showBoxGoods(int boxID, Goods goods, app_widgets *app_wdgts)
     switch (boxID)
     {
     case 1:
+
         gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice1Shopping, listAttrReset);
         gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice1Shopping, listAttrReset);
-
+        gtk_label_set_attributes(app_wdgts->w_wShopping_txtItem1Shopping, listAttrReset);
         if (goods.discount != 0)
         {
             gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice1Shopping, listAttrOriginal);
@@ -930,11 +1037,18 @@ void showBoxGoods(int boxID, Goods goods, app_widgets *app_wdgts)
             gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice1Shopping, TRUE);
             gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice1Shopping, goodsPrice);
         }
+        if (isAds)
+        {
+            strcpy(goodsName, goods.name);
+            strcat(goodsName, "(QC)");
+            gtk_label_set_attributes(app_wdgts->w_wShopping_txtItem1Shopping, listAttrAds);
+        }
         gtk_label_set_text(app_wdgts->w_wShopping_txtItem1Shopping, goodsName);
         break;
     case 2:
         gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice2Shopping, listAttrReset);
         gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice2Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_txtItem2Shopping, listAttrReset);
         if (goods.discount != 0)
         {
             gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice2Shopping, listAttrOriginal);
@@ -954,11 +1068,18 @@ void showBoxGoods(int boxID, Goods goods, app_widgets *app_wdgts)
             gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice2Shopping, TRUE);
             gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice2Shopping, goodsPrice);
         }
+        if (isAds)
+        {
+            strcpy(goodsName, goods.name);
+            strcat(goodsName, "(QC)");
+            gtk_label_set_attributes(app_wdgts->w_wShopping_txtItem2Shopping, listAttrAds);
+        }
         gtk_label_set_text(app_wdgts->w_wShopping_txtItem2Shopping, goodsName);
         break;
     case 3:
         gtk_label_set_attributes(app_wdgts->w_wShopping_lblSalePrice3Shopping, listAttrReset);
         gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice3Shopping, listAttrReset);
+        gtk_label_set_attributes(app_wdgts->w_wShopping_txtItem3Shopping, listAttrReset);
         if (goods.discount != 0)
         {
             gtk_label_set_attributes(app_wdgts->w_wShopping_lblOriginalPrice3Shopping, listAttrOriginal);
@@ -977,6 +1098,12 @@ void showBoxGoods(int boxID, Goods goods, app_widgets *app_wdgts)
             gtk_widget_set_visible(app_wdgts->w_wShopping_lblSalePrice3Shopping, FALSE);
             gtk_widget_set_visible(app_wdgts->w_wShopping_lblOriginalPrice3Shopping, TRUE);
             gtk_label_set_text(app_wdgts->w_wShopping_lblOriginalPrice3Shopping, goodsPrice);
+        }
+        if (isAds)
+        {
+            strcpy(goodsName, goods.name);
+            strcat(goodsName, "(QC)");
+            gtk_label_set_attributes(app_wdgts->w_wShopping_txtItem3Shopping, listAttrAds);
         }
         gtk_label_set_text(app_wdgts->w_wShopping_txtItem3Shopping, goodsName);
         break;
@@ -1211,6 +1338,13 @@ void showPageDataShopping(int page, app_widgets *app_wdgts)
     Goods *listGoods;
     size_t lengthGoods = 0;
     int canNext = 0;
+    int numberOfItemCanShow = 0;
+    listStatusAds[0][0] = 0;
+    listStatusAds[1][0] = 0;
+    listStatusAds[2][0] = 0;
+    listStatusAds[0][1] = 0;
+    listStatusAds[1][1] = 0;
+    listStatusAds[2][1] = 0;
     gchar *selectedCate;
     gchar *selectedSort;
     selectedCate = gtk_combo_box_get_active_id(app_wdgts->w_wShopping_cbxCategoryShopping);
@@ -1223,7 +1357,78 @@ void showPageDataShopping(int page, app_widgets *app_wdgts)
     }
     else
     {
-        listGoods = getGoods(atoi(selectedCate), 12, page, &canNext, &lengthGoods, atoi(selectedSort));
+        //process ads
+        deleteAdsItemBudget(minMoneyAds * 0.6);
+        int length = -1;
+
+        AdsItem *listAdsItem = getAllAdsItem(&length);
+        if (length > 0)
+        {
+            srand((int)time(0));
+            ItemRandom listRandom[length];
+            for (int i = 0; i < length; i++)
+            {
+                listRandom[i].goodsID = listAdsItem[i].goodID;
+                if (listAdsItem[i].money >= listAdsItem[i].budget)
+                {
+                    listRandom[i].weight = listAdsItem[i].money;
+                }
+                else
+                {
+                    listRandom[i].weight = listAdsItem[i].budget;
+                }
+            }
+            int count = 100;
+            int result[count];
+            randomAds(count, listRandom, length, result);
+            int frequency[length];
+            for (int i = 0; i < length; i++)
+            {
+                frequency[i] = 0;
+            }
+            for (int i = 0; i < count; i++)
+            {
+                frequency[result[i]] += 1;
+            }
+            for (int i = 0; i < length; i++)
+            {
+                g_print("So lan xuat hien cua goodsID %d la: %d\n", listRandom[i].goodsID, frequency[i]);
+            }
+
+            int listItemCanShow[3] = {0, 0, 0};
+            int max[3] = {0, 0, 0};
+
+            for (int i = 0; i < length; i++)
+            {
+                if (frequency[i] > max[0])
+                {
+                    max[0] = frequency[i];
+                    listItemCanShow[0] = i;
+                }
+                else if (frequency[i] <= max[0] && frequency[i] > max[1])
+                {
+                    max[1] = frequency[i];
+                    listItemCanShow[1] = i;
+                }
+                else if (frequency[i] <= max[1] && frequency[i] > max[2])
+                {
+                    max[2] = frequency[i];
+                    listItemCanShow[2] = i;
+                }
+                if (frequency[i] != 0)
+                    numberOfItemCanShow += 1;
+            }
+            numberOfItemCanShow = numberOfItemCanShow > 3 ? 3 : numberOfItemCanShow;
+            for (int i = 0; i < numberOfItemCanShow; i++)
+            {
+                listStatusAds[i][0] = 1;
+                listStatusAds[i][1] = listRandom[listItemCanShow[i]].goodsID;
+                g_print("goods show: %s\n", getGoodsByID(listRandom[listItemCanShow[i]].goodsID).name);
+                showBoxGoods(i + 1, getGoodsByID(listRandom[listItemCanShow[i]].goodsID), app_wdgts, 1);
+            }
+        }
+        //
+        listGoods = getGoods(atoi(selectedCate), 12 - numberOfItemCanShow, page, &canNext, &lengthGoods, atoi(selectedSort));
     }
 
     if (canNext == 1)
@@ -1241,13 +1446,14 @@ void showPageDataShopping(int page, app_widgets *app_wdgts)
     //limit length per page
     if (lengthGoods > 12)
         lengthGoods = 12;
-    for (size_t i = 0; i < lengthGoods; i++)
+    // for (size_t i = 0; i < lengthGoods; i++)
+    // {
+    //     g_print("ID:%d => Ten san pham: %s => Gia: %d => category: %d \n", listGoods[i].id, listGoods[i].name, listGoods[i].price, listGoods[i].categoryID);
+    // }
+
+    for (size_t i = numberOfItemCanShow; i < lengthGoods + numberOfItemCanShow; i++)
     {
-        g_print("ID:%d => Ten san pham: %s => Gia: %d => category: %d \n", listGoods[i].id, listGoods[i].name, listGoods[i].price, listGoods[i].categoryID);
-    }
-    for (size_t i = 0; i < lengthGoods; i++)
-    {
-        showBoxGoods(i + 1, listGoods[i], app_wdgts);
+        showBoxGoods(i + 1, listGoods[i - numberOfItemCanShow], app_wdgts, 0);
     }
 }
 void on_btnNextShopping_clicked(GtkWidget *widget, app_widgets *app_wdgts)
@@ -2277,6 +2483,11 @@ void on_window_ads_show(GtkWidget *widget, app_widgets *app_wdgts)
     gtk_text_buffer_set_text(app_wdgts->w_wAds_txtListGoodsAds, "", -1);
     int length = -1;
     Goods *listGoods;
+    char tempName[30];
+    strcpy(tempName, "Xin chào ");
+    strcat(tempName, currentUser.name);
+    gtk_label_set_text(app_wdgts->w_wAds_lblMoneyAds, formatNumber(getAverageMoney()));
+    gtk_label_set_text(app_wdgts->w_wAds_lblNameAds, tempName);
     listGoods = getGoodsByOwnerID(currentUser.id, &length);
     if (length > 0)
     {
@@ -2305,8 +2516,58 @@ void on_window_ads_show(GtkWidget *widget, app_widgets *app_wdgts)
             gtk_text_buffer_insert(app_wdgts->w_wAds_txtListGoodsAds, &iter, temp, -1);
         }
     }
-
     ///
+}
+void on_btnAddAds_clicked(GtkButton *button, app_widgets *app_wdgts)
+{
+    gchar *txtGoodsID = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wAds_txtGoodsIDAds));
+    gchar *txtMoneyAds = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wAds_txtMoneyAds));
+    gchar *txtBudgetAds = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wAds_txtBudgetAds));
+    if (txtGoodsID[0] == '\0' || txtMoneyAds[0] == '\0' || txtBudgetAds[0] == '\0')
+    {
+        show_msg(app_wdgts, "Vui lòng nhập đầy đủ!!");
+        return;
+    }
+    int length = -1, isExistItem = 0;
+    int goodsID = atoi(txtGoodsID);
+    AdsItem *listItem = getAllAdsItem(&length);
+
+    for (int i = 0; i < length; i++)
+    {
+        if (listItem[i].goodID == goodsID && listItem[i].ownerID == currentUser.id)
+        {
+            isExistItem = 1;
+            break;
+        }
+    }
+    if (isExistItem == 1)
+    {
+        show_msg(app_wdgts, "Bạn đã chạy quảng cáo cho sản phẩm này, vui lòng đợi kết thúc!!");
+        return;
+    }
+    if (atoi(txtMoneyAds) < minMoneyAds)
+    {
+        show_msg(app_wdgts, "Giá thầu quá thấp, vui lòng điều chỉnh lại!!");
+        return;
+    }
+    int flag = addAds(currentUser.id, goodsID, atol(txtBudgetAds), atol(txtMoneyAds));
+    switch (flag)
+    {
+    case 1:
+        show_msg(app_wdgts, "Thêm thành công!!");
+        break;
+    case 2:
+        show_msg(app_wdgts, "ID sản phẩm không hợp lệ hoặc không thuộc về bạn!!");
+        break;
+    case 4:
+        show_msg(app_wdgts, "Ngân sách phải lớn hơn giá thầu!!");
+        break;
+    case 3:
+        show_msg(app_wdgts, "Giá thầu phải lớn hơn 0!!");
+        break;
+    default:
+        break;
+    }
 }
 void on_btnTurnBackAds_clicked(GtkButton *button, app_widgets *app_wdgts)
 {
