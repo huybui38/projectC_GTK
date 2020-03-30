@@ -8,6 +8,7 @@
     <property name="title" translatable="yes">Báo cáo</property>
     <property name="resizable">False</property>
     <property name="window_position">center</property>
+    <property name="destroy_with_parent">True</property>
     <signal name="delete-event" handler="on_window_delete_event" swapped="no"/>
     <signal name="destroy" handler="on_window_destroy" swapped="no"/>
     <signal name="show" handler="on_window_report_show" swapped="no"/>
@@ -216,6 +217,7 @@ kết thúc</property>
     <property name="title" translatable="yes">Thanh toán</property>
     <property name="resizable">False</property>
     <property name="window_position">center</property>
+    <property name="destroy_with_parent">True</property>
     <signal name="delete-event" handler="on_window_delete_event" swapped="no"/>
     <signal name="destroy" handler="on_window_destroy" swapped="no"/>
     <signal name="show" handler="on_window_cart_show" swapped="no"/>
@@ -679,6 +681,7 @@ kết thúc</property>
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Quảng cáo sản phẩm</property>
     <property name="window_position">center</property>
+    <property name="destroy_with_parent">True</property>
     <signal name="delete-event" handler="on_window_delete_event" swapped="no"/>
     <signal name="destroy" handler="on_window_destroy" swapped="no"/>
     <signal name="show" handler="on_window_ads_show" swapped="no"/>
@@ -1465,7 +1468,7 @@ kết thúc</property>
                         <property name="active">0</property>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="expand">True</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -1812,7 +1815,9 @@ kết thúc</property>
   <object class="GtkApplicationWindow" id="window_addMoney">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Cập nhập tiền của khách hàng</property>
+    <property name="resizable">False</property>
     <property name="window_position">center</property>
+    <property name="destroy_with_parent">True</property>
     <signal name="delete-event" handler="on_window_addMoney_delete_event" swapped="no"/>
     <child>
       <placeholder/>
@@ -1936,6 +1941,7 @@ kết thúc</property>
     <property name="title" translatable="yes">Khu vực dành cho quản trị viên</property>
     <property name="resizable">False</property>
     <property name="window_position">center</property>
+    <property name="destroy_with_parent">True</property>
     <signal name="delete-event" handler="on_window_delete_event" swapped="no"/>
     <child>
       <placeholder/>
@@ -2161,6 +2167,7 @@ kết thúc</property>
     <property name="title" translatable="yes">Chỉnh sửa loại hàng</property>
     <property name="resizable">False</property>
     <property name="window_position">center-always</property>
+    <property name="destroy_with_parent">True</property>
     <signal name="delete-event" handler="on_window_category_delete_event" swapped="no"/>
     <signal name="show" handler="on_window_category_show" swapped="no"/>
     <child>
@@ -2685,6 +2692,7 @@ cần xóa</property>
     <property name="title" translatable="yes">Khu vực dành cho khách hàng</property>
     <property name="resizable">False</property>
     <property name="window_position">center</property>
+    <property name="destroy_with_parent">True</property>
     <signal name="delete-event" handler="on_window_delete_event" swapped="no"/>
     <signal name="show" handler="on_window_customer_show" swapped="no"/>
     <child>
@@ -3124,6 +3132,7 @@ cần xóa</property>
     <property name="window_position">center</property>
     <property name="default_width">640</property>
     <property name="default_height">480</property>
+    <property name="destroy_with_parent">True</property>
     <signal name="destroy" handler="on_window_destroy" swapped="no"/>
     <child>
       <placeholder/>
@@ -3252,6 +3261,7 @@ cần xóa</property>
     <property name="title" translatable="yes">Đăng ký thành viên Shopee</property>
     <property name="resizable">False</property>
     <property name="window_position">center</property>
+    <property name="destroy_with_parent">True</property>
     <signal name="delete-event" handler="on_window_delete_event" swapped="no"/>
     <signal name="destroy" handler="on_window_destroy" swapped="no"/>
     <child>
@@ -3393,6 +3403,8 @@ cần xóa</property>
                 <property name="can_focus">True</property>
                 <property name="margin_left">69</property>
                 <property name="margin_right">15</property>
+                <property name="visibility">False</property>
+                <property name="invisible_char">*</property>
                 <signal name="activate" handler="on_btn_signup_register_clicked" swapped="no"/>
               </object>
               <packing>
@@ -3433,6 +3445,8 @@ cần xóa</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="margin_right">15</property>
+                <property name="visibility">False</property>
+                <property name="invisible_char">*</property>
                 <signal name="activate" handler="on_btn_signup_register_clicked" swapped="no"/>
               </object>
               <packing>
@@ -3649,6 +3663,7 @@ cần xóa</property>
     <property name="title" translatable="yes">Khu vực dành cho người bán</property>
     <property name="resizable">False</property>
     <property name="window_position">center</property>
+    <property name="destroy_with_parent">True</property>
     <signal name="delete-event" handler="on_window_delete_event" swapped="no"/>
     <signal name="destroy" handler="on_window_destroy" swapped="no"/>
     <signal name="show" handler="on_window_seller_show" swapped="no"/>

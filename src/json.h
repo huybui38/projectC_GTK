@@ -568,6 +568,7 @@ SalesHistory *getSalesHistory(char userName[100], size_t *sizeArr)
     size_t length;
 
     fp = fopen(path_history, "r");
+
     if (fp == NULL)
     {
         *sizeArr = -1;

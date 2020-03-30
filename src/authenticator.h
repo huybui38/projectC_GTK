@@ -510,8 +510,8 @@ int getRegister(char username[], char name[], char pass[], char repass[],
 
 	getDataFromFile(user);
 
-	removeExtraSpaces(name);
-	removeExtraSpaces(address);
+	// removeExtraSpaces(name);
+	// removeExtraSpaces(address);
 	if (!isValidUsername(username))
 	{
 		check = 7;

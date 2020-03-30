@@ -350,15 +350,18 @@ SalesHistory *getSalesHistoryByTime(char *userName, int *sizeArr, time_t start, 
   SalesHistory *allPurchased;
   SalesHistory *foundPurchased;
   int foundLength = 0;
-  size_t allLength;
+  int allLength = 0;
 
   allPurchased = getSalesHistory(userName, &allLength);
-  foundPurchased = (SalesHistory *)calloc(allLength, sizeof(SalesHistory));
-  for (int i = 0; i < allLength; i++)
+  if (allLength != 0)
   {
-    if (((allPurchased + i)->time >= start) && ((allPurchased + i)->time <= end))
+    foundPurchased = (SalesHistory *)calloc(allLength, sizeof(SalesHistory));
+    for (int i = 0; i < allLength; i++)
     {
-      *(foundPurchased + foundLength++) = *(allPurchased + i);
+      if (((allPurchased + i)->time >= start) && ((allPurchased + i)->time <= end))
+      {
+        *(foundPurchased + foundLength++) = *(allPurchased + i);
+      }
     }
   }
   *sizeArr = foundLength;

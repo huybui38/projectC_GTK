@@ -626,7 +626,7 @@ int addCategoryToFile(char cateName[120])
   Category *listCate;
   Category cate;
 
-  removeExtraSpaces(cateName);
+  // removeExtraSpaces(cateName);
   filterCateName = filterVietnamese(cateName);
   if (!isValidCateName(filterCateName))
   {
@@ -655,7 +655,6 @@ Goods *getGoodsByOwnerID(int ownerID, int *length)
   Goods *foundGoods;
   size_t allLength;
   int foundCount = 0;
-
   allGoods = getAllGoods(&allLength);
   foundGoods = (Goods *)calloc(allLength, sizeof(Goods));
 

@@ -174,6 +174,7 @@ typedef struct
 int turnBack = -1;
 int turnBack_2 = -1;
 int turnBack_3 = -1;
+int turnBack_4 = -1;
 int isClickedMsg = 0;
 int currentPageShopping = 1;
 int lengthListCart = 1;
@@ -247,7 +248,7 @@ int main(int argc, char *argv[])
     // Get element pointer for w_ads
     widgets->w_wAds_cbxPositionAds = GTK_WIDGET(gtk_builder_get_object(builder, "cbxPositionAds"));
     widgets->w_wAds_txtListGoodsAds = GTK_TEXT_BUFFER(gtk_builder_get_object(builder, "txtListGoodsAds"));
-    widgets->w_wAds_lblNameAds = GTK_TEXT_BUFFER(gtk_builder_get_object(builder, "lblNameAds"));
+    widgets->w_wAds_lblNameAds = GTK_WIDGET(gtk_builder_get_object(builder, "lblNameAds"));
     widgets->w_wAds_txtMoneyAds = GTK_WIDGET(gtk_builder_get_object(builder, "txtMoneyAds"));
     widgets->w_wAds_txtBudgetAds = GTK_WIDGET(gtk_builder_get_object(builder, "txtBudgetAds"));
     widgets->w_wAds_txtGoodsIDAds = GTK_WIDGET(gtk_builder_get_object(builder, "txtGoodsIDAds"));
@@ -531,7 +532,7 @@ void logoutUser()
 void reloadBoxManage(app_widgets *app_wdgts)
 {
     //reload box goods
-    gtk_text_buffer_set_text(app_wdgts->w_wAds_txtListGoodsAds, "", -1);
+    gtk_text_buffer_set_text(app_wdgts->w_wManageGoods_txtListManageGoods, "", -1);
     int length = -1;
     Goods *listGoods;
     char tempName[30];
@@ -616,6 +617,7 @@ void reloadBoxCart(app_widgets *app_wdgts)
 }
 void reset()
 {
+    turnBack_4 = -1;
     turnBack_3 = -1;
     turnBack_2 = -1;
     turnBack = -1;
@@ -633,6 +635,7 @@ void on_window_msg_box_response(GtkDialog *dialog, gint response_id, app_widgets
 }
 void setTurnBackWindow(int id)
 {
+    turnBack_4 = turnBack_3;
     turnBack_3 = turnBack_2;
     turnBack_2 = turnBack;
     turnBack = id;
@@ -673,11 +676,11 @@ void on_window_delete_event(GtkWidget *widget, GdkEvent *event, app_widgets *app
     // g_print("%d", turnBack);
     turnBack = turnBack_2;
     turnBack_2 = turnBack_3;
+    turnBack_3 = turnBack_4;
     return TRUE;
 }
 
 // #endregion
-
 // #region Handle event window_main
 void on_btn_shopping(GtkButton *button, app_widgets *app_wdgts)
 {
@@ -1688,18 +1691,17 @@ void on_btn_signup_register_key_press_event(GtkWidget *widget, GdkEvent *event, 
 void on_btn_signup_register_clicked(GtkButton *button, app_widgets *app_wdgts)
 {
     gchar *txtUserRegister = 0;
-    gchar *txtFullNameRegister = 0;
+
     gchar *txtPasswordRegister = 0;
     gchar *txtRepasswordRegister = 0;
-    gchar *txtAddressRegister = 0;
     gchar *cbxTypeRegister = 0;
     gchar *txtPhoneNumberRegister = 0;
     int type = 0;
     txtUserRegister = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wRegister_txtUserRegister));
-    txtFullNameRegister = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wRegister_txtFullNameRegister));
+    gchar *txtFullNameRegister = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wRegister_txtFullNameRegister));
     txtPasswordRegister = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wRegister_txtPasswordRegister));
     txtRepasswordRegister = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wRegister_txtRepasswordRegister));
-    txtAddressRegister = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wRegister_txtAddressRegister));
+    gchar *txtAddressRegister = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wRegister_txtAddressRegister));
     cbxTypeRegister = gtk_combo_box_get_active_id(app_wdgts->w_wRegister_cbxTypeRegister);
     txtPhoneNumberRegister = gtk_entry_get_text(app_wdgts->w_wRegister_txtPhoneNumberRegister);
     type = atoi(cbxTypeRegister);
@@ -1726,6 +1728,7 @@ void on_btn_signup_register_clicked(GtkButton *button, app_widgets *app_wdgts)
                 turnBack = 2;
                 turnBack_2 = 1;
                 turnBack_3 = -1;
+                turnBack_4 = -1;
                 gtk_widget_show(app_wdgts->w_wCart);
                 gtk_widget_hide(app_wdgts->w_wRegister);
                 isTurnBackCart = FALSE;
@@ -2038,7 +2041,6 @@ gboolean on_window_manageGoods_delete_event(GtkWidget *widget, GdkEvent *event, 
     gtk_entry_set_text(app_wdgts->w_wManageGoods_txtIdDeleteMangaGoods, "");
     gtk_entry_set_text(app_wdgts->w_wManageGoods_txtIdEditMangaGoods, "");
     gtk_entry_set_text(app_wdgts->w_wManageGoods_txtIdUpdateMangaGoods, "");
-    gtk_entry_set_text(app_wdgts->w_wManageGoods_txtListManageGoods, "");
     gtk_entry_set_text(app_wdgts->w_wManageGoods_txtNameCreateMangaGoods, "");
     gtk_entry_set_text(app_wdgts->w_wManageGoods_txtNameEditMangaGoods, "");
     gtk_entry_set_text(app_wdgts->w_wManageGoods_txtPriceCreateMangaGoods, "");
@@ -2053,7 +2055,6 @@ void on_btnTurnBackManageGoods_clicked(GtkWidget *widget, app_widgets *app_wdgts
     gtk_entry_set_text(app_wdgts->w_wManageGoods_txtIdDeleteMangaGoods, "");
     gtk_entry_set_text(app_wdgts->w_wManageGoods_txtIdEditMangaGoods, "");
     gtk_entry_set_text(app_wdgts->w_wManageGoods_txtIdUpdateMangaGoods, "");
-    gtk_entry_set_text(app_wdgts->w_wManageGoods_txtListManageGoods, "");
     gtk_entry_set_text(app_wdgts->w_wManageGoods_txtNameCreateMangaGoods, "");
     gtk_entry_set_text(app_wdgts->w_wManageGoods_txtNameEditMangaGoods, "");
     gtk_entry_set_text(app_wdgts->w_wManageGoods_txtPriceCreateMangaGoods, "");
@@ -2083,6 +2084,7 @@ void on_btnAddManageGoods_clicked(GtkWidget *widget, app_widgets *app_wdgts)
     {
     case 1:
         show_msg(app_wdgts, "Thêm thành công!");
+        reloadBoxManage(app_wdgts);
         break;
     case 2:
         show_msg(app_wdgts, "Tên món hàng không hợp lệ");
@@ -2112,7 +2114,7 @@ void on_btnEditManageGoods_clicked(GtkWidget *widget, app_widgets *app_wdgts)
         show_msg(app_wdgts, "Vui lòng nhập đầy đủ");
         return;
     }
-    if (!isYourGoods2(atoi(txtIDGoods)))
+    if (!isYourGoods(atoi(txtIDGoods), currentUser.id))
     {
         show_msg(app_wdgts, "ID không hợp lệ!!");
         return;
@@ -2190,7 +2192,8 @@ void on_btnDeleteManageGoods_clicked(GtkWidget *widget, app_widgets *app_wdgts)
         show_msg(app_wdgts, "Vui lòng nhập ID cần xóa!!");
         return;
     }
-    if (!isYourGoods2(atoi(txtGoodsID)))
+    g_print("goodsID : %s\n", txtGoodsID);
+    if (!isYourGoods(atoi(txtGoodsID), currentUser.id))
     {
         show_msg(app_wdgts, "ID không hợp lệ!!");
         return;
@@ -2206,6 +2209,7 @@ void on_window_manageGoods_show(GtkWidget *widget, app_widgets *app_wdgts)
     Category *listCate;
     size_t lengthCate = 0;
     char tempStr[4];
+
     listCate = getCategory(&lengthCate);
     for (size_t i = 0; i < lengthCate; i++)
     {
@@ -2490,7 +2494,7 @@ void on_btnLoginCart_clicked(GtkWidget *widget, app_widgets *app_wdgts)
 void on_window_cart_show(GtkWidget *widget, app_widgets *app_wdgts)
 {
     gtk_text_buffer_set_text(app_wdgts->w_wCart_txtListCart, "", -1);
-    gtk_label_set_text(app_wdgts->w_wCart_txtCouponCart, "");
+    gtk_entry_set_text(app_wdgts->w_wCart_txtCouponCart, "");
     gtk_toggle_button_set_active(app_wdgts->w_wCart_isCODCart, TRUE);
     if (currentUser.id == 0)
     {
@@ -2691,7 +2695,7 @@ void on_btnFilterReport_clicked(GtkWidget *widget, app_widgets *app_wdgts)
     GtkTextIter iter;
     gchar temp[9999];
     long totalMoney = 0;
-    for (size_t i = 0; i < length; i++)
+    for (int i = 0; i < length; i++)
     {
         totalMoney += list[i].price;
         strcpy(temp, "------ID:");

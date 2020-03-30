@@ -189,8 +189,8 @@ int changeInformation(int id, char name[], char address[], char phoneNum[MAX])
 	int tmp, pos;
 	char *lowerName, *lowerAddress;
 
-	removeExtraSpaces(name);
-	removeExtraSpaces(address);
+	// removeExtraSpaces(name);
+	// removeExtraSpaces(address);
 	int lineCount = countLineInFile(PATH_USER);
 	ptrUser = (User *)malloc(lineCount * sizeof(User));
 	getDataFromFile(ptrUser);
