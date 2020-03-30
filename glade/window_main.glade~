@@ -784,6 +784,7 @@ kết thúc</property>
                       <object class="GtkEntry" id="txtGoodsIDAds">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <signal name="activate" handler="on_btnAddAds_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -910,6 +911,7 @@ kết thúc</property>
                       <object class="GtkEntry" id="txtMoneyAds">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <signal name="activate" handler="on_btnAddAds_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -948,6 +950,7 @@ kết thúc</property>
                       <object class="GtkEntry" id="txtBudgetAds">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <signal name="activate" handler="on_btnAddAds_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
