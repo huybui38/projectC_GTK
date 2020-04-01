@@ -1721,7 +1721,7 @@ kết thúc</property>
                           <object class="GtkLabel">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Cập nhập </property>
+                            <property name="label" translatable="yes">Cập nhật</property>
                             <attributes>
                               <attribute name="font-desc" value="Sans 14"/>
                             </attributes>
@@ -1936,7 +1936,7 @@ kết thúc</property>
               <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Cập nhập</property>
+                <property name="label" translatable="yes">Cập nhật</property>
                 <attributes>
                   <attribute name="font-desc" value="Sans 14"/>
                 </attributes>
@@ -2519,7 +2519,7 @@ cần xóa</property>
               <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Cập nhập</property>
+                <property name="label" translatable="yes">Cập nhật</property>
                 <attributes>
                   <attribute name="font-desc" value="Sans 14"/>
                 </attributes>

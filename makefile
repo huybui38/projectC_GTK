@@ -1,5 +1,5 @@
 # change application name here (executable output name)
-TARGET=t
+TARGET=ProjectC
 
 # compiler
 CC=gcc
