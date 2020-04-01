@@ -1,4 +1,4 @@
-# Shoppe
+# Shoppee
 
 Shopping Application
 
