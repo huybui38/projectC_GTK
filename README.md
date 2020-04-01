@@ -13,7 +13,7 @@ sudo apt install libjson-c-dev
 ```
 ## Build
 
-Edit file makefile, find "TARGET=ProjectC" change ProjectC to your executable output name and run 
+Edit file makefile, find "TARGET=ProjectC" change ProjectC to your executable output name and run this command
 
 ```bash
 make clean #to clear .o file
