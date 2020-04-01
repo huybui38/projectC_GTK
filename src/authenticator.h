@@ -23,6 +23,7 @@ int isValidName(char str[MAX]);
 int isValidPassword(char str[MAX]);
 int isValidAddress(char str[MAX]);
 int isValidPhoneNum(char str[MAX]);
+int isValidNumber(char str[MAX]);
 int isExistedUsername(char str[MAX], User user[], int *pos, int *length);
 int getLogin(char username[], char password[]);
 int getRegister(char username[], char name[], char pass[], char repass[],
@@ -352,7 +353,6 @@ void removeExtraSpaces(char *str)
 	*tmp = (char *)calloc(120, sizeof(char));
 	strcpy(tmp, str);
 	int i, x;
-	printf("deohieu\n");
 	for (i = x = 0; tmp[i]; ++i)
 		if (!isspace(tmp[i]) || (i > 0 && !isspace(tmp[i - 1])))
 			tmp[x++] = tmp[i];
@@ -369,7 +369,7 @@ int isValidAddress(char str[MAX])
 	int i = 0;
 	while (str[i] != '\0')
 	{
-		if (!isNum(str[i]) && !isChar(str[i]) && str[i] != '/' && str[i] != ',' && str[i] != ' ')
+		if (!isNum(str[i]) && !isChar(str[i]) && str[i] != '/' && str[i] != ',' && str[i] != ' ' && str[i] != '.')
 		{
 			check = 0;
 			break;
@@ -463,7 +463,22 @@ int isValidPassword(char str[MAX])
 
 	return check;
 }
+int isValidNumber(char str[MAX])
+{
+	int check = 1;
+	int i = 0;
+	while (str[i] != '\0')
+	{
+		if (!isNum(str[i]))
+		{
+			check = 0;
+			break;
+		}
+		i++;
+	}
 
+	return check;
+}
 int isValidPhoneNum(char str[MAX])
 {
 	int check = 1;

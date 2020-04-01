@@ -2,6 +2,19 @@
 <!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.10"/>
+  <object class="GtkTextBuffer" id="textbuffer1">
+    <property name="text" translatable="yes"> * Ngân sách phải lớn hơn giá thầu.
+ * Tùy vào số lượng hàng đang được quảng 
+cáo mà giá thầu trung bình sẽ thay đổi.
+ * Giá thầu càng lớn thì tỉ lệ xuất hiện ở vị trí
+cao hơn càng cao.
+ * Giá tiền sẽ được tính dựa vào mỗi lần click
+mua món hàng.
+ * Số lần click mua hàng cũng ảnh hưởng đến 
+tỉ lệ xuất hiện.
+ * Giá thầu là giá tính cho mỗi lượt click mua
+hàng.</property>
+  </object>
   <object class="GtkTextBuffer" id="txtDoanhThuReport"/>
   <object class="GtkApplicationWindow" id="window_report">
     <property name="can_focus">False</property>
@@ -1025,6 +1038,7 @@ kết thúc</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
+                    <property name="buffer">textbuffer1</property>
                   </object>
                 </child>
               </object>
@@ -1751,6 +1765,7 @@ kết thúc</property>
               <object class="GtkTextView">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="editable">False</property>
                 <property name="buffer">txtListManageGoods</property>
                 <property name="monospace">True</property>
               </object>
@@ -1943,6 +1958,7 @@ kết thúc</property>
     <property name="window_position">center</property>
     <property name="destroy_with_parent">True</property>
     <signal name="delete-event" handler="on_window_delete_event" swapped="no"/>
+    <signal name="show" handler="on_window_admin_show" swapped="no"/>
     <child>
       <placeholder/>
     </child>
@@ -3127,7 +3143,7 @@ cần xóa</property>
   </object>
   <object class="GtkWindow" id="window_main">
     <property name="can_focus">False</property>
-    <property name="title" translatable="yes">Shoppee</property>
+    <property name="title" translatable="yes">Shoppy</property>
     <property name="resizable">False</property>
     <property name="window_position">center</property>
     <property name="default_width">640</property>
@@ -3258,7 +3274,7 @@ cần xóa</property>
   </object>
   <object class="GtkApplicationWindow" id="window_register">
     <property name="can_focus">False</property>
-    <property name="title" translatable="yes">Đăng ký thành viên Shopee</property>
+    <property name="title" translatable="yes">Đăng ký thành viên shoppy</property>
     <property name="resizable">False</property>
     <property name="window_position">center</property>
     <property name="destroy_with_parent">True</property>
@@ -3573,8 +3589,8 @@ cần xóa</property>
                 <property name="margin_right">15</property>
                 <property name="active">0</property>
                 <items>
-                  <item id="1" translatable="yes">Khách hàng</item>
-                  <item id="2" translatable="yes">Cửa hàng</item>
+                  <item id="1" translatable="yes">Người mua</item>
+                  <item id="2" translatable="yes">Người bán</item>
                 </items>
               </object>
               <packing>

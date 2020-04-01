@@ -5,6 +5,7 @@
 
 void sortAdsMoneyDecending(AdsItem *ptrAds, int length);
 void deleteAdsItem(int onwerID, int goodsID);
+void deleteAdsItemByGoodsID(int goodsID);
 void getAdsFromFile(AdsItem *adsItem);
 void writeAdsToFile(AdsItem *adsItem, int length);
 void updateAdsItem(int ownerID, int goodsiD, long budget);
@@ -65,7 +66,28 @@ void deleteAdsItem(int ownerID, int goodsID)
   writeAdsToFile(ptrAds, length);
   free(ptrAds);
 }
+void deleteAdsItemByGoodsID(int goodsID)
+{
+  AdsItem *ptrAds;
+  int length = countLineInFile(PATH_ADS);
 
+  ptrAds = (AdsItem *)calloc(length, sizeof(AdsItem));
+  getAdsFromFile(ptrAds);
+  for (int i = 0; i < length; i++)
+  {
+    if (goodsID == (ptrAds + i)->goodID)
+    {
+      length -= 1;
+      for (int k = i; k < length; k++)
+      {
+        *(ptrAds + k) = *(ptrAds + k + 1);
+      }
+      break;
+    }
+  }
+  writeAdsToFile(ptrAds, length);
+  free(ptrAds);
+}
 void getAdsFromFile(AdsItem *adsItem)
 {
   char delim[] = ";";
@@ -194,7 +216,8 @@ long getAverageMoney()
   AdsItem *ptrAds;
   int length = countLineInFile(PATH_ADS);
   long result, sum = 0;
-
+  if (length == 0)
+    return 0;
   ptrAds = (AdsItem *)calloc(length, sizeof(AdsItem));
   getAdsFromFile(ptrAds);
   for (int i = 0; i < length; i++)
@@ -202,7 +225,6 @@ long getAverageMoney()
     sum += (ptrAds + i)->money;
   }
   result = sum / length;
-  printf("sum: %ld\nresult: %ld\n", sum, result);
   free(ptrAds);
   return result;
 }

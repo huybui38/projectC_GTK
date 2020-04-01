@@ -1,10 +1,11 @@
+
+
 #ifndef EDIT_GOODS_H
 #define EDIT_GOODS_H
 
 #include "define.h"
 #include "edit_user.h"
 #include "json.h"
-
 #define MAX_GOODS 130
 
 int addGoodsToFile(char goodName[MAX_GOODS], int price, int cateID, int ownerID);
@@ -693,16 +694,21 @@ char *getNameCategory(int cateID)
   Category *ptrCate;
   size_t *length;
   char *result;
-  result = (char *)calloc(120, sizeof(char));
-
+  result = (char *)calloc(200, sizeof(char));
+  int isExist = 0;
   ptrCate = getCategory(&length);
   for (int i = 0; i < length; i++)
   {
     if (cateID == (ptrCate + i)->id)
     {
+      isExist = 1;
       strcpy(result, (ptrCate + i)->name);
       break;
     }
+  }
+  if (!isExist)
+  {
+    strcpy(result, "Loại hàng này không tồn tại trên ứng dụng!!");
   }
   return result;
 }

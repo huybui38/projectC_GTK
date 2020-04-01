@@ -214,6 +214,9 @@ int main(int argc, char *argv[])
     widgets->w_wAds = GTK_WIDGET(gtk_builder_get_object(builder, "window_ads"));
     widgets->w_wReport = GTK_WIDGET(gtk_builder_get_object(builder, "window_report"));
 
+    // Get element pointer for w_admin lblNameAdmin
+
+    widgets->w_wAdmin_lblNameAdmin = GTK_WIDGET(gtk_builder_get_object(builder, "lblNameAdmin"));
     // Get element pointer for w_report
     widgets->w_wReport_startCalendarReport = GTK_WIDGET(gtk_builder_get_object(builder, "startCalendarReport"));
     widgets->w_wReport_endCalendarReport = GTK_WIDGET(gtk_builder_get_object(builder, "endCalendarReport"));
@@ -461,13 +464,14 @@ Goods getSelectedGoods(int position, app_widgets *app_wdgts)
     {
         listGoods = getGoods(atoi(selectedCate), 12 - numberAdsItem, currentPageShopping, &canNext, &lengthGoods, atoi(selectedSort));
     }
-    if (position <= lengthGoods)
-        return listGoods[position - 1 - numberAdsItem];
-    else
-    {
-        g_print("error getSelectedGoods\n");
-        return;
-    }
+    return listGoods[position - 1 - numberAdsItem];
+    // if (position <= lengthGoods)
+    //     return listGoods[position - 1 - numberAdsItem];
+    // else
+    // {
+    //     g_print("error getSelectedGoods pos: %d leng: %d \n", position, lengthGoods);
+    //     return;
+    // }
 }
 void addCart(int position, app_widgets *app_wdgts)
 {
@@ -477,17 +481,17 @@ void addCart(int position, app_widgets *app_wdgts)
     {
         if (listStatusAds[position - 1][0])
         {
-            g_print("processing\n");
+            // g_print("processing\n");
             AdsItem item = getAdsItemByID(currentGoods.id);
             if (item.budget - item.money <= 0)
             {
-                g_print("processing ownerID %d goodsID %s\n", currentGoods.ownerID, currentGoods.name);
+                // g_print("processing ownerID %d goodsID %s\n", currentGoods.ownerID, currentGoods.name);
                 listStatusAds[position - 1][0] = 0;
                 deleteAdsItem(currentGoods.ownerID, currentGoods.id);
             }
             else
             {
-                g_print("processing2\n");
+                // g_print("processing2\n");
                 updateAdsItem(currentGoods.ownerID, currentGoods.id, item.budget - item.money);
             }
         }
@@ -538,6 +542,7 @@ void reloadBoxManage(app_widgets *app_wdgts)
     char tempName[30];
     strcpy(tempName, "Xin chào ");
     strcat(tempName, currentUser.name);
+    strcat(tempName, "! ");
     gtk_label_set_text(app_wdgts->w_wManageGoods_lblNameManageGoods, tempName);
     listGoods = getGoodsByOwnerID(currentUser.id, &length);
     if (length > 0)
@@ -1439,10 +1444,10 @@ void showPageDataShopping(int page, app_widgets *app_wdgts)
             {
                 frequency[result[i]] += 1;
             }
-            for (int i = 0; i < length; i++)
-            {
-                g_print("So lan xuat hien cua goodsID %d la: %d\n", listRandom[i].goodsID, frequency[i]);
-            }
+            // for (int i = 0; i < length; i++)
+            // {
+            //     g_print("So lan xuat hien cua goodsID %d la: %d\n", listRandom[i].goodsID, frequency[i]);
+            // }
 
             int listItemCanShow[3] = {0, 0, 0};
             int max[3] = {0, 0, 0};
@@ -1472,7 +1477,7 @@ void showPageDataShopping(int page, app_widgets *app_wdgts)
             {
                 listStatusAds[i][0] = 1;
                 listStatusAds[i][1] = listRandom[listItemCanShow[i]].goodsID;
-                g_print("goods show: %s\n", getGoodsByID(listRandom[listItemCanShow[i]].goodsID).name);
+                // g_print("goods show: %s\n", getGoodsByID(listRandom[listItemCanShow[i]].goodsID).name);
                 showBoxGoods(i + 1, getGoodsByID(listRandom[listItemCanShow[i]].goodsID), app_wdgts, 1);
             }
         }
@@ -1674,7 +1679,7 @@ void on_window_shopping_show(GtkWidget *widget, app_widgets *app_wdgts)
     int canNext = 0;
 
     listGoods = getGoods(listCate[0].id, 12, 1, &canNext, &lengthGoods, 1);
-    g_print("can Next: %d\n", canNext);
+    // g_print("can Next: %d\n", canNext);
     // for (size_t i = 0; i < lengthGoods; i++)
     // {
     //     g_print("ID:%d => Ten san pham: %s => Gia: %d => category: %d \n", listGoods[i].id, listGoods[i].name, listGoods[i].price, listGoods[i].categoryID);
@@ -1717,6 +1722,14 @@ void on_btn_signup_register_clicked(GtkButton *button, app_widgets *app_wdgts)
         switch (type)
         {
         case 1:
+            //reset register
+            gtk_entry_set_text(GTK_ENTRY(app_wdgts->w_wRegister_txtUserRegister), "");
+            gtk_entry_set_text(GTK_ENTRY(app_wdgts->w_wRegister_txtFullNameRegister), "");
+            gtk_entry_set_text(GTK_ENTRY(app_wdgts->w_wRegister_txtPasswordRegister), "");
+            gtk_entry_set_text(GTK_ENTRY(app_wdgts->w_wRegister_txtRepasswordRegister), "");
+            gtk_entry_set_text(GTK_ENTRY(app_wdgts->w_wRegister_txtAddressRegister), "");
+            gtk_entry_set_text(GTK_ENTRY(app_wdgts->w_wRegister_txtPhoneNumberRegister), "");
+            //
             currentUser = getUser(txtUserRegister);
             if (isTurnBackShopping)
             {
@@ -1988,11 +2001,11 @@ gboolean on_window_purchaseHistory_delete_event(GtkWidget *widget, GdkEvent *eve
 }
 void on_window_purchaseHistory_activate_default(GtkWindow *window, app_widgets *app_wdgts)
 {
-    g_print("in");
+    // g_print("in");
 }
 void on_window_purchaseHistory_show(GtkWidget *widget, app_widgets *app_wdgts)
 {
-
+    gtk_text_buffer_set_text(app_wdgts->w_wPurchaseHistory_txtPurchaseHistory, "", -1);
     PurchaseHistory *listPurchase;
     GtkTextIter iter;
     int length = 0;
@@ -2068,7 +2081,6 @@ void on_btnAddManageGoods_clicked(GtkWidget *widget, app_widgets *app_wdgts)
     gchar *txtCategoryID;
     long price;
     int categoryID;
-
     txtCategoryID = gtk_combo_box_get_active_id(app_wdgts->w_wManageGoods_cbxCategoryAddManageGoods);
     txtNameCreate = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wManageGoods_txtNameCreateMangaGoods));
     txtPriceCreate = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wManageGoods_txtPriceCreateMangaGoods));
@@ -2084,16 +2096,18 @@ void on_btnAddManageGoods_clicked(GtkWidget *widget, app_widgets *app_wdgts)
     {
     case 1:
         show_msg(app_wdgts, "Thêm thành công!");
+        gtk_entry_set_text(GTK_ENTRY((app_wdgts->w_wManageGoods_txtNameCreateMangaGoods)), "");
+        gtk_entry_set_text(GTK_ENTRY((app_wdgts->w_wManageGoods_txtPriceCreateMangaGoods)), "");
         reloadBoxManage(app_wdgts);
         break;
     case 2:
-        show_msg(app_wdgts, "Tên món hàng không hợp lệ");
+        show_msg(app_wdgts, "Tên món hàng không hợp lệ! Tên hàng phải từ 6 tới 120 ký tự, chỉ được chứa chữ, số, khoảng cách và các ký tự ,.()-");
         break;
     case 3:
-        show_msg(app_wdgts, "Giá không hợp lệ");
+        show_msg(app_wdgts, "Giá không hợp lệ!");
         break;
     case 4:
-        show_msg(app_wdgts, "Category không tồn tại");
+        show_msg(app_wdgts, "Category không tồn tại!");
         break;
     default:
         break;
@@ -2109,14 +2123,20 @@ void on_btnEditManageGoods_clicked(GtkWidget *widget, app_widgets *app_wdgts)
     txtIDGoods = gtk_entry_get_text(GTK_ENTRY((app_wdgts->w_wManageGoods_txtIdEditMangaGoods)));
     txtPrice = gtk_entry_get_text(GTK_ENTRY((app_wdgts->w_wManageGoods_txtPriceEditMangaGoods)));
     txtName = gtk_entry_get_text(GTK_ENTRY((app_wdgts->w_wManageGoods_txtNameEditMangaGoods)));
+
     if (txtIDGoods[0] == '\0' || txtPrice[0] == '\0' || txtName[0] == '\0')
     {
-        show_msg(app_wdgts, "Vui lòng nhập đầy đủ");
+        show_msg(app_wdgts, "Vui lòng nhập đầy đủ!");
+        return;
+    }
+    if (!isValidNumber(txtIDGoods) || !isValidNumber(txtPrice))
+    {
+        show_msg(app_wdgts, "Vui lòng nhập một số hợp lệ!!");
         return;
     }
     if (!isYourGoods(atoi(txtIDGoods), currentUser.id))
     {
-        show_msg(app_wdgts, "ID không hợp lệ!!");
+        show_msg(app_wdgts, "ID không hợp lệ!");
         return;
     }
     int flag = editGoodsToFile(atoi(txtIDGoods), txtName, atol(txtPrice), atoi(txtCategoryID));
@@ -2124,6 +2144,9 @@ void on_btnEditManageGoods_clicked(GtkWidget *widget, app_widgets *app_wdgts)
     {
     case 1:
         show_msg(app_wdgts, "Sửa thành công!!");
+        gtk_entry_set_text(GTK_ENTRY((app_wdgts->w_wManageGoods_txtIdEditMangaGoods)), "");
+        gtk_entry_set_text(GTK_ENTRY((app_wdgts->w_wManageGoods_txtPriceEditMangaGoods)), "");
+        gtk_entry_set_text(GTK_ENTRY((app_wdgts->w_wManageGoods_txtNameEditMangaGoods)), "");
         reloadBoxManage(app_wdgts);
         break;
     case 2:
@@ -2149,11 +2172,17 @@ void on_btnUpdateManageGoods_clicked(GtkWidget *widget, app_widgets *app_wdgts)
     gchar *txtDiscount;
     int idGoods;
     int discount;
+
     txtIDGoods = gtk_entry_get_text(GTK_ENTRY((app_wdgts->w_wManageGoods_txtIdUpdateMangaGoods)));
     txtDiscount = gtk_entry_get_text(GTK_ENTRY((app_wdgts->w_wManageGoods_txtDiscountUpdateMangaGoods)));
     if (txtIDGoods[0] == '\0' || txtDiscount[0] == '\0')
     {
         show_msg(app_wdgts, "Vui lòng nhập đầy đủ!!");
+        return;
+    }
+    if (!isValidNumber(txtIDGoods) || !isValidNumber(txtDiscount))
+    {
+        show_msg(app_wdgts, "Vui lòng nhập một số hợp lệ!!");
         return;
     }
     idGoods = atoi(txtIDGoods);
@@ -2177,7 +2206,7 @@ void on_btnUpdateManageGoods_clicked(GtkWidget *widget, app_widgets *app_wdgts)
         show_msg(app_wdgts, "ID vật phẩm không tồn tại");
         break;
     case 3:
-        show_msg(app_wdgts, "% giảm giá không hợp lệ");
+        show_msg(app_wdgts, "%% giảm giá không hợp lệ");
         break;
 
     default:
@@ -2192,7 +2221,7 @@ void on_btnDeleteManageGoods_clicked(GtkWidget *widget, app_widgets *app_wdgts)
         show_msg(app_wdgts, "Vui lòng nhập ID cần xóa!!");
         return;
     }
-    g_print("goodsID : %s\n", txtGoodsID);
+    // g_print("goodsID : %s\n", txtGoodsID);
     if (!isYourGoods(atoi(txtGoodsID), currentUser.id))
     {
         show_msg(app_wdgts, "ID không hợp lệ!!");
@@ -2224,6 +2253,14 @@ void on_window_manageGoods_show(GtkWidget *widget, app_widgets *app_wdgts)
 }
 // #endregion
 // #region Handle event window_admin
+void on_window_admin_show(GtkWidget *widget, app_widgets *app_wdgts)
+{
+    gchar joinedStr[100];
+    strcat(joinedStr, "Xin chào ");
+    strcat(joinedStr, currentUser.name);
+    strcat(joinedStr, " !");
+    gtk_label_set_text(app_wdgts->w_wAdmin_lblNameAdmin, joinedStr);
+}
 void on_btnAddMoneyAdmin_clicked(GtkWidget *widget, app_widgets *app_wdgts)
 {
     gtk_widget_show(app_wdgts->w_wAddMoney);
@@ -2294,14 +2331,37 @@ void on_btnAddCategory_clicked(GtkWidget *widget, app_widgets *app_wdgts)
 {
     gchar *txtNameCategory = 0;
     txtNameCategory = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wCategory_txtNameCategory));
-    if (txtNameCategory[0] != '\0')
+    if (txtNameCategory[0] == '\0')
     {
         show_msg(app_wdgts, "Vui lòng nhập đầy đủ");
     }
     else
     {
-        //todo add to file
-        // addCategory()
+        int flag = addCategoryToFile(txtNameCategory);
+        switch (flag)
+        {
+        case 1:
+            //reset
+            gtk_entry_set_text(GTK_ENTRY(app_wdgts->w_wCategory_txtNameCategory), "");
+            gtk_combo_box_text_remove_all(app_wdgts->w_wCategory_cbxCategory);
+            Category *listCate;
+            size_t lengthCate = 0;
+            char tempStr[4];
+            listCate = getCategory(&lengthCate);
+            for (size_t i = 0; i < lengthCate; i++)
+            {
+                sprintf(tempStr, "%d", (listCate + i)->id);
+                gtk_combo_box_text_insert(app_wdgts->w_wCategory_cbxCategory, i, tempStr, (listCate + i)->name);
+            }
+            gtk_combo_box_set_active(app_wdgts->w_wCategory_cbxCategory, 0);
+            show_msg(app_wdgts, "Thêm thành công !!");
+            break;
+        case 2:
+            show_msg(app_wdgts, "Tên hàng hóa không hợp lệ! Tên chỉ được chứa chữ số và khoảng cách (2 - 100 ký tự)");
+            break;
+        default:
+            break;
+        }
     }
 }
 gboolean on_window_category_delete_event(GtkWidget *widget, GdkEvent *event, app_widgets *app_wdgts)
@@ -2312,13 +2372,17 @@ void on_btnDeleteCategory_clicked(GtkWidget *widget, app_widgets *app_wdgts)
 {
     // gtk_widget_show(app_wdgts->w_wAddMoney);
     gchar *selectedName;
+    gchar *selectedID;
     selectedName = gtk_combo_box_text_get_active_text(app_wdgts->w_wCategory_cbxCategory);
+    selectedID = gtk_combo_box_get_active_id(app_wdgts->w_wCategory_cbxCategory);
     int lengthCate;
     Category *listCate;
-
+    //set temp lengthCate, i dont need get listGoods after deleted
+    deleteGoodsByCate(atoi(selectedID), &lengthCate);
     char tempStr[4];
     listCate = deleteCategory(selectedName, &lengthCate);
 
+    show_msg(app_wdgts, "Xóa thành công!!!");
     gtk_combo_box_text_remove_all(app_wdgts->w_wCategory_cbxCategory);
     for (size_t i = 0; i < lengthCate; i++)
     {
@@ -2358,15 +2422,77 @@ void on_btnPayCart_clicked(GtkWidget *widget, app_widgets *app_wdgts)
     int method = gtk_toggle_button_get_active(app_wdgts->w_wCart_isCODCart) ? 1 : 2;
     int userID = currentUser.id != 0 ? currentUser.id : -1;
     int flag = -1;
+    if (txtPhoneNumber[0] == '\0' || txtNameCart[0] == '\0' || txtAddressCart[0] == '\0')
+    {
+        show_msg(app_wdgts, "Vui lòng nhập đầy đủ thông tin!");
+        return;
+    }
     if (txtCoupon[0] == '\0')
         flag = processCart(txtNameCart, txtAddressCart, txtPhoneNumber, method, listCart, lengthListCart - 1, userID, "-1");
     else
         flag = processCart(txtNameCart, txtAddressCart, txtPhoneNumber, method, listCart, lengthListCart - 1, userID, txtCoupon);
-
+    if (lengthListCart == 1)
+    {
+        show_msg(app_wdgts, "Giỏ hàng rỗng!!");
+        return;
+    }
     switch (flag)
     {
     case 1:
         show_msg(app_wdgts, "Thành công!!");
+        //
+        if (method == 2)
+        {
+            currentUser = getUser(currentUser.userName);
+            gchar tempLabelBalance[100];
+            strcpy(tempLabelBalance, "Số dư:");
+            strcat(tempLabelBalance, formatNumber(currentUser.balance));
+            gtk_label_set_text(app_wdgts->w_wCart_lblBtnLoginCart, tempLabelBalance);
+            gchar joinedStr[100];
+            strcat(joinedStr, "Xin chào ");
+            strcat(joinedStr, currentUser.name);
+            strcat(joinedStr, " !      Số dư: ");
+            strcat(joinedStr, formatNumber(currentUser.balance));
+            gtk_label_set_text(app_wdgts->w_wCustomer_lbtNameCustomer, joinedStr);
+        }
+        lengthListCart = 1;
+        //reload box
+        gtk_text_buffer_set_text(app_wdgts->w_wCart_txtListCart, "", -1);
+        GtkTextIter iter;
+        int length = 0;
+        long totalMoney = 0;
+        gchar temp[9999];
+        for (int i = 0; i < lengthListCart - 1; i++)
+        {
+            strcpy(temp, "------ID:");
+            char tempID[20];
+            sprintf(tempID, "%d", listCart[i].id);
+            strcat(temp, tempID);
+            strcat(temp, "------");
+            strcat(temp, listCart[i].name);
+            strcat(temp, "------");
+            strcat(temp, "\n");
+            strcat(temp, "Giá: ");
+            strcat(temp, formatNumber(listCart[i].price * (100 - listCart[i].discount) / 100));
+            strcat(temp, "\n");
+            totalMoney += listCart[i].price * (100 - listCart[i].discount) / 100;
+            gtk_text_buffer_get_start_iter(app_wdgts->w_wCart_txtListCart, &iter);
+            gtk_text_buffer_insert(app_wdgts->w_wCart_txtListCart, &iter, temp, -1);
+        }
+        strcpy(temp, "Tổng số tiền:");
+        strcat(temp, formatNumber(totalMoney));
+        strcat(temp, "\n");
+        gtk_text_buffer_get_start_iter(app_wdgts->w_wCart_txtListCart, &iter);
+        gtk_text_buffer_insert(app_wdgts->w_wCart_txtListCart, &iter, temp, -1);
+        //reset btn Thanh Toan
+        gchar sizeCart[20];
+        sprintf(sizeCart, "%d", lengthListCart - 1);
+        gchar tempBtn[40];
+        strcpy(tempBtn, "Thanh Toán (");
+        strcat(tempBtn, sizeCart);
+        strcat(tempBtn, ")");
+        gtk_label_set_text(app_wdgts->w_wShopping_lblPaymentShopping, tempBtn);
+        //
         break;
     case 2:
         show_msg(app_wdgts, "Tên không hợp lệ!!");
@@ -2406,6 +2532,7 @@ void on_btnCouponCart_clicked(GtkWidget *widget, app_widgets *app_wdgts)
 void on_btnDeleteItemCart_clicked(GtkWidget *widget, app_widgets *app_wdgts)
 {
     gchar *str_goodsID = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wCart_txtDeleteIDCart));
+    gchar *txtCoupon = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wCart_txtCouponCart));
     int i = 0;
     gboolean isValidNumber = TRUE;
     while (str_goodsID[i] != '\0')
@@ -2419,38 +2546,61 @@ void on_btnDeleteItemCart_clicked(GtkWidget *widget, app_widgets *app_wdgts)
     }
     if (isValidNumber)
     {
+        int isValidID = 0;
+        for (int i = 0; i < lengthListCart - 1; i++)
+        {
+            if (listCart[i].id == atoi(str_goodsID))
+            {
+                isValidID = 1;
+                break;
+            }
+        }
+        if (!isValidID)
+        {
+            show_msg(app_wdgts, "Vui lòng nhập ID hợp lệ!");
+            return;
+        }
+
         //real length
         int tempLength = lengthListCart - 1;
         removeElementCart(listCart, &tempLength, atoi(str_goodsID));
         lengthListCart = tempLength + 1;
-        //reload box
-        gtk_text_buffer_set_text(app_wdgts->w_wCart_txtListCart, "", -1);
-        GtkTextIter iter;
-        int length = 0;
-        long totalMoney = 0;
-        gchar temp[9999];
-        for (int i = 0; i < lengthListCart - 1; i++)
+        if (txtCoupon[0] == '\0')
         {
-            strcpy(temp, "------ID:");
-            char tempID[20];
-            sprintf(tempID, "%d", listCart[i].id);
-            strcat(temp, tempID);
-            strcat(temp, "------");
-            strcat(temp, listCart[i].name);
-            strcat(temp, "------");
+            //reload box
+            gtk_text_buffer_set_text(app_wdgts->w_wCart_txtListCart, "", -1);
+            GtkTextIter iter;
+            int length = 0;
+            long totalMoney = 0;
+            gchar temp[9999];
+            for (int i = 0; i < lengthListCart - 1; i++)
+            {
+                strcpy(temp, "------ID:");
+                char tempID[20];
+                sprintf(tempID, "%d", listCart[i].id);
+                strcat(temp, tempID);
+                strcat(temp, "------");
+                strcat(temp, listCart[i].name);
+                strcat(temp, "------");
+                strcat(temp, "\n");
+                strcat(temp, "Giá: ");
+                strcat(temp, formatNumber(listCart[i].price * (100 - listCart[i].discount) / 100));
+                strcat(temp, "\n");
+                totalMoney += listCart[i].price * (100 - listCart[i].discount) / 100;
+                gtk_text_buffer_get_start_iter(app_wdgts->w_wCart_txtListCart, &iter);
+                gtk_text_buffer_insert(app_wdgts->w_wCart_txtListCart, &iter, temp, -1);
+            }
+            strcpy(temp, "Tổng số tiền:");
+            strcat(temp, formatNumber(totalMoney));
             strcat(temp, "\n");
-            strcat(temp, "Giá: ");
-            strcat(temp, formatNumber(listCart[i].price * (100 - listCart[i].discount) / 100));
-            strcat(temp, "\n");
-            totalMoney += listCart[i].price * (100 - listCart[i].discount) / 100;
             gtk_text_buffer_get_start_iter(app_wdgts->w_wCart_txtListCart, &iter);
             gtk_text_buffer_insert(app_wdgts->w_wCart_txtListCart, &iter, temp, -1);
         }
-        strcpy(temp, "Tổng số tiền:");
-        strcat(temp, formatNumber(totalMoney));
-        strcat(temp, "\n");
-        gtk_text_buffer_get_start_iter(app_wdgts->w_wCart_txtListCart, &iter);
-        gtk_text_buffer_insert(app_wdgts->w_wCart_txtListCart, &iter, temp, -1);
+        else
+        {
+            reloadBoxCart(app_wdgts);
+        }
+
         //reset btn Thanh Toan
         gchar sizeCart[20];
         sprintf(sizeCart, "%d", lengthListCart - 1);
@@ -2461,7 +2611,7 @@ void on_btnDeleteItemCart_clicked(GtkWidget *widget, app_widgets *app_wdgts)
         gtk_label_set_text(app_wdgts->w_wShopping_lblPaymentShopping, tempBtn);
 
         //
-        gtk_label_set_text(app_wdgts->w_wCart_txtCouponCart, "");
+        // gtk_entry_set_text(app_wdgts->w_wCart_txtCouponCart, "");
         show_msg(app_wdgts, "Xóa 1 vật phẩm ra khỏi giỏ thành công!");
     }
     else
@@ -2566,7 +2716,11 @@ void on_window_ads_show(GtkWidget *widget, app_widgets *app_wdgts)
     char tempName[30];
     strcpy(tempName, "Xin chào ");
     strcat(tempName, currentUser.name);
-    gtk_label_set_text(app_wdgts->w_wAds_lblMoneyAds, formatNumber(getAverageMoney()));
+    strcat(tempName, " !");
+    long defaultMoney = getAverageMoney();
+    if (defaultMoney < minMoneyAds)
+        defaultMoney = minMoneyAds;
+    gtk_label_set_text(app_wdgts->w_wAds_lblMoneyAds, formatNumber(defaultMoney));
     gtk_label_set_text(app_wdgts->w_wAds_lblNameAds, tempName);
     listGoods = getGoodsByOwnerID(currentUser.id, &length);
     if (length > 0)
@@ -2603,9 +2757,15 @@ void on_btnAddAds_clicked(GtkButton *button, app_widgets *app_wdgts)
     gchar *txtGoodsID = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wAds_txtGoodsIDAds));
     gchar *txtMoneyAds = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wAds_txtMoneyAds));
     gchar *txtBudgetAds = gtk_entry_get_text(GTK_ENTRY(app_wdgts->w_wAds_txtBudgetAds));
+
     if (txtGoodsID[0] == '\0' || txtMoneyAds[0] == '\0' || txtBudgetAds[0] == '\0')
     {
         show_msg(app_wdgts, "Vui lòng nhập đầy đủ!!");
+        return;
+    }
+    if (!isValidNumber(txtGoodsID) || !isValidNumber(txtMoneyAds) || !isValidNumber(txtBudgetAds))
+    {
+        show_msg(app_wdgts, "Vui lòng nhập một số hợp lệ!!");
         return;
     }
     int length = -1, isExistItem = 0;

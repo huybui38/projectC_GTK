@@ -310,7 +310,10 @@ int processCart(char *cusName, char *address, char *phoneNum, int method, Goods 
         strcpy(purchasedInfo.purchaseType, "COD");
       }
       else
+      {
+
         strcpy(purchasedInfo.purchaseType, "Thanh toán bằng số dư");
+      }
       // printf("method: %s\n", purchasedInfo.purchaseType);
       //phải cấp bộ nhớ rồi mới copy vô được????
       purchasedInfo.name = (char *)calloc(120, sizeof(char));
@@ -325,6 +328,7 @@ int processCart(char *cusName, char *address, char *phoneNum, int method, Goods 
       //check payment method.
       if (method == 2)
       {
+
         if (user.balance - totalPrice < 0)
         {
           check = 6;
@@ -332,6 +336,13 @@ int processCart(char *cusName, char *address, char *phoneNum, int method, Goods 
         else
         {
           user.balance -= totalPrice;
+          for (int i = 0; i < cartLength; i++)
+          {
+            User seller = getUserByID((purchaseGoods + i)->ownerID);
+            int64_t amount = (int64_t)((purchaseGoods + i)->price * (100 - (purchaseGoods + i)->discount) / 100);
+            seller.balance += amount;
+            editUserToFile(seller);
+          }
           editUserToFile(user);
         }
       }
