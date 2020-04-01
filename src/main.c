@@ -1931,7 +1931,7 @@ void on_btnClickUpdateChangeInfo_clicked(GtkWidget *widget, app_widgets *app_wdg
         {
         case 1:
             currentUser = getUser(currentUser.userName);
-            show_msg(app_wdgts, "cập nhật thành công!");
+            show_msg(app_wdgts, "Cập nhật thành công!");
             gtk_widget_hide(app_wdgts->w_wChangeInfo);
             break;
         case 2:
@@ -2197,7 +2197,7 @@ void on_btnUpdateManageGoods_clicked(GtkWidget *widget, app_widgets *app_wdgts)
     switch (flag)
     {
     case 1:
-        show_msg(app_wdgts, "cập nhật thành công");
+        show_msg(app_wdgts, "Cập nhật thành công");
         reloadBoxManage(app_wdgts);
         gtk_entry_set_text(GTK_ENTRY((app_wdgts->w_wManageGoods_txtIdUpdateMangaGoods)), "");
         gtk_entry_set_text(GTK_ENTRY((app_wdgts->w_wManageGoods_txtDiscountUpdateMangaGoods)), "");
@@ -2308,7 +2308,7 @@ void on_btnUpdateAddMoney_clicked(GtkWidget *widget, app_widgets *app_wdgts)
     case 1:
         gtk_entry_set_text(GTK_ENTRY(app_wdgts->w_wAddMoney_txtCashAddMoney), "");
         gtk_entry_set_text(GTK_ENTRY(app_wdgts->w_wAddMoney_txtUserNameAddMoney), "");
-        show_msg(app_wdgts, "cập nhật thành công");
+        show_msg(app_wdgts, "Cập nhật thành công");
         break;
     case 2:
         show_msg(app_wdgts, "Tên tài khoản không hợp lệ");
