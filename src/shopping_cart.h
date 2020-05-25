@@ -87,7 +87,7 @@ void addCoupon(int ownerID, int discount, char *couponName)
   (ptrCoupon + length)->couponName = (char *)calloc(100, sizeof(char));
   strcpy((ptrCoupon + length)->couponName, couponName);
   writeCouponToFile(ptrCoupon, ++length);
-  free(ptrCoupon);
+  // free(ptrCoupon);
 }
 
 void sortCouponDescending(Coupon *listCoupon, int length)
@@ -125,7 +125,7 @@ Coupon getCoupon(int ownerID)
       *(foundCoupon + count++) = *(listCoupon + i);
     }
   }
-  free(listCoupon);
+  // free(listCoupon);
   sortCouponDescending(foundCoupon, count);
   return *(foundCoupon);
 }
@@ -195,7 +195,7 @@ int isAvailableCoupon(char *couName, int ownerID, int *discount)
       }
     }
   }
-  free(listCoupon);
+  // free(listCoupon);
   return check;
 }
 
@@ -220,14 +220,14 @@ void deleteCoupon(char *couName, int ownerID)
     }
   }
   writeCouponToFile(listCoupon, length);
-  free(listCoupon);
+  // free(listCoupon);
 }
 
 int processCart(char *cusName, char *address, char *phoneNum, int method, Goods *purchaseGoods, int cartLength, int userID, char *coupon)
 {
   int check = 1;
   int couponDiscount = 0;
-  size_t sizeGoods;
+  int sizeGoods;
   char *tmpStr;
 
   tmpStr = (char *)calloc(120, sizeof(char));

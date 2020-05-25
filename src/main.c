@@ -175,6 +175,8 @@ int turnBack = -1;
 int turnBack_2 = -1;
 int turnBack_3 = -1;
 int turnBack_4 = -1;
+int turnBack_5 = -1;
+int turnBack_6 = -1;
 int isClickedMsg = 0;
 int currentPageShopping = 1;
 int lengthListCart = 1;
@@ -438,7 +440,7 @@ void randomAds(int count, ItemRandom *arrRandom, int lengthArr, int result[])
 Goods getSelectedGoods(int position, app_widgets *app_wdgts)
 {
     Goods *listGoods;
-    size_t lengthGoods = 0;
+    int lengthGoods = 0;
     int canNext = 0;
     gchar *selectedCate;
     gchar *selectedSort;
@@ -622,6 +624,8 @@ void reloadBoxCart(app_widgets *app_wdgts)
 }
 void reset()
 {
+    turnBack_6 = -1;
+    turnBack_5 = -1;
     turnBack_4 = -1;
     turnBack_3 = -1;
     turnBack_2 = -1;
@@ -640,6 +644,8 @@ void on_window_msg_box_response(GtkDialog *dialog, gint response_id, app_widgets
 }
 void setTurnBackWindow(int id)
 {
+    turnBack_6 = turnBack_5;
+    turnBack_5 = turnBack_4;
     turnBack_4 = turnBack_3;
     turnBack_3 = turnBack_2;
     turnBack_2 = turnBack;
@@ -682,6 +688,8 @@ void on_window_delete_event(GtkWidget *widget, GdkEvent *event, app_widgets *app
     turnBack = turnBack_2;
     turnBack_2 = turnBack_3;
     turnBack_3 = turnBack_4;
+    turnBack_4 = turnBack_5;
+    turnBack_5 = turnBack_6;
     return TRUE;
 }
 
@@ -1383,13 +1391,13 @@ void showBoxGoods(int boxID, Goods goods, app_widgets *app_wdgts, int isAds)
 
 void showPageDataShopping(int page, app_widgets *app_wdgts)
 {
-    for (size_t i = 1; i < 13; i++)
+    for (int i = 1; i < 13; i++)
     {
         resetFormatBoxShopping(i, app_wdgts);
         setBoxShoppingSensitive(i, FALSE, app_wdgts);
     }
     Goods *listGoods;
-    size_t lengthGoods = 0;
+    int lengthGoods = 0;
     int canNext = 0;
     int numberOfItemCanShow = 0;
     listStatusAds[0][0] = 0;
@@ -1500,12 +1508,12 @@ void showPageDataShopping(int page, app_widgets *app_wdgts)
     //limit length per page
     if (lengthGoods > 12)
         lengthGoods = 12;
-    // for (size_t i = 0; i < lengthGoods; i++)
+    // for (int i = 0; i < lengthGoods; i++)
     // {
     //     g_print("ID:%d => Ten san pham: %s => Gia: %d => category: %d \n", listGoods[i].id, listGoods[i].name, listGoods[i].price, listGoods[i].categoryID);
     // }
 
-    for (size_t i = numberOfItemCanShow; i < lengthGoods + numberOfItemCanShow; i++)
+    for (int i = numberOfItemCanShow; i < lengthGoods + numberOfItemCanShow; i++)
     {
         showBoxGoods(i + 1, listGoods[i - numberOfItemCanShow], app_wdgts, 0);
     }
@@ -1660,11 +1668,11 @@ void on_window_shopping_show(GtkWidget *widget, app_widgets *app_wdgts)
         gtk_widget_set_sensitive(app_wdgts->w_wShopping_btnRegisterShopping, FALSE);
     }
     Category *listCate;
-    size_t lengthCate = 0;
+    int lengthCate = 0;
     char tempStr[4];
     listCate = getCategory(&lengthCate);
     gtk_combo_box_text_insert(app_wdgts->w_wShopping_cbxCategoryShopping, 0, "0", "Tất cả");
-    for (size_t i = 0; i < lengthCate; i++)
+    for (int i = 0; i < lengthCate; i++)
     {
         sprintf(tempStr, "%d", (listCate + i)->id);
         gtk_combo_box_text_insert(app_wdgts->w_wShopping_cbxCategoryShopping, i + 1, tempStr, (listCate + i)->name);
@@ -1672,15 +1680,14 @@ void on_window_shopping_show(GtkWidget *widget, app_widgets *app_wdgts)
     gtk_combo_box_set_active(app_wdgts->w_wShopping_cbxCategoryShopping, 0);
 
     // listGoods = getAllGoods(&lengthGoods);
-
     //load goods
     Goods *listGoods;
-    size_t lengthGoods = 0;
+    int lengthGoods = 0;
     int canNext = 0;
 
     listGoods = getGoods(listCate[0].id, 12, 1, &canNext, &lengthGoods, 1);
     // g_print("can Next: %d\n", canNext);
-    // for (size_t i = 0; i < lengthGoods; i++)
+    // for (int i = 0; i < lengthGoods; i++)
     // {
     //     g_print("ID:%d => Ten san pham: %s => Gia: %d => category: %d \n", listGoods[i].id, listGoods[i].name, listGoods[i].price, listGoods[i].categoryID);
     // }
@@ -1742,6 +1749,8 @@ void on_btn_signup_register_clicked(GtkButton *button, app_widgets *app_wdgts)
                 turnBack_2 = 1;
                 turnBack_3 = -1;
                 turnBack_4 = -1;
+                turnBack_5 = -1;
+                turnBack_6 = -1;
                 gtk_widget_show(app_wdgts->w_wCart);
                 gtk_widget_hide(app_wdgts->w_wRegister);
                 isTurnBackCart = FALSE;
@@ -1829,7 +1838,7 @@ void on_btnChangePassWordCustomer_clicked(GtkButton *button, app_widgets *app_wd
 void on_btnShoppingCustomer_clicked(GtkButton *button, app_widgets *app_wdgts)
 {
     setTurnBackWindow(5);
-    // gtk_widget_hide(app_wdgts->w_wCustomer);
+    gtk_widget_hide(app_wdgts->w_wCustomer);
     gtk_widget_show(app_wdgts->w_wShopping);
 }
 void btnLogoutCustomer_clicked_cb(GtkButton *button, app_widgets *app_wdgts)
@@ -2029,7 +2038,7 @@ void on_window_purchaseHistory_show(GtkWidget *widget, app_widgets *app_wdgts)
         strcat(temp, timeStr);
         strcat(temp, "-----");
         strcat(temp, "\n");
-        for (size_t j = 0; j < listPurchase[i].sizeListGoods; j++)
+        for (int j = 0; j < listPurchase[i].sizeListGoods; j++)
         {
             strcat(temp, "\t*");
             strcat(temp, listPurchase[i].listGoods[j]);
@@ -2236,11 +2245,11 @@ void on_window_manageGoods_show(GtkWidget *widget, app_widgets *app_wdgts)
 {
     resetManage(app_wdgts);
     Category *listCate;
-    size_t lengthCate = 0;
+    int lengthCate = 0;
     char tempStr[4];
 
     listCate = getCategory(&lengthCate);
-    for (size_t i = 0; i < lengthCate; i++)
+    for (int i = 0; i < lengthCate; i++)
     {
         sprintf(tempStr, "%d", (listCate + i)->id);
         gtk_combo_box_text_insert(app_wdgts->w_wManageGoods_cbxCategoryAddManageGoods, i, tempStr, (listCate + i)->name);
@@ -2345,10 +2354,10 @@ void on_btnAddCategory_clicked(GtkWidget *widget, app_widgets *app_wdgts)
             gtk_entry_set_text(GTK_ENTRY(app_wdgts->w_wCategory_txtNameCategory), "");
             gtk_combo_box_text_remove_all(app_wdgts->w_wCategory_cbxCategory);
             Category *listCate;
-            size_t lengthCate = 0;
+            int lengthCate = 0;
             char tempStr[4];
             listCate = getCategory(&lengthCate);
-            for (size_t i = 0; i < lengthCate; i++)
+            for (int i = 0; i < lengthCate; i++)
             {
                 sprintf(tempStr, "%d", (listCate + i)->id);
                 gtk_combo_box_text_insert(app_wdgts->w_wCategory_cbxCategory, i, tempStr, (listCate + i)->name);
@@ -2384,7 +2393,7 @@ void on_btnDeleteCategory_clicked(GtkWidget *widget, app_widgets *app_wdgts)
 
     show_msg(app_wdgts, "Xóa thành công!!!");
     gtk_combo_box_text_remove_all(app_wdgts->w_wCategory_cbxCategory);
-    for (size_t i = 0; i < lengthCate; i++)
+    for (int i = 0; i < lengthCate; i++)
     {
         sprintf(tempStr, "%d", (listCate + i)->id);
         gtk_combo_box_text_insert(app_wdgts->w_wCategory_cbxCategory, i, tempStr, (listCate + i)->name);
@@ -2395,10 +2404,10 @@ void on_window_category_show(GtkWidget *widget, app_widgets *app_wdgts)
 {
     gtk_combo_box_text_remove_all(app_wdgts->w_wCategory_cbxCategory);
     Category *listCate;
-    size_t lengthCate = 0;
+    int lengthCate = 0;
     char tempStr[4];
     listCate = getCategory(&lengthCate);
-    for (size_t i = 0; i < lengthCate; i++)
+    for (int i = 0; i < lengthCate; i++)
     {
         sprintf(tempStr, "%d", (listCate + i)->id);
         gtk_combo_box_text_insert(app_wdgts->w_wCategory_cbxCategory, i, tempStr, (listCate + i)->name);
@@ -2440,6 +2449,26 @@ void on_btnPayCart_clicked(GtkWidget *widget, app_widgets *app_wdgts)
     {
     case 1:
         show_msg(app_wdgts, "Thành công!!");
+        //
+
+        if (currentUser.id != 0)
+        {
+            long totalCash = 0;
+            for (int i = 0; i < lengthListCart - 1; i++)
+            {
+                totalCash += listCart[i].price;
+            }
+            if (totalCash <= 50000)
+                addCoupon(currentUser.id, 5, "COUPON5");
+            else if (totalCash <= 150000)
+                addCoupon(currentUser.id, 10, "COUPON10");
+            else if (totalCash <= 350000)
+                addCoupon(currentUser.id, 15, "COUPON15");
+            else if (totalCash <= 1000000)
+                addCoupon(currentUser.id, 20, "COUPON20");
+            else
+                addCoupon(currentUser.id, 30, "COUPON30");
+        }
         //
         if (method == 2)
         {

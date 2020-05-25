@@ -152,7 +152,7 @@ int isYourGoods2(int goodsID)
 {
   int check = 0;
   Goods *ptrGoods;
-  size_t length;
+  int length;
 
   ptrGoods = getAllGoods(&length);
   for (int i = 0; i < length; i++)
@@ -169,7 +169,7 @@ int isYourGoods(int goodsID, int ownerID)
 {
   int check = 0;
   Goods *ptrGoods;
-  size_t length;
+  int length;
 
   ptrGoods = getAllGoods(&length);
   for (int i = 0; i < length; i++)

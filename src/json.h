@@ -16,7 +16,7 @@ int addCategory(Category cate)
     struct json_object *name;
     struct json_object *data;
     struct json_object *objCate = json_object_new_object();
-    size_t length;
+    int length;
     fp = fopen(PATH_CATEGORY, "r");
     if (fp == NULL)
         return;
@@ -38,7 +38,7 @@ int addCategory(Category cate)
 }
 // #endregion
 // #region getCategory
-Category *getCategory(size_t *sizeCate)
+Category *getCategory(int *sizeCate)
 {
 
     FILE *fp;
@@ -50,7 +50,7 @@ Category *getCategory(size_t *sizeCate)
     struct json_object *data;
     struct json_object *objCate = json_object_new_object();
     Category *listCate;
-    size_t length;
+    int length;
     fp = fopen(PATH_CATEGORY, "r");
 
     if (fp == NULL)
@@ -64,7 +64,7 @@ Category *getCategory(size_t *sizeCate)
     length = json_object_array_length(data);
     listCate = (Category *)calloc(length, sizeof(Category));
     *sizeCate = length;
-    for (size_t i = 0; i < length; i++)
+    for (int i = 0; i < length; i++)
     {
         objCate = json_object_array_get_idx(data, i);
         json_object_object_get_ex(objCate, "name", &name);
@@ -77,7 +77,7 @@ Category *getCategory(size_t *sizeCate)
 }
 // #endregion
 // #region deleteCategory
-Category *deleteCategory(char *nameCate, size_t *sizeArray)
+Category *deleteCategory(char *nameCate, int *sizeArray)
 {
     FILE *fp;
     char buffer[MAX_BUFFER];
@@ -87,7 +87,7 @@ Category *deleteCategory(char *nameCate, size_t *sizeArray)
     struct json_object *data;
     struct json_object *objCate = json_object_new_object();
     Category *listCate;
-    size_t length;
+    int length;
     fp = fopen(PATH_CATEGORY, "r");
     if (fp == NULL)
         return;
@@ -102,13 +102,13 @@ Category *deleteCategory(char *nameCate, size_t *sizeArray)
     json_object_object_get_ex(parsed_json, "data", &data);
     length = json_object_array_length(data);
     listCate = (Category *)calloc(length, sizeof(Category));
-    size_t i = 0, j = 0;
+    int i = 0, j = 0;
     while (i < length)
     {
         objCate = json_object_array_get_idx(data, i);
         json_object_object_get_ex(objCate, "name", &name);
         json_object_object_get_ex(objCate, "id", &id);
-        size_t flag = strcmp(json_object_get_string(name), nameCate);
+        int flag = strcmp(json_object_get_string(name), nameCate);
         if (flag != 0)
         {
             (listCate + j)->id = json_object_get_int(id);
@@ -125,7 +125,7 @@ Category *deleteCategory(char *nameCate, size_t *sizeArray)
 // #endregion
 
 // #region getAllGoods
-Goods *getAllGoods(size_t *sizeGoods)
+Goods *getAllGoods(int *sizeGoods)
 {
 
     FILE *fp;
@@ -143,7 +143,7 @@ Goods *getAllGoods(size_t *sizeGoods)
     struct json_object *discount;
 
     Goods *listGoods;
-    size_t length;
+    int length;
     fp = fopen(PATH_GOODS, "r");
     if (fp == NULL)
         return -1;
@@ -156,7 +156,7 @@ Goods *getAllGoods(size_t *sizeGoods)
     length = json_object_array_length(data);
     listGoods = (Goods *)calloc(length, sizeof(Goods));
     *sizeGoods = length;
-    for (size_t i = 0; i < length; i++)
+    for (int i = 0; i < length; i++)
     {
         objGoods = json_object_array_get_idx(data, i);
         json_object_object_get_ex(objGoods, "name", &name);
@@ -221,7 +221,7 @@ int addGoods(Goods goods)
 }
 // #endregion
 // #region deleteGoods
-Goods *deleteGoods(int goodsID, size_t *sizeArray)
+Goods *deleteGoods(int goodsID, int *sizeArray)
 {
     FILE *fp;
     char buffer[MAX_BUFFER];
@@ -237,7 +237,7 @@ Goods *deleteGoods(int goodsID, size_t *sizeArray)
     struct json_object *data;
     struct json_object *objGoods = json_object_new_object();
     Goods *listGoods;
-    size_t length;
+    int length;
     fp = fopen(PATH_GOODS, "r");
     if (fp == NULL)
         return;
@@ -252,7 +252,7 @@ Goods *deleteGoods(int goodsID, size_t *sizeArray)
     json_object_object_get_ex(parsed_json, "data", &data);
     length = json_object_array_length(data);
     listGoods = (Goods *)calloc(length, sizeof(Goods));
-    size_t i = 0, j = 0;
+    int i = 0, j = 0;
     while (i < length)
     {
         objGoods = json_object_array_get_idx(data, i);
@@ -282,7 +282,7 @@ Goods *deleteGoods(int goodsID, size_t *sizeArray)
 }
 // #endregion
 // #region editGoods
-Goods *editGoods(Goods goods, size_t *sizeArray)
+Goods *editGoods(Goods goods, int *sizeArray)
 {
     FILE *fp;
     char buffer[MAX_BUFFER];
@@ -298,7 +298,7 @@ Goods *editGoods(Goods goods, size_t *sizeArray)
     struct json_object *data;
     struct json_object *objGoods = json_object_new_object();
     Goods *listGoods;
-    size_t length;
+    int length;
     fp = fopen(PATH_GOODS, "r");
     if (fp == NULL)
         return -1;
@@ -313,7 +313,7 @@ Goods *editGoods(Goods goods, size_t *sizeArray)
 
     length = json_object_array_length(data);
     listGoods = (Goods *)calloc(length, sizeof(Goods));
-    size_t i = 0;
+    int i = 0;
     while (i < length)
     {
         objGoods = json_object_array_get_idx(data, i);
@@ -350,7 +350,7 @@ Goods *editGoods(Goods goods, size_t *sizeArray)
 }
 // #endregion
 // #region deleteGoodsByCate
-Goods *deleteGoodsByCate(int cateID, size_t *sizeArray)
+Goods *deleteGoodsByCate(int cateID, int *sizeArray)
 {
     FILE *fp;
     char buffer[MAX_BUFFER];
@@ -366,7 +366,7 @@ Goods *deleteGoodsByCate(int cateID, size_t *sizeArray)
     struct json_object *data;
     struct json_object *objGoods = json_object_new_object();
     Goods *listGoods;
-    size_t length;
+    int length;
     fp = fopen(PATH_GOODS, "r");
     if (fp == NULL)
         return;
@@ -381,7 +381,7 @@ Goods *deleteGoodsByCate(int cateID, size_t *sizeArray)
     json_object_object_get_ex(parsed_json, "data", &data);
     length = json_object_array_length(data);
     listGoods = (Goods *)calloc(length, sizeof(Goods));
-    size_t i = 0, j = 0;
+    int i = 0, j = 0;
     while (i < length)
     {
         objGoods = json_object_array_get_idx(data, i);
@@ -416,7 +416,7 @@ Goods *deleteGoodsByCate(int cateID, size_t *sizeArray)
 // #endregion
 
 // #region getPurchaseHistory
-PurchaseHistory *getPurchaseHistory(char userName[100], size_t *sizeArr)
+PurchaseHistory *getPurchaseHistory(char userName[100], int *sizeArr)
 {
     FILE *fp;
     char buffer[MAX_BUFFER];
@@ -439,7 +439,7 @@ PurchaseHistory *getPurchaseHistory(char userName[100], size_t *sizeArr)
     strcat(path_history, userName);
     strcat(path_history, ".json");
     PurchaseHistory *listPurchaseHistory;
-    size_t length;
+    int length;
 
     fp = fopen(path_history, "r");
     if (fp == NULL)
@@ -455,7 +455,7 @@ PurchaseHistory *getPurchaseHistory(char userName[100], size_t *sizeArr)
     length = json_object_array_length(data);
     *sizeArr = length;
     listPurchaseHistory = (PurchaseHistory *)calloc(length, sizeof(PurchaseHistory));
-    for (size_t i = 0; i < length; i++)
+    for (int i = 0; i < length; i++)
     {
         objGoods = json_object_array_get_idx(data, i);
         json_object_object_get_ex(objGoods, "name", &name);
@@ -467,7 +467,7 @@ PurchaseHistory *getPurchaseHistory(char userName[100], size_t *sizeArr)
         json_object_object_get_ex(objGoods, "time", &time);
 
         int lengthListGoods = json_object_array_length(listGoods);
-        for (size_t j = 0; j < lengthListGoods; j++)
+        for (int j = 0; j < lengthListGoods; j++)
         {
             ObjListGoods = json_object_array_get_idx(listGoods, j);
             // printf("%s\n", json_object_get_string(ObjListGoods));
@@ -508,7 +508,7 @@ int addPurchaseHistory(char *userName, PurchaseHistory history)
     struct json_object *objGoods;
     struct json_object *data;
     struct json_object *objPurchaseHistory = json_object_new_object();
-    size_t length;
+    int length;
 
     char path_history[100];
     strcpy(path_history, PATH_PURCHASE_HISTORY);
@@ -536,7 +536,7 @@ int addPurchaseHistory(char *userName, PurchaseHistory history)
     purchaseType = json_object_new_string(history.purchaseType);
     totalPrice = json_object_new_int64(history.totalPrice);
     time = json_object_new_int64(history.time);
-    for (size_t i = 0; i < history.sizeListGoods; i++)
+    for (int i = 0; i < history.sizeListGoods; i++)
     {
         objGoods = json_object_new_string(history.listGoods[i]);
         json_object_array_add(listGoods, objGoods);
@@ -574,7 +574,7 @@ int addSalesHistory(Goods goods, char *userName)
 
     struct json_object *data;
     struct json_object *objSales = json_object_new_object();
-    size_t length;
+    int length;
     char path_history[100];
     strcpy(path_history, PATH_SALES_HISTORY);
     strcat(path_history, userName);
@@ -611,7 +611,7 @@ int addSalesHistory(Goods goods, char *userName)
 }
 // #endregion
 // #region getSalesHistory
-SalesHistory *getSalesHistory(char userName[100], size_t *sizeArr)
+SalesHistory *getSalesHistory(char userName[100], int *sizeArr)
 {
     FILE *fp;
     char buffer[MAX_BUFFER];
@@ -631,7 +631,7 @@ SalesHistory *getSalesHistory(char userName[100], size_t *sizeArr)
     strcat(path_history, userName);
     strcat(path_history, ".json");
     SalesHistory *listSalesHistory;
-    size_t length;
+    int length;
 
     fp = fopen(path_history, "r");
 
@@ -648,7 +648,7 @@ SalesHistory *getSalesHistory(char userName[100], size_t *sizeArr)
     length = json_object_array_length(data);
     *sizeArr = length;
     listSalesHistory = (SalesHistory *)calloc(length, sizeof(SalesHistory));
-    for (size_t i = 0; i < length; i++)
+    for (int i = 0; i < length; i++)
     {
         objGoods = json_object_array_get_idx(data, i);
         json_object_object_get_ex(objGoods, "goodsId", &goodsId);

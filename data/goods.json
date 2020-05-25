@@ -1,1 +1,196 @@
-{"data":[{"id":1,"name":"Hello World","price":11,"ownerID":13,"categoryID":1,"discount":0}]}
+{
+    "data": [
+        {
+            "id": 1,
+            "name": "Áo đấu QUATAR",
+            "price": 120000,
+            "ownerID": 3,
+            "categoryID": 1,
+            "discount": 0
+        },
+        {
+            "id": 2,
+            "name": "Quần jeans rách siêu ngầu",
+            "price": 240000,
+            "ownerID": 3,
+            "categoryID": 1,
+            "discount": 0
+        },
+        {
+            "id": 3,
+            "name": "Quần jogger chim cánh cụt",
+            "price": 125000,
+            "ownerID": 3,
+            "categoryID": 1,
+            "discount": 5
+        },
+        {
+            "id": 4,
+            "name": "Áo thun tay lỡ",
+            "price": 60000,
+            "ownerID": 3,
+            "categoryID": 1,
+            "discount": 5
+        },
+        {
+            "id": 5,
+            "name": "Áo có chữ ký Công Phượng",
+            "price": 1000000,
+            "ownerID": 3,
+            "categoryID": 1,
+            "discount": 0
+        },
+        {
+            "id": 6,
+            "name": "Áo sơ mi ôm body",
+            "price": 200000,
+            "ownerID": 3,
+            "categoryID": 1,
+            "discount": 10
+        },
+        {
+            "id": 7,
+            "name": "Thượng Đình",
+            "price": 65000,
+            "ownerID": 3,
+            "categoryID": 2,
+            "discount": 0
+        },
+        {
+            "id": 8,
+            "name": "Lebron James",
+            "price": 4000000,
+            "ownerID": 3,
+            "categoryID": 2,
+            "discount": 12
+        },
+        {
+            "id": 9,
+            "name": "Nike Max Air",
+            "price": 4500000,
+            "ownerID": 3,
+            "categoryID": 2,
+            "discount": 0
+        },
+        {
+            "id": 10,
+            "name": "Vans hoa cúc",
+            "price": 4000000,
+            "ownerID": 3,
+            "categoryID": 2,
+            "discount": 0
+        },
+        {
+            "id": 11,
+            "name": "Tông lào siêu bền",
+            "price": 15000,
+            "ownerID": 3,
+            "categoryID": 2,
+            "discount": 0
+        },
+        {
+            "id": 12,
+            "name": "Dép tổ ong",
+            "price": 20000,
+            "ownerID": 3,
+            "categoryID": 2,
+            "discount": 0
+        },
+        {
+            "id": 13,
+            "name": "Dây nịt da",
+            "price": 40000,
+            "ownerID": 6,
+            "categoryID": 3,
+            "discount": 0
+        },
+        {
+            "id": 14,
+            "name": "Bóp siêu sang",
+            "price": 400000,
+            "ownerID": 6,
+            "categoryID": 3,
+            "discount": 15
+        },
+        {
+            "id": 15,
+            "name": "Cà vạt",
+            "price": 150000,
+            "ownerID": 6,
+            "categoryID": 3,
+            "discount": 20
+        },
+        {
+            "id": 16,
+            "name": "Apple Watch",
+            "price": 4000000,
+            "ownerID": 6,
+            "categoryID": 3,
+            "discount": 15
+        },
+        {
+            "id": 17,
+            "name": "Nơ bồi bàn",
+            "price": 400000,
+            "ownerID": 6,
+            "categoryID": 3,
+            "discount": 0
+        },
+        {
+            "id": 18,
+            "name": "Đồng hồ Cournon",
+            "price": 1500000,
+            "ownerID": 6,
+            "categoryID": 3,
+            "discount": 20
+        },
+        {
+            "id": 19,
+            "name": "Nồi cơm Nissan",
+            "price": 400000,
+            "ownerID": 6,
+            "categoryID": 4,
+            "discount": 10
+        },
+        {
+            "id": 20,
+            "name": "Chảo chống dính",
+            "price": 45000,
+            "ownerID": 6,
+            "categoryID": 4,
+            "discount": 0
+        },
+        {
+            "id": 21,
+            "name": "Nồi chiên chuối công nghiệp",
+            "price": 1000000,
+            "ownerID": 6,
+            "categoryID": 4,
+            "discount": 20
+        },
+        {
+            "id": 22,
+            "name": "Giá múc canh",
+            "price": 12000,
+            "ownerID": 6,
+            "categoryID": 4,
+            "discount": 0
+        },
+        {
+            "id": 23,
+            "name": "Bếp ga mini siêu xịn",
+            "price": 400000,
+            "ownerID": 6,
+            "categoryID": 4,
+            "discount": 35
+        },
+        {
+            "id": 24,
+            "name": "Xô nước đá",
+            "price": 22000,
+            "ownerID": 6,
+            "categoryID": 4,
+            "discount": 0
+        }
+    ]
+}
